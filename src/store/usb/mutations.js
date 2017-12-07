@@ -1,14 +1,11 @@
 
-// Project Module mutations
+// USB Module mutations
 const mutations = {
   fetching (state, isFetching) {
     state.fetching = isFetching
   },
-  sync (state, collection) {
+  collection (state, collection) {
     state.collection = collection
-  },
-  current (state, attributes) {
-    state.current = attributes
   }
 }
 

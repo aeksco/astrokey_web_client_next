@@ -10,12 +10,11 @@ import LayoutView from './components/layout.vue'
 import store from '@/store'
 
 export default {
-  name: 'project_show',
   components: {
     LayoutView
   },
   metaInfo: {
-    title: 'Projects - Show' // title is now "RCOS - Loading..."
+    title: 'Users - Show' // title is now "RCOS - Loading..."
   },
   props: ['id'],
   created () {
@@ -23,12 +22,12 @@ export default {
   },
   methods: {
     fetch () {
-      return store.dispatch('project/fetchModel', this.id)
+      return store.dispatch('user/fetchModel', this.id)
     }
   },
   computed: {
     model () {
-      return store.getters['project/current']
+      return store.getters['user/current']
     }
   }
 }

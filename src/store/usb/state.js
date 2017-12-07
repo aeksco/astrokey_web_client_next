@@ -1,8 +1,7 @@
 
-// Project Module State
+// USB Module State
 const state = {
   collection: [],
-  current: {},
   fetching: false
 }
 

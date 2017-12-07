@@ -24,8 +24,8 @@ export default {
 
   // Top-Level page Meta
   metaInfo: {
-    title: 'Home', // set a title
-    titleTemplate: 'EB - %s', // title is now "RCOS - Loading..."
+    title: 'Loading...', // set a title
+    titleTemplate: 'AstroKey - %s', // title is now "AstroKey - Loading..."
     htmlAttrs: {
       lang: 'en'
     }
