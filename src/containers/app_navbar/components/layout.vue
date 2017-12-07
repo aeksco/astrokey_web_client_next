@@ -9,7 +9,7 @@
 	    <ul class="navbar-nav mr-auto">
 
         <li class="nav-item">
-          <a class="nav-link" href="/#/users">Users</a>
+          <a class="nav-link" href="/#/devices">Devices</a>
         </li>
 
 	    </ul>

@@ -10,7 +10,10 @@
           <div class="row">
 
             <div class="col-lg-8">
+              <!-- Device URL -->
               <a v-bind:href="'/#/devices/' + device.serialNumber">{{device.productName}}</a>
+              <!-- Device Serial Number -->
+              <small class='text-muted'>({{device.serialNumber}})</small>
             </div>
 
             <div class="col-lg-4 text-right">
