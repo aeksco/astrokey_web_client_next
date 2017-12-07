@@ -1,6 +1,8 @@
 import _ from 'lodash'
 import { REQUEST_DEVICE_FILTERS, READ_MACRO_CONTROL_TRANSFER, WRITE_MACRO_CONTROL_TRANSFER } from './constants'
 
+// // // //
+
 // ChromeWebUsbService class definition
 // Responsible for managing USB devices
 // - requesting permission to pair with devices
@@ -21,20 +23,37 @@ class ChromeWebUsbService {
   // openDevice
   // Invokes UsbDevice.open() method
   // Opens a single device
-  openDevice (deviceInstance) {
+  openDevice ({ commit }, deviceInstance) {
     return new Promise((resolve, reject) => {
       return deviceInstance.open()
       .then(() => {
         // TODO - do we want to manage configuration selection in a separate method?
-        return deviceInstance.selectConfiguration(1).then(() => {
-          // TODO - remove - debugging only
-          window.d = deviceInstance
-          // Resolves with device
-          return resolve(deviceInstance)
+        return deviceInstance.selectConfiguration(1)
+        .then(() => {
+          // Refreshes device list
+          return resolve(this.getDevices({ commit }))
         })
       })
       .catch((err) => {
         console.log('ERR - USBDevice.open() failure')
+        // throw err
+        return reject(err)
+      })
+    })
+  }
+
+  // closeDevice
+  // Invokes UsbDevice.close() method
+  // Closes a single device
+  closeDevice ({ commit }, deviceInstance) {
+    return new Promise((resolve, reject) => {
+      return deviceInstance.close()
+      .then(() => {
+        // Refreshes device list
+        return resolve(this.getDevices({ commit }))
+      })
+      .catch((err) => {
+        console.log('ERR - USBDevice.close() failure')
         // throw err
         return reject(err)
       })
@@ -133,6 +152,7 @@ class ChromeWebUsbService {
     })
   }
 }
+
 // // // //
 
 // TODO - this should export the constructor, rather than an instance

@@ -13,8 +13,12 @@ const actions = {
   getDevices: ({ commit }) => ChromeWebUsbService.getDevices({ commit }),
 
   // Invoked with:
-  // store.dispatch('usb/openDevice', { device: UsbDevice, key: 0x0000 })
+  // store.dispatch('usb/openDevice', { device: UsbDevice })
   openDevice: ({ commit }, { device }) => ChromeWebUsbService.openDevice({ commit }, device),
+
+  // Invoked with:
+  // store.dispatch('usb/closeDevice', { device: UsbDevice })
+  closeDevice: ({ commit }, { device }) => ChromeWebUsbService.closeDevice({ commit }, device),
 
   // Invoked with:
   // store.dispatch('usb/readMacro', { device: UsbDevice, key: 0x0000 })
