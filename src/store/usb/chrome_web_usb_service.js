@@ -1,4 +1,5 @@
-import { REQUEST_DEVICE_FILTERS } from './constants'
+import _ from 'lodash'
+import { REQUEST_DEVICE_FILTERS, READ_MACRO_CONTROL_TRANSFER } from './constants'
 
 // ChromeWebUsbService class definition
 class ChromeWebUsbService {
@@ -24,6 +25,11 @@ class ChromeWebUsbService {
           // Resolves with device
           return resolve(deviceInstance)
         })
+      })
+      .catch((err) => {
+        console.log('ERR - USBDevice.open() failure')
+        // throw err
+        return reject(err)
       })
     })
   }
@@ -63,6 +69,40 @@ class ChromeWebUsbService {
       })
     })
   }
+
+  // readMacro
+  // Reads a raw macro from an opened device
+  readMacro ({ commit }, deviceInstance, keyIndex) {
+    console.log(deviceInstance)
+    console.log(keyIndex)
+
+    // keyIndex in hex: `0x0000`
+    // Returns a Promise to manage asynchonous behavior
+    return new Promise((resolve, reject) => {
+      // Clones the READ_MACRO_CONTROL_TRANSFER request object
+      // And adds custom `value` attribute to handle the index of the key we're reading from
+      let READ_MACRO_OPTIONS = _.clone(READ_MACRO_CONTROL_TRANSFER)
+      READ_MACRO_OPTIONS.value = keyIndex
+
+      console.log(READ_MACRO_OPTIONS)
+
+      // NOTE - `device.controlTransferIn` (READS DATA FROM DEVICE)
+      // TODO - '256' should be '128'
+      // TODO - `256` should be moved into constants.js
+      // QUESTION - what is this `256` again, expected return length?
+      return deviceInstance.controlTransferIn(READ_MACRO_OPTIONS, 256)
+      .then((response) => {
+        // console.log('readMacro response:');
+        // console.log(response);
+        return resolve(new Uint8Array(response.data.buffer))
+      })
+      .catch((err) => {
+        // console.log('readMacro error:')
+        // console.log(err)
+        return reject(err)
+      })
+    })
+  }
 }
 // // // //
 
@@ -93,81 +133,6 @@ export default new ChromeWebUsbService()
 // class ChromeWebUsbService extends Marionette.Service {
 //   static initClass() {
 
-//     this.prototype.radioRequests = {
-//       'usb devices':      'getDevices',
-//       'usb read:macro':   'readMacro',
-//       'usb write:macro':  'writeMacro'
-//     };
-//   }
-
-//   // getDevices
-//   getDevices() {
-
-//     // Returns a Promise to manage asynchonous behavior
-//     return new Promise((resolve, reject) => {
-
-//       // Step 1 - Request device
-//       return navigator.usb.requestDevice({ filters: requestDeviceFilters })
-//       .then( device => {
-
-//         // TODO - remove
-//         // console.log device
-
-//         // Step 2 - Get Devices
-//         // TODO - verify this workflow
-//         return navigator.usb.getDevices()
-//         .then(d => {
-
-//           console.log(d);
-
-//           d = d[0];
-
-//           // STEP 3 - open device
-//           return d.open().then(() => {
-
-//             console.log('open');
-
-//             // Step 4 - select configuration
-//             return d.selectConfiguration(1).then(() => {
-
-//               // console.log 'selectConfiguration'
-
-//               // TODO - remove
-//               window.d = d;
-
-//               // Resolves with device
-//               return resolve(d);
-//             });
-//           });
-
-//               // wIndex - Request type (0x01 for set macro)
-//               // wValue - Macro index (0 - 4 inclusive)
-//               // bRequest - 3 (hardcoded)
-//               // wLength - number of bytes (should be macro length * 2)
-
-//               // d.controlTransferOut(
-//               //   {
-//               //     'requestType': 'vendor',
-//               //     'recipient': 'device',
-//               //     'request': 0x03,
-//               //     'value': 0x0000,
-//               //     'index': 0x01
-//               //   }, new Uint8Array([1,4,2,4]).buffer
-//               // ).then( (response) => { console.log(response) })
-
-//               // STEP 5 - controlTransferIn
-//               // window.d.controlTransferIn({'requestType': 'standard', 'recipient': 'device', 'request': 0x06, 'value': 0x0F00, 'index': 0x00}, 5).then( (r) => { console.log(r) })
-
-//         })
-//         // getDevices Error handling
-//         .catch(err => {
-//           return console.log('ERR - navigator.usb.getDevices()');
-//         });
-
-//       });
-//     });
-//   }
-
 //   // readMacro
 //   readMacro(macroIndex) {
 
@@ -176,7 +141,7 @@ export default new ChromeWebUsbService()
 //     return new Promise((resolve, reject) => {
 
 //       // TODO - move to constants
-//       const transferOptions = {
+//       const READ_MACRO_CONTROL_TRANSFER = {
 //         'requestType':  'vendor',
 //         'recipient':    'device',
 //         'request':      0x03,
@@ -186,7 +151,7 @@ export default new ChromeWebUsbService()
 
 //       // device.controlTransferIn (READS DATA FROM DEVICE)
 //       // TODO - abstract the controlTransferIn request object into a constant (cloned each time)
-//       return d.controlTransferIn(transferOptions, 256) // TODO - '256' should be '128'
+//       return d.controlTransferIn(READ_MACRO_CONTROL_TRANSFER, 256) // TODO - '256' should be '128'
 //       .then( response => {
 //         console.log('readMacro response:');
 //         console.log(response);
