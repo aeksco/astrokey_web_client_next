@@ -1,13 +1,14 @@
 
 <template>
-  <LayoutView/>
+  <LayoutView :device="device" v-if="!!device" />
 </template>
 
 <!-- // // // //  -->
 
 <script>
+import _ from 'lodash'
 import LayoutView from './components/layout.vue'
-// import store from '@/store'
+import store from '@/store'
 
 export default {
   components: {
@@ -16,20 +17,20 @@ export default {
   metaInfo: {
     title: 'Device - Show' // title is now "AstroKey - Device - Show"
   },
-  props: ['id']
-  // created () {
-  //   this.fetch()
-  // },
-  // methods: {
-  //   fetch () {
-  //     return store.dispatch('user/fetchModel', this.id)
-  //   }
-  // },
-  // computed: {
-  //   model () {
-  //     return store.getters['user/current']
-  //   }
-  // }
+  props: ['id'],
+  created () {
+    this.fetch()
+  },
+  methods: {
+    fetch () {
+      return store.dispatch('usb/getDevices')
+    }
+  },
+  computed: {
+    device () {
+      return _.find(store.getters['usb/collection'], { serialNumber: this.id })
+    }
+  }
 }
 </script>
 
