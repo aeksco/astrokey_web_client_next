@@ -18,14 +18,16 @@ export default {
   },
   props: ['id'],
   data () {
-    return { workflow: {
-      label: 'My New Workflow',
-      steps: [
-        { order: 1, type: 'text', value: 'Hello, AstroKey!' },
-        { order: 2, type: 'macro', value: [{ key: 'A' }, { key: 'SHIFT' }] },
-        { order: 3, type: 'delay', value: 500 }
-      ]
-    }}
+    return {
+      workflow: {
+        label: 'My New Workflow',
+        steps: [
+          { order: 1, type: 'text', value: 'Hello, AstroKey!' },
+          { order: 2, type: 'macro', value: [{ key: 'A' }, { key: 'SHIFT' }] },
+          { order: 3, type: 'delay', value: 500 }
+        ]
+      }
+    }
   }
   // created () {
   //   this.fetch()

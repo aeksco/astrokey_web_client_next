@@ -10,7 +10,7 @@ const actions = {
 
   create: ({ commit }, attributes) => Factory.create({ commit }, attributes),
 
-  serialize: ({ commit }, workflow) => WorkflowParser.serialize({ commit }, workflow),
+  serialize: ({ commit }, workflow) => WorkflowParser.serialize(workflow),
 
   parse: ({ commit }, data) => WorkflowParser.parse({ commit }, data)
 }
