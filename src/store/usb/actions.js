@@ -1,3 +1,4 @@
+import store from '@/store'
 import ChromeWebUsbService from './chrome_web_usb_service'
 
 // actions
@@ -30,5 +31,10 @@ const actions = {
 }
 
 // // // //
+
+// TODO - move this elsewhere, add ability to start/stop polling
+setInterval(() => {
+  store.dispatch('usb/getDevices')
+}, 1500)
 
 export default actions
