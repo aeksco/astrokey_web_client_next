@@ -7,14 +7,13 @@
 
 <script>
 import LayoutView from './components/layout.vue'
-// import store from '@/store'
 
 export default {
   components: {
     LayoutView
   },
   metaInfo: {
-    title: 'Workflow - Edit' // title is now "AstroKey - Workflow - Edit"
+    title: 'Workflow - Show' // title is now "AstroKey - Workflow - Show"
   },
   props: ['id'],
   data () {
