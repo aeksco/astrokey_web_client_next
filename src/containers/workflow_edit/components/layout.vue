@@ -1,7 +1,7 @@
 
 <template>
   <div class="container">
-    <a href="/#/devices">Back</a>
+    <a href="/#/workflows">Back</a>
     <!-- <h2>Device Show</h2> -->
     <h2>{{workflow.label}}</h2>
   	<hr>
