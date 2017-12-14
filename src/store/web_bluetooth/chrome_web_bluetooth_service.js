@@ -3,6 +3,9 @@ import { REQUEST_DEVICE_OPTIONS, PRIMARY_SERVICE_UUID } from './constants'
 
 // // // //
 
+// Integrate auto-reconnection
+// https://googlechrome.github.io/samples/web-bluetooth/automatic-reconnect.html
+
 // ChromeWebBluetoothService class definition
 // Responsible for managing USB devices
 // - requesting permission to pair with devices
@@ -28,6 +31,16 @@ class ChromeWebBluetoothService {
     return commit('add', options)
   }
 
+  // onDisconnected
+  // Invoked after a device is unexpectedly disconnected
+  // TODO - this _should_ do an auto-reconnect (maybe rename to autoReconnect)
+  onDisconnected ({ commit }, event) {
+    console.log('onDisconnected')
+    // console.log(event)
+    // console.log(event.target)
+    return this.updateDevice({ commit }, { instance: event.target })
+  }
+
   // connect
   // Invokes BluetoothRemoteGATTServer.open() method
   // Opens a single device
@@ -35,6 +48,9 @@ class ChromeWebBluetoothService {
     return new Promise((resolve, reject) => {
       return deviceInstance.gatt.connect()
       .then((g) => {
+        // Sets up disconnection listener
+        deviceInstance.addEventListener('gattserverdisconnected', (event) => { this.onDisconnected({ commit }, event) })
+
         // TODO - do we want to manage configuration selection in a separate method?
         // TODO - we SHOULD manage this in a separate method
         deviceInstance.gatt.getPrimaryService(PRIMARY_SERVICE_UUID)

@@ -18,17 +18,17 @@ export default {
     title: 'Device - Show' // title is now "AstroKey - Device - Show"
   },
   props: ['id'],
-  created () {
-    this.fetch()
-  },
-  methods: {
-    fetch () {
-      return store.dispatch('usb/getDevices')
-    }
-  },
+  // created () {
+  //   this.fetch()
+  // },
+  // methods: {
+  //   fetch () {
+  //     return store.dispatch('usb/getDevices')
+  //   }
+  // },
   computed: {
     device () {
-      return _.find(store.getters['usb/collection'], { serialNumber: this.id })
+      return _.find(store.getters['device/collection'], { serialNumber: this.id })
     }
   }
 }

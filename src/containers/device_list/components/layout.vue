@@ -15,7 +15,7 @@
   	<hr>
 
     <div class='row'>
-      <div v-for="device in collection" v-bind:key="device.serialNumber" class='col-lg-12 mt-2'>
+      <div v-for="device in sortedDevices" v-bind:key="device.serialNumber" class='col-lg-12 mt-2'>
         <div class="card card-body bg-light">
           <div class="row">
 
@@ -52,6 +52,7 @@
 
 <script>
 import store from '@/store'
+import _ from 'lodash'
 
 export default {
   props: ['collection'],
@@ -64,6 +65,11 @@ export default {
     },
     closeDevice: (device) => {
       return store.dispatch('device/disconnect', { device: device })
+    }
+  },
+  computed: {
+    sortedDevices () {
+      return _.sortBy(this.collection, (i) => i.productName)
     }
   }
 }
