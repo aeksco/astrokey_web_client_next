@@ -1,12 +1,11 @@
 
 <template>
-  <LayoutView :device="device" v-if="!!device" />
+  <LayoutView :collection="collection"/>
 </template>
 
 <!-- // // // //  -->
 
 <script>
-import _ from 'lodash'
 import LayoutView from './components/layout.vue'
 import store from '@/store'
 
@@ -15,20 +14,19 @@ export default {
     LayoutView
   },
   metaInfo: {
-    title: 'Device - Show' // title is now "AstroKey - Device - Show"
+    title: 'Workflows' // title is now "AstroKey - Workflows"
   },
-  props: ['id'],
   // created () {
   //   this.fetch()
   // },
   // methods: {
   //   fetch () {
-  //     return store.dispatch('usb/getDevices')
+  //     return store.dispatch('workflow/fetchCollection')
   //   }
   // },
   computed: {
-    device () {
-      return _.find(store.getters['device/collection'], { serialNumber: this.id })
+    collection () {
+      return store.getters['workflow/collection']
     }
   }
 }

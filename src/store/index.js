@@ -5,6 +5,8 @@ import device from './device'
 import post from './post'
 import user from './user'
 import usb from './usb'
+import web_bluetooth from './web_bluetooth'
+import workflow from './workflow'
 import notification from './notification'
 
 // Vuex Initialization
@@ -20,6 +22,8 @@ export default new Vuex.Store({
     post,
     user,
     usb,
+    web_bluetooth,
+    workflow,
     notification
   }
 })
