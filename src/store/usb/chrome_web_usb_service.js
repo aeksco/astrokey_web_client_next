@@ -12,11 +12,21 @@ import { REQUEST_DEVICE_FILTERS, READ_MACRO_CONTROL_TRANSFER, WRITE_MACRO_CONTRO
 // - write firmware to a device (TODO)
 class ChromeWebUsbService {
   // constructor
-  // TODO - is this needed?
   constructor (options) {
     // this.options = options
-    // this.messages = options.messages // TODO - support default messages
-    // this.API_ROOT = options.API_ROOT
+
+    // WebUSB Device 'connect' event handler
+    navigator.usb.addEventListener('connect', (device) => {
+      console.log('DEVICE CONNECT')
+      console.log(device)
+    })
+
+    // WebUSB Device 'disconnect' event handler
+    navigator.usb.addEventListener('disconnect', (device) => {
+      console.log('DEVICE DISCONNECT')
+      console.log(device)
+    })
+
     return this
   }
 
