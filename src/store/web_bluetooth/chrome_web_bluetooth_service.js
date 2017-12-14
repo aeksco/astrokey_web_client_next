@@ -46,10 +46,15 @@ class ChromeWebBluetoothService {
   // Opens a single device
   connect ({ commit }, deviceInstance) {
     return new Promise((resolve, reject) => {
+      // Sets loading
+      this.updateDevice({ commit }, { instance: deviceInstance, loading: true })
+
       return deviceInstance.gatt.connect()
       .then((g) => {
+        // Sets loading
+        // this.updateDevice({ commit }, { loading: true })
         // Sets up disconnection listener
-        deviceInstance.addEventListener('gattserverdisconnected', (event) => { this.onDisconnected({ commit }, event) })
+        deviceInstance.ongattserverdisconnected = (e) => this.onDisconnected({ commit }, e)
 
         // TODO - do we want to manage configuration selection in a separate method?
         // TODO - we SHOULD manage this in a separate method

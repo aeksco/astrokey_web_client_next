@@ -15,12 +15,26 @@ const mutations = {
     })
   },
   add (state, options) {
+    // Finds device if it exists in the store
+    let devices = store.getters['device/collection']
+    let device = _.find(devices, { serialNumber: options.instance.id })
+
+    if (device) {
+      device.characteristics = device.characteristics || options.characteristics
+      device.primary_service = device.primary_service || options.primary_service
+      device.instance = options.instance || device.instance
+      device.opened = options.instance.gatt.connected
+      device.loading = options.loading || false
+      return
+    }
+
     // Isolates the requisite attributes
     let deviceAttributes = {
       type: 'web_bluetooth',
       characteristics: options.characteristics,
       primary_service: options.primary_service,
       instance: options.instance,
+      loading: options.loading,
       serialNumber: options.instance.id,
       productName: options.instance.name,
       opened: options.instance.gatt.connected,

@@ -28,10 +28,15 @@
 
             <div class="col-lg-4 text-right">
               <!-- Open Device -->
-              <button class='btn btn-sm btn-outline-success' v-if="!device.opened" @click="openDevice(device)">
+              <button class='btn btn-sm btn-outline-success' v-if="!device.opened && !device.loading" @click="openDevice(device)">
                 <i class="fa fa-check-circle-o mr-1"></i>
                 Open
               </button>
+
+              <!-- Loading -->
+              <span class='badge badge-dark' v-if="device.loading">
+                <i class="p-1 fa fa-spinner fa-spin"></i>
+              </span>
 
               <!-- Close Device -->
               <button class='btn btn-sm btn-outline-warning' v-if="device.opened" @click="closeDevice(device)">
