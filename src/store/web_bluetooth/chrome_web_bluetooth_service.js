@@ -106,6 +106,34 @@ class ChromeWebBluetoothService {
     })
   }
 
+  // // // //
+  // // // //
+
+  // // Builds packets
+  // let keydownPacket = [3,0,0,0,0,0,0,4] // 'a'
+  // // let keydownPacket = [3,0,0,0,0,0,2,4] // 'A'
+  // let keyupPacket = [3,0,0,0,0,0,0,0]
+
+  // // Writes packets
+  // let downPacket = new Uint8Array(keydownPacket).buffer
+  // let upPacket = new Uint8Array(keyupPacket).buffer
+
+  // primary.writeValue(downPacket).then((resp) => {
+  //   console.log('WROTE')
+  //   console.log(resp)
+
+  //   packet = new Uint8Array(keydownPacket).buffer
+
+  //   primary.writeValue(upPacket).then((resp) => {
+  //     console.log('WROTE AGAIN')
+  //     console.log(resp)
+  //   })
+
+  // })
+
+  // // // //
+  // // // //
+
   // requestDevices
   // Invokes navigator.bluetooth.requestDevice()
   // Used to find available devices that may not have already been paired

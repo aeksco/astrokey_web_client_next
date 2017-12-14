@@ -39,7 +39,7 @@
               </span>
 
               <!-- Scan -->
-              <button class='btn btn-sm btn-outline-primary' v-if="!device.instance" @click="scanBluetooth()">
+              <button class='btn btn-sm btn-outline-primary' v-if="!device.instance.gatt && device.type === 'web_bluetooth'" @click="scanBluetooth()">
                 <i class="fa fa-bluetooth-b mr-1"></i>
                 Scan
               </button>
@@ -72,9 +72,11 @@ export default {
       return store.dispatch('web_bluetooth/requestDevices')
     },
     openDevice: (device) => {
+      console.log(device.instance)
       return store.dispatch('device/connect', { device: device })
     },
     closeDevice: (device) => {
+      console.log(device.instance)
       return store.dispatch('device/disconnect', { device: device })
     }
   },
