@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     collection () {
-      return store.getters['usb/collection']
+      return store.getters['device/collection']
     }
   }
 }

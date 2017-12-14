@@ -1,7 +1,17 @@
 
 <template>
   <div class="container">
-    <h2>Devices</h2>
+    <div class="row">
+      <div class="col-lg-6">
+        <h2>Devices</h2>
+      </div>
+      <div class="col-lg-6 text-right">
+        <button class='btn btn-sm btn-outline-primary' @click="scanBluetooth()">
+          <i class="fa fa-bluetooth-b"></i>
+        </button>
+      </div>
+    </div>
+
   	<hr>
 
     <div class='row'>
@@ -46,11 +56,14 @@ import store from '@/store'
 export default {
   props: ['collection'],
   methods: {
+    scanBluetooth () {
+      return store.dispatch('web_bluetooth/requestDevices')
+    },
     openDevice: (device) => {
-      return store.dispatch('usb/openDevice', { device: device })
+      return store.dispatch('device/connect', { device: device })
     },
     closeDevice: (device) => {
-      return store.dispatch('usb/closeDevice', { device: device })
+      return store.dispatch('device/disconnect', { device: device })
     }
   }
 }
