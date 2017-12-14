@@ -28,18 +28,24 @@
 
             <div class="col-lg-4 text-right">
               <!-- Open Device -->
-              <button class='btn btn-sm btn-outline-success' v-if="!device.opened && !device.loading" @click="openDevice(device)">
+              <button class='btn btn-sm btn-outline-success' v-if="device.instance && !device.opened && !device.loading" @click="openDevice(device)">
                 <i class="fa fa-check-circle-o mr-1"></i>
                 Open
               </button>
 
               <!-- Loading -->
-              <span class='badge badge-dark' v-if="device.loading">
+              <span class='badge badge-dark' v-if="device.instance && device.loading">
                 <i class="p-1 fa fa-spinner fa-spin"></i>
               </span>
 
+              <!-- Scan -->
+              <button class='btn btn-sm btn-outline-primary' v-if="!device.instance" @click="scanBluetooth()">
+                <i class="fa fa-bluetooth-b mr-1"></i>
+                Scan
+              </button>
+
               <!-- Close Device -->
-              <button class='btn btn-sm btn-outline-warning' v-if="device.opened" @click="closeDevice(device)">
+              <button class='btn btn-sm btn-outline-warning' v-if="device.instance && device.opened" @click="closeDevice(device)">
                 <i class="fa fa-times-circle-o mr-1"></i>
                 Close
               </button>
@@ -74,6 +80,7 @@ export default {
   },
   computed: {
     sortedDevices () {
+      // TODO - sorting should happen in store
       return _.sortBy(this.collection, (i) => i.productName)
     }
   }
