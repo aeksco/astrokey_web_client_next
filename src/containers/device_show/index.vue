@@ -23,7 +23,7 @@ export default {
   // },
   // methods: {
   //   fetch () {
-  //     return store.dispatch('usb/getDevices')
+  //     return store.dispatch('web_usb/getDevices')
   //   }
   // },
   computed: {

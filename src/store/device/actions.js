@@ -25,7 +25,7 @@ const actions = {
     // Handles WebUSB & WebBluetooth devices
     // TODO - constantize 'web_usb'
     if (device.type === 'web_usb') {
-      store.dispatch('usb/openDevice', { device: device.instance })
+      store.dispatch('web_usb/openDevice', { device: device.instance })
     }
 
     // Handles WebUSB & WebBluetooth devices
@@ -41,7 +41,7 @@ const actions = {
     // Handles WebUSB & WebBluetooth devices
     // TODO - constantize 'web_usb'
     if (device.type === 'web_usb') {
-      store.dispatch('usb/closeDevice', { device: device.instance })
+      store.dispatch('web_usb/closeDevice', { device: device.instance })
     }
 
     // Handles WebUSB & WebBluetooth devices
