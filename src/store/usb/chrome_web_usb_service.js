@@ -165,5 +165,4 @@ class ChromeWebUsbService {
 
 // // // //
 
-// TODO - this should export the constructor, rather than an instance
-export default new ChromeWebUsbService()
+export default ChromeWebUsbService

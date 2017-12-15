@@ -1,5 +1,14 @@
-import store from '@/store'
 import ChromeWebUsbService from './chrome_web_usb_service'
+
+let WebUsbService
+
+if (window.chrome) {
+  WebUsbService = new ChromeWebUsbService()
+} else {
+  // TODO - this implement FirefoxWebUSBService
+  // WebUsbService = new FirefoxWebUSBService()
+  WebUsbService = {}
+}
 
 // actions
 // functions that causes side effects and can involve asynchronous operations.
@@ -7,34 +16,29 @@ const actions = {
 
   // Invoked with:
   // store.dispatch('usb/requestDevices')
-  requestDevices: ({ commit }) => ChromeWebUsbService.requestDevices({ commit }),
+  requestDevices: ({ commit }) => WebUsbService.requestDevices({ commit }),
 
   // Invoked with:
   // store.dispatch('usb/getDevices')
-  getDevices: ({ commit }) => ChromeWebUsbService.getDevices({ commit }),
+  getDevices: ({ commit }) => WebUsbService.getDevices({ commit }),
 
   // Invoked with:
   // store.dispatch('usb/openDevice', { device: UsbDevice })
-  openDevice: ({ commit }, { device }) => ChromeWebUsbService.openDevice({ commit }, device),
+  openDevice: ({ commit }, { device }) => WebUsbService.openDevice({ commit }, device),
 
   // Invoked with:
   // store.dispatch('usb/closeDevice', { device: UsbDevice })
-  closeDevice: ({ commit }, { device }) => ChromeWebUsbService.closeDevice({ commit }, device),
+  closeDevice: ({ commit }, { device }) => WebUsbService.closeDevice({ commit }, device),
 
   // Invoked with:
   // store.dispatch('usb/readMacro', { device: UsbDevice, key: 0x0000 })
-  readMacro: ({ commit }, { device, key }) => ChromeWebUsbService.readMacro({ commit }, device, key),
+  readMacro: ({ commit }, { device, key }) => WebUsbService.readMacro({ commit }, device, key),
 
   // Invoked with:
   // store.dispatch('usb/writeMacro', { device: UsbDevice, key: 0x0000, data: [ 1, 2, ... ] })
-  writeMacro: ({ commit }, { device, key, data }) => ChromeWebUsbService.writeMacro({ commit }, device, key, data)
+  writeMacro: ({ commit }, { device, key, data }) => WebUsbService.writeMacro({ commit }, device, key, data)
 }
 
 // // // //
-
-// TODO - move this elsewhere, add ability to start/stop polling
-setInterval(() => {
-  store.dispatch('usb/getDevices')
-}, 1500)
 
 export default actions

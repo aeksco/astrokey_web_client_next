@@ -3,7 +3,7 @@ import _ from 'lodash'
 
 // // // //
 
-// USB Module mutations
+// WebUSB Module mutations
 const mutations = {
   fetching (state, isFetching) {
     state.fetching = isFetching
@@ -14,6 +14,7 @@ const mutations = {
       store.commit('web_bluetooth/add', { instance: device })
     })
   },
+  // TODO - most of this code method should live inside the ChromeWebUSBService
   add (state, options) {
     // Finds device if it exists in the store
     let devices = store.getters['device/collection']
