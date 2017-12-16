@@ -1,31 +1,27 @@
 import store from '@/store'
+import WebUSBService from './service'
 import _ from 'lodash'
 
 // // // //
 
-// USB Module mutations
+// WebUSB Module mutations
 const mutations = {
   fetching (state, isFetching) {
     state.fetching = isFetching
   },
+  add (state, usbDeviceInstance) {
+    let device = WebUSBService.addDevice(usbDeviceInstance)
+    store.commit('device/add', device)
+  },
+  remove (state, usbDeviceInstance) {
+    let device = WebUSBService.removeDevice(usbDeviceInstance)
+    store.commit('device/remove', device)
+  },
+  // TODO - the WebUSB store should NOT maintain a reference to its own collection of devices
   collection (state, collection) {
     // Iterates over each WebUSB device
-    _.each(collection, (device) => {
-      // Isolates the requisite attributes
-      let deviceAttributes = {
-        type: 'web_usb',
-        instance: device,
-        serialNumber: device.serialNumber,
-        productName: device.productName,
-        opened: device.opened,
-        deviceVersionMajor: device.deviceVersionMajor,
-        deviceVersionMinor: device.deviceVersionMinor,
-        deviceVersionSubminor: device.deviceVersionSubminor
-      }
-
-      // Adds the device to the centralized device store
-      store.commit('device/add', deviceAttributes)
-    })
+    // Adds the device to the centralized device store
+    _.each(collection, (device) => { store.commit('device/add', device) })
   }
 }
 

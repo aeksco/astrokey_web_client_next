@@ -1,13 +1,4 @@
-import ChromeWebUsbService from './chrome_web_usb_service'
-import FirefoxWebUSBService from './firefox_web_usb_service'
-
-// Handles Chrome & Firefox WebUSB service classes
-let WebUsbService
-if (window.chrome) {
-  WebUsbService = new ChromeWebUsbService()
-} else {
-  WebUsbService = new FirefoxWebUSBService()
-}
+import WebUsbService from './service'
 
 // actions
 // functions that causes side effects and can involve asynchronous operations.
@@ -19,7 +10,14 @@ const actions = {
 
   // Invoked with:
   // store.dispatch('web_usb/getDevices')
-  getDevices: ({ commit }) => WebUsbService.getDevices({ commit }),
+  getDevices: ({ commit }) => {
+    // { commit }
+    WebUsbService.getDevices().then((devices) => {
+      console.log('GOT DEVICES')
+      console.log(devices)
+      commit('collection', devices)
+    })
+  },
 
   // Invoked with:
   // store.dispatch('web_usb/openDevice', { device: UsbDevice })

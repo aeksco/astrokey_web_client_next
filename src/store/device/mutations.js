@@ -26,6 +26,10 @@ const mutations = {
 
     // Adds the device
     state.collection.push(device)
+  },
+  remove (state, device) {
+    // Filters state.collection to remove the device with the matching serial number
+    state.collection = _.filter(state.collection, (d) => { return d.serialNumber !== device.serialNumber })
   }
 }
 

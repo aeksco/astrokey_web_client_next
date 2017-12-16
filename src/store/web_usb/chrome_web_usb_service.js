@@ -1,7 +1,10 @@
 import _ from 'lodash'
+import store from '@/store'
 import { REQUEST_DEVICE_FILTERS, READ_MACRO_CONTROL_TRANSFER, WRITE_MACRO_CONTROL_TRANSFER } from './constants'
 
 // // // //
+
+// TODO - this class should NOT manage any VUEX state
 
 // ChromeWebUsbService class definition
 // Responsible for managing USB devices
@@ -12,22 +15,74 @@ import { REQUEST_DEVICE_FILTERS, READ_MACRO_CONTROL_TRANSFER, WRITE_MACRO_CONTRO
 // - write firmware to a device (TODO)
 class ChromeWebUsbService {
   // constructor
+  // Manages the initial configuration of the class
   constructor (options) {
-    // this.options = options
+    // TODO - this.devices should be passed in as an option
+    // this.devices = web_usb.state.devices = []
+    this.options = options
+    this.devices = [] // TODO - we don't need to maintain this.devices
 
     // WebUSB Device 'connect' event handler
-    navigator.usb.addEventListener('connect', (device) => {
-      console.log('DEVICE CONNECT')
-      console.log(device)
+    navigator.usb.addEventListener('connect', (usbConnectionEvent) => {
+      // TODO - these should JUST hit the 'device/add' directly
+      store.commit('web_usb/add', usbConnectionEvent.device)
     })
 
     // WebUSB Device 'disconnect' event handler
-    navigator.usb.addEventListener('disconnect', (device) => {
-      console.log('DEVICE DISCONNECT')
-      console.log(device)
+    navigator.usb.addEventListener('disconnect', (usbConnectionEvent) => {
+      // TODO - these should JUST hit the 'device/add' directly
+      store.commit('web_usb/remove', usbConnectionEvent.device)
     })
 
     return this
+  }
+
+  // getDevice
+  // Gets or creates a new abstract represnetation of a WebUSB device
+  getDevice (usbDeviceInstance) {
+    // Finds and returns the device if it exists
+    let device = _.find(this.devices, { serialNumber: usbDeviceInstance.serialNumber })
+    if (device) { return device }
+
+    // Adds a new device
+    // Isolates the requisite attributes
+    device = {
+      type: 'web_usb',
+      instance: usbDeviceInstance,
+      serialNumber: usbDeviceInstance.serialNumber,
+      productName: usbDeviceInstance.productName,
+      opened: usbDeviceInstance.opened,
+      deviceVersionMajor: usbDeviceInstance.deviceVersionMajor,
+      deviceVersionMinor: usbDeviceInstance.deviceVersionMinor,
+      deviceVersionSubminor: usbDeviceInstance.deviceVersionSubminor
+    }
+
+    // Adds the device to the centralized device store
+    // store.commit('device/add', device)
+    // this.devices.push(device)
+    return device
+  }
+
+  // addDevice
+  // Adds a device to this.devices
+  addDevice (usbDeviceInstance) {
+    // Fetches an existing device by serialNumber,
+    // or creates a new abstract representation of a device
+    let device = this.getDevice(usbDeviceInstance)
+
+    // Adds the device to this.devices
+    this.devices.push(device)
+    return device
+  }
+
+  // removeDevice
+  // Adds a device to this.devices
+  removeDevice (usbDeviceInstance) {
+    let device = this.getDevice(usbDeviceInstance)
+    console.log('REMOVING DEVICE')
+    console.log(device)
+    _.remove(this.devices, (d) => { return d.serialNumber === device.serialNumber })
+    return device
   }
 
   // openDevice
@@ -73,12 +128,15 @@ class ChromeWebUsbService {
   // getDevices
   // Invokes navigator.usb.getDevices()
   // Used to populate state.collection with an array of paired devices
-  getDevices ({ commit }) {
+  getDevices () {
     // Returns a Promise to manage asynchonous behavior
     return new Promise((resolve, reject) => {
       return navigator.usb.getDevices()
       .then((deviceArray) => {
-        commit('collection', deviceArray)
+        // Transforms each WebUSB device into an abstract representation
+        _.each(deviceArray, (d) => { this.addDevice(d) })
+        // Resolves the promise with this.devices
+        return resolve(this.devices)
       })
       .catch((err) => {
         console.log('ERR - navigator.usb.getDevices()')
