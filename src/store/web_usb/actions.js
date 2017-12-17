@@ -14,11 +14,15 @@ const actions = {
 
   // Invoked with:
   // store.dispatch('web_usb/openDevice', { device: UsbDevice })
-  openDevice: ({ commit }, { device }) => WebUsbService.openDevice({ commit }, device),
+  openDevice: ({ commit }, { device }) => {
+    WebUsbService.openDevice(device).then((d) => { device.opened = true })
+  },
 
   // Invoked with:
   // store.dispatch('web_usb/closeDevice', { device: UsbDevice })
-  closeDevice: ({ commit }, { device }) => WebUsbService.closeDevice({ commit }, device),
+  closeDevice: ({ commit }, { device }) => {
+    WebUsbService.closeDevice(device).then((d) => { device.opened = false })
+  },
 
   // Invoked with:
   // store.dispatch('web_usb/readMacro', { device: UsbDevice, key: 0x0000 })

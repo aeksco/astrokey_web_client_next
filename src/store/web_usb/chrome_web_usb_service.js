@@ -94,15 +94,15 @@ class ChromeWebUsbService {
   // openDevice
   // Invokes UsbDevice.open() method
   // Opens a single device
-  openDevice ({ commit }, deviceInstance) {
+  openDevice (device) {
     return new Promise((resolve, reject) => {
-      return deviceInstance.open()
+      return device.instance.open()
       .then(() => {
         // TODO - do we want to manage configuration selection in a separate method?
-        return deviceInstance.selectConfiguration(1)
+        return device.instance.selectConfiguration(1)
         .then(() => {
           // Refreshes device list
-          return resolve(this.getDevices({ commit }))
+          return resolve(device)
         })
       })
       .catch((err) => {
@@ -116,12 +116,12 @@ class ChromeWebUsbService {
   // closeDevice
   // Invokes UsbDevice.close() method
   // Closes a single device
-  closeDevice ({ commit }, deviceInstance) {
+  closeDevice (device) {
     return new Promise((resolve, reject) => {
-      return deviceInstance.close()
+      return device.instance.close()
       .then(() => {
         // Refreshes device list
-        return resolve(this.getDevices({ commit }))
+        return resolve(device)
       })
       .catch((err) => {
         console.log('ERR - USBDevice.close() failure')
