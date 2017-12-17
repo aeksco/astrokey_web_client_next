@@ -25,14 +25,19 @@ class ChromeWebUsbService {
     // WebUSB Device 'connect' event handler
     navigator.usb.addEventListener('connect', (usbConnectionEvent) => {
       // TODO - these should JUST hit the 'device/add' directly
-      store.commit('web_usb/add', usbConnectionEvent.device)
+      // store.commit('web_usb/add', usbConnectionEvent.device)
+      this.addDevice(usbConnectionEvent.device)
     })
 
     // WebUSB Device 'disconnect' event handler
     navigator.usb.addEventListener('disconnect', (usbConnectionEvent) => {
       // TODO - these should JUST hit the 'device/add' directly
-      store.commit('web_usb/remove', usbConnectionEvent.device)
+      // store.commit('web_usb/remove', usbConnectionEvent.device)
+      this.removeDevice(usbConnectionEvent.device)
     })
+
+    // Performs initial fetch of devices
+    this.getDevices()
 
     return this
   }
@@ -70,8 +75,8 @@ class ChromeWebUsbService {
     // or creates a new abstract representation of a device
     let device = this.getDevice(usbDeviceInstance)
 
-    // Adds the device to this.devices
-    this.devices.push(device)
+    // Adds device to device store
+    store.commit('device/add', device)
     return device
   }
 
@@ -79,9 +84,10 @@ class ChromeWebUsbService {
   // Adds a device to this.devices
   removeDevice (usbDeviceInstance) {
     let device = this.getDevice(usbDeviceInstance)
-    console.log('REMOVING DEVICE')
-    console.log(device)
-    _.remove(this.devices, (d) => { return d.serialNumber === device.serialNumber })
+    // console.log('REMOVING DEVICE')
+    // console.log(device)
+    // _.remove(this.devices, (d) => { return d.serialNumber === device.serialNumber })
+    store.commit('device/remove', device)
     return device
   }
 

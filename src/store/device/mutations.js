@@ -18,14 +18,8 @@ const mutations = {
     // TODO - rename `serialNumber` to `id`?
     let trackedDevice = _.find(state.collection, { serialNumber: device.serialNumber })
 
-    // Removes the tracked device and replaces with the latest update
-    if (trackedDevice) {
-      state.collection = _.reject(state.collection, (d) => { return d.serialNumber === device.serialNumber })
-      // state.collection.push(device)
-    }
-
-    // Adds the device
-    state.collection.push(device)
+    // Adds the device unless a tracked device is already present
+    if (!trackedDevice) { state.collection.push(device) }
   },
   remove (state, device) {
     // Filters state.collection to remove the device with the matching serial number

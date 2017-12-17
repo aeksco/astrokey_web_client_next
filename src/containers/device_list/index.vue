@@ -16,14 +16,6 @@ export default {
   metaInfo: {
     title: 'Devices' // title is now "AstroKey - Devices"
   },
-  created () {
-    this.fetch()
-  },
-  methods: {
-    fetch () {
-      return store.dispatch('web_usb/getDevices')
-    }
-  },
   computed: {
     collection () {
       return store.getters['device/collection']

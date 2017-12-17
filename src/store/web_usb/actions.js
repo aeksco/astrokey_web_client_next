@@ -10,14 +10,7 @@ const actions = {
 
   // Invoked with:
   // store.dispatch('web_usb/getDevices')
-  getDevices: ({ commit }) => {
-    // { commit }
-    WebUsbService.getDevices().then((devices) => {
-      console.log('GOT DEVICES')
-      console.log(devices)
-      commit('collection', devices)
-    })
-  },
+  getDevices: ({ commit }) => WebUsbService.getDevices(),
 
   // Invoked with:
   // store.dispatch('web_usb/openDevice', { device: UsbDevice })
