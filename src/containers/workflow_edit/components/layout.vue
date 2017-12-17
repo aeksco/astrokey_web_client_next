@@ -23,11 +23,13 @@
           <div class="row">
             <div class="col-lg-12">
               <hr>
-              <ul class="list-group">
-                <WorkFlowItemText :item="workflow.steps[0]"/>
-                <WorkFlowItemMacro :item="workflow.steps[1]"/>
-                <WorkFlowItemDelay :item="workflow.steps[2]"/>
-              </ul>
+              <draggable v-model='steps'>
+                <ul class="list-group" v-for="each in steps" v-bind:key="each.id">
+                  <WorkFlowItemText :item="each" v-if="each.type === 'text'"/>
+                  <WorkFlowItemMacro :item="each" v-if="each.type === 'macro'"/>
+                  <WorkFlowItemDelay :item="each" v-if="each.type === 'delay'"/>
+                </ul>
+              </draggable>
             </div>
 
             <div class="col-lg-12 mt-2">
@@ -46,6 +48,8 @@
 <!-- // // // //  -->
 
 <script>
+import _ from 'lodash'
+import draggable from 'vuedraggable'
 import WorkFlowItemText from './workflow_item_text'
 import WorkFlowItemMacro from './workflow_item_macro'
 import WorkFlowItemDelay from './workflow_item_delay'
@@ -53,9 +57,21 @@ import WorkFlowItemDelay from './workflow_item_delay'
 export default {
   props: ['workflow'],
   components: {
+    draggable,
     WorkFlowItemText,
     WorkFlowItemMacro,
     WorkFlowItemDelay
+  },
+
+  computed: {
+    steps: {
+      get () {
+        return _.sortBy(this.workflow.steps, (s) => { return s.order })
+      },
+      set (value) {
+        _.each(value, (s, i) => { s.order = i })
+      }
+    }
   }
 }
 </script>
