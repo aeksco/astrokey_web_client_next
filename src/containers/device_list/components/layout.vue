@@ -72,11 +72,9 @@ export default {
       return store.dispatch('web_bluetooth/requestDevices')
     },
     openDevice: (device) => {
-      console.log(device.instance)
       return store.dispatch('device/connect', { device: device })
     },
     closeDevice: (device) => {
-      console.log(device.instance)
       return store.dispatch('device/disconnect', { device: device })
     }
   },

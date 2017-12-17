@@ -1,7 +1,7 @@
 
 // USB Module State
 const state = {
-  collection: [],
+  collection: [], // TODO - rename to 'devices'
   fetching: false
 }
 
