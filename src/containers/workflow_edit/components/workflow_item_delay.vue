@@ -8,7 +8,7 @@
       <div class="col-lg-3 text-right">
         <div class="btn-group">
           <button class="btn btn-sm btn-outline-secondary"><i class="fa fa-fw fa-pencil"></i></button>
-          <button class="btn btn-sm btn-outline-secondary"><i class="fa fa-fw fa-times"></i></button>
+          <button class="btn btn-sm btn-outline-secondary" @click="remove(item)"><i class="fa fa-fw fa-times"></i></button>
         </div>
       </div>
     </div>
@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  props: ['item']
+  props: ['item', 'remove']
 }
 </script>
 
