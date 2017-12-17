@@ -12,9 +12,9 @@ export const MACRO_WORKFLOW_STEP = {
   label: 'Run Macro',
   type: 'MACRO',
   value: [
-    { key: 'SHIFT', position: 1 },
-    { key: 'a', position: 3 },
-    { key: 'SHIFT', position: 2 }
+    { id: '1', key: 'SHIFT', position: 1 },
+    { id: '2', key: 'a', position: 3 },
+    { id: '3', key: 'SHIFT', position: 2 }
   ]
 }
 

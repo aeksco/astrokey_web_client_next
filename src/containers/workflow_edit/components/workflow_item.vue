@@ -2,15 +2,52 @@
 <template>
   <li :class="className">
     <div class="row d-flex align-items-center">
-      <div class="col-lg-9 text-left d-flex align-items-center">
+
+      <div class="col-lg-1 text-left d-flex align-items-center">
         <i class="fa fa-lg fa-fw fa-bars mr-3" v-if="item.icon"></i>
 
         <i class="fa fa-lg fa-fw fa-play mr-3" v-if="item.type === 'KEY_DOWN'"></i>
         <i class="fa fa-lg fa-fw fa-pause mr-3" v-if="item.type === 'KEY_UP'"></i>
         <i class="fa fa-lg fa-fw fa-flag-checkered mr-3" v-if="item.type === 'FINISH'"></i>
         <i :class="'fa fa-fw'" v-if="item.icon"></i>
-        {{ item.label || item.type }}
-        <span class="badge badge-secondary" v-if="item.value">{{item.value}}</span>
+      </div>
+
+      <div class="col-lg-8">
+
+        <div class="" v-if="item.type === 'KEY_UP' || item.type === 'KEY_DOWN' || item.type === 'FINISH'">
+          {{ item.label || item.type }}
+        </div>
+
+        <!-- TEXT / KEY -->
+        <span class="badge" v-if="item.type === 'TEXT'">
+          <i class="fa fa-quote-left mr-2"></i>
+          {{item.value}}
+        </span>
+
+        <!-- DELAY -->
+        <span class="badge" v-if="item.type === 'DELAY'">
+          <i class="fa fa-clock-o mr-2"></i>
+          {{item.value * 10}} ms
+        </span>
+
+        <!-- KEY -->
+        <span v-if="item.type === 'KEY'">
+          <i class="fa fa-keyboard-o mr-2"></i>
+          <span class="badge" v-if="item.type === 'KEY'">{{item.value}}</span>
+        </span>
+
+        <!-- MACRO PREVIEW -->
+        <span class="d-flex" v-if="item.type === 'MACRO'">
+          <span class="badge">
+            <i class="fa fa-cogs mr-2"></i>
+          </span>
+
+          <span class="d-flex align-items-center" v-for="m, i in item.value" v-bind:key="m.id">
+            <span class="badge badge-secondary">{{m.key}}</span>
+            <i class="fa fa-fw fa-plus mx-1" v-if="i < item.value.length - 1"></i>
+          </span>
+        </span>
+
       </div>
 
       <div class="col-lg-3 text-right controls" v-if="item.icon">
@@ -76,7 +113,6 @@ export default {
   .badge {
     font-weight: 300;
     padding: .3rem .3rem;
-    margin-left: .5rem;
   }
 
   .controls {
