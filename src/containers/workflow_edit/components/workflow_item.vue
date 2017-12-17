@@ -52,7 +52,7 @@
 
       <div class="col-lg-3 text-right controls" v-if="item.icon">
         <button class="btn btn-sm btn-outline-danger" @click="remove(item)"><i class="fa fa-fw fa-trash"></i></button>
-        <button class="btn btn-sm btn-outline-secondary"><i class="fa fa-fw fa-pencil"></i></button>
+        <button class="btn btn-sm btn-outline-secondary" @click="edit(item)"><i class="fa fa-fw fa-pencil"></i></button>
       </div>
 
     </div>
@@ -63,7 +63,7 @@
 
 <script>
 export default {
-  props: ['item', 'remove'],
+  props: ['item', 'remove', 'edit'],
   computed: {
     className () {
       let css = ['list-group-item']

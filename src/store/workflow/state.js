@@ -17,6 +17,7 @@ const state = {
     }
   ],
   current: {},
+  selectedStep: null,
   fetching: false
 }
 
