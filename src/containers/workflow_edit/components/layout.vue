@@ -3,7 +3,8 @@
   <div class="container">
     <a href="/#/workflows">Back</a>
     <h2>{{workflow.label}}</h2>
-  	<hr>
+
+    <hr>
 
     <div class="row">
       <div class="col-lg-12">
@@ -33,10 +34,14 @@
 
               <ul class="list-group">
                 <draggable v-model='steps' :options="{draggable:'.draggable'}">
-                  <WorkFlowItem v-for="each in steps" :item="each"/>
+                  <WorkFlowItem v-for="each in steps" :item="each" :remove="removeStep"/>
                 </draggable>
               </ul>
 
+            </div>
+
+            <div class="col-lg-12 mt-2">
+              <hr>
             </div>
 
             <div class="col-lg-12 mt-2">

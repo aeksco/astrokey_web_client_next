@@ -11,7 +11,7 @@ const state = {
         { id: 1, order: 1, type: 'KEY_UP', label: 'Wait for key release' },
         { id: 2, order: 2, icon: 'fa-clock-o', type: 'DELAY', value: 2 },
         { id: 3, order: 3, icon: 'fa-paragraph', type: 'TEXT', value: 'Hello, AstroKey!' },
-        { id: 4, order: 4, icon: 'fa-cube', type: 'KEY' },
+        { id: 4, order: 4, icon: 'fa-cube', type: 'KEY', value: 'ENTER' },
         { id: 5, order: 5, type: 'FINISH' }
       ]
     }
