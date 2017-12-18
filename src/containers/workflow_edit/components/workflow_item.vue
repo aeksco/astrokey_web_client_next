@@ -80,6 +80,7 @@ export default {
         css.push('list-group-item-dark')
       } else {
         css.push('list-group-item-light')
+        // css.push('bg-dark text-light')
         css.push('draggable')
       }
 

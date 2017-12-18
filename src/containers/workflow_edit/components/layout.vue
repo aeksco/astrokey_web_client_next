@@ -32,9 +32,11 @@
 
             <div class="col-lg-12" v-if="!editing">
               <ul class="list-group">
+                <WorkFlowItem :item="{ type: 'KEY_DOWN', label: 'Press Key' }" :remove="removeStep" :edit="editStep"/>
                 <draggable v-model='steps' :options="{draggable:'.draggable'}">
-                  <WorkFlowItem v-for="each in steps" :item="each" :remove="removeStep" :edit="editStep"/>
+                  <WorkFlowItem v-for="each in steps" :item="each" :key="each.id" :remove="removeStep" :edit="editStep"/>
                 </draggable>
+                <WorkFlowItem :item="{ type: 'FINISH', label: 'Finish' }" :remove="removeStep" :edit="editStep" />
               </ul>
 
             </div>
