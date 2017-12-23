@@ -3,7 +3,8 @@
   <div class="container">
     <a href="/#/workflows">Back</a>
     <h2>{{workflow.label}}</h2>
-  	<hr>
+
+    <hr>
 
     <div class="row">
       <div class="col-lg-12">
@@ -11,36 +12,46 @@
         <div class="card card-body">
           <div class="row">
             <div class="col-lg-8">
-              <p class="card-text lead">Edit Workflow</p>
+              <p class="card-text lead" v-if="editing">Edit Step</p>
+              <p class="card-text lead" v-if="!editing">Edit Workflow</p>
             </div>
             <div class="col-lg-4 text-right">
               <button class="btn btn-sm btn-outline-success mr-2"><i class="fa fa-fw fa-save"></i></button>
               <button class="btn btn-sm btn-outline-dark"><i class="fa fa-fw fa-times"></i></button>
             </div>
+            <div class="col-lg-12">
+              <hr>
+            </div>
           </div>
 
           <div class="row">
-            <div class="col-lg-12">
-              <hr>
-  <!--             <draggable v-model='steps'>
-                <ul class="list-group" v-for="each in steps" v-bind:key="each.id">
-                  <WorkFlowItemText :item="each" :remove="removeStep" v-if="each.type === 'TEXT'"/>
-                  <WorkFlowItemMacro :item="each" :remove="removeStep" v-if="each.type === 'MACRO'"/>
-                  <WorkFlowItemDelay :item="each" :remove="removeStep" v-if="each.type === 'DELAY'"/>
-                  <WorkFlowItemDelay :item="each" :remove="removeStep" v-if="each.type === 'KEY'"/>
-                </ul>
-              </draggable> -->
+            <div class="col-lg-12" v-if="editing">
+              <p class="lead">EDIT STEP</p>
+              <p class="lead">TODO - SHOW STEP EDITOR HERE</p>
+            </div>
 
+            <div class="col-lg-12" v-if="!editing">
               <ul class="list-group">
+                <WorkFlowItem :item="{ type: 'KEY_DOWN', label: 'Press Key' }" :remove="removeStep" :edit="editStep"/>
                 <draggable v-model='steps' :options="{draggable:'.draggable'}">
-                  <WorkFlowItem v-for="each in steps" :item="each"/>
+                  <WorkFlowItem v-for="each in steps" :item="each" :key="each.id" :remove="removeStep" :edit="editStep"/>
                 </draggable>
+                <WorkFlowItem :item="{ type: 'FINISH', label: 'Finish' }" :remove="removeStep" :edit="editStep" />
               </ul>
 
             </div>
 
             <div class="col-lg-12 mt-2">
-              <div class="btn-group w-100">
+              <hr>
+            </div>
+
+            <div class="col-lg-12 mt-2">
+
+              <div class="col-lg-12 text-right" v-if="editing">
+                <button class="btn btn-outline-dark" @click="clearSelected()">BACK TO LIST</button>
+              </div>
+
+              <div class="btn-group w-100" v-if="!editing">
                 <button class="btn btn-outline-dark w-25" @click="addStep('TEXT')">TEXT</button>
                 <button class="btn btn-outline-dark w-25" @click="addStep('MACRO')">MACRO</button>
                 <button class="btn btn-outline-dark w-25" @click="addStep('DELAY')">DELAY</button>
@@ -81,12 +92,20 @@ export default {
     addStep (type) {
       store.commit('workflow/addStep', { workflow: this.workflow, step_type: type })
     },
-
     removeStep (step) {
-      store.commit('workflow/removeStep', { workflow: this.workflow, step: step })
+      store.commit('workflow/removeStep', { step })
+    },
+    editStep (step) {
+      store.commit('workflow/selectStep', { step })
+    },
+    clearSelected () {
+      store.commit('workflow/clearSelectedStep', { step: null })
     }
   },
   computed: {
+    editing () {
+      return store.getters['workflow/selectedStep']
+    },
     steps: {
       get () {
         // console.log('GETTERS\n')

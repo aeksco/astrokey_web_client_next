@@ -9,6 +9,9 @@ const getters = {
   },
   fetching: state => {
     return state.fetching
+  },
+  selectedStep: state => {
+    return state.selectedStep
   }
 }
 

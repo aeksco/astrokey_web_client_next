@@ -17,6 +17,12 @@ const mutations = {
   removeStep (state, { workflow, step }) {
     workflow.steps = _.chain(workflow.steps).filter((s) => { return s.id !== step.id }).each((s, i) => { s.order = i }).sortBy('order').value()
   },
+  selectStep (state, { step }) {
+    state.selectedStep = step
+  },
+  clearSelectedStep (state, { step }) {
+    state.selectedStep = null
+  },
   addStep (state, { workflow, step_type }) {
     function getStep (type) {
       switch (type) {
