@@ -5,6 +5,12 @@ const state = {
     {
       _id: 'abcdefabcdef123123',
       label: 'My New Workflow',
+      author: 'aeksco',
+      created_by: 'created_by_user_id',
+      public: true, // PUBLICLY VISIBLE BOOLEAN
+      version_major: 0, // WORKFLOW VERSION
+      version_minor: 1, // WORKFLOW VERSION MINOR
+      compatible_with: [], // DEVICE_TYPE_VERSIONS (?)
       steps: [
         { id: 2, order: 2, icon: 'fa-play-circle-o', type: 'MACRO', label: 'Run Macro', value: [{ key: 'SHIFT', position: 1 }, { key: 'a', position: 3 }, { key: 'SHIFT', position: 2 }] },
         { id: 3, order: 3, type: 'KEY_UP', label: 'Delay until Key Release' },
