@@ -27,14 +27,11 @@ export default {
 <!-- // // // //  -->
 
 <!-- QUESTION - SCOPED? -->
-
-<style lang='sass' scoped>
-   // @import 'main.sass'
-   // @import '@/sass/app.sass'
+<style lang='sass'>
+   // @import '../../../sass/app.sass'
 
    .list-enter-active, .list-leave-active
      transition: opacity .5s
-
 
    .list-enter, .list-leave-to
      opacity: 0
