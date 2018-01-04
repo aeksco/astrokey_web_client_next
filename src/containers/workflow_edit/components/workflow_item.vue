@@ -93,32 +93,27 @@ export default {
 }
 </script>
 
-<style type="text/css">
-  .list-group-item {
-    border-left: .25rem solid #666666;
-  }
+<style lang='sass' scoped>
 
-  .list-group-item:hover i.fa-bars {
+  .list-group-item
+    border-left: .25rem solid #666666
+
+  .list-group-item:hover i.fa-bars
     opacity: 1
-  }
 
-  .list-group-item:hover .controls {
+  .list-group-item:hover .controls
     opacity: 1
-  }
 
-  i.fa-bars {
-    transition: opacity .25s ease-in;
-    opacity: 0;
-  }
+  i.fa-bars
+    transition: opacity .25s ease-in
+    opacity: 0
 
-  .badge {
-    font-weight: 300;
-    padding: .3rem .3rem;
-  }
+  .badge
+    font-weight: 300
+    padding: .3rem .3rem
 
-  .controls {
-    transition: opacity .25s ease-in;
-    opacity: 0;
-  }
+  .controls
+    transition: opacity .25s ease-in
+    opacity: 0
 
 </style>
