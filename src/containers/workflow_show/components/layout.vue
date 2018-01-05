@@ -14,8 +14,9 @@
               <p class="card-text lead">Workflow</p>
             </div>
             <div class="col-lg-4 text-right">
-              <button class="btn btn-sm btn-outline-success mr-2"><i class="fa fa-fw fa-save"></i></button>
-              <button class="btn btn-sm btn-outline-dark"><i class="fa fa-fw fa-times"></i></button>
+              <a class="btn btn-sm btn-outline-warning mr-2" v-bind:href="'/#/workflows/' + workflow._id + '/edit'"><i class="fa fa-fw fa-pencil"></i></a>
+              <button class="btn btn-sm btn-outline-secondary mr-2"><i class="fa fa-fw fa-clone"></i></button>
+              <button class="btn btn-sm btn-outline-danger"><i class="fa fa-fw fa-trash"></i></button>
             </div>
           </div>
 
