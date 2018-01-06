@@ -49,8 +49,30 @@
                 <!-- MACRO Editor -->
                 <div class="col-lg-12" v-if="editing.type === 'MACRO'">
                   <p class="lead">MACRO</p>
-                  <p class="lead">{{ editing.value }}</p>
+
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <ul v-for="macro in editing.value" v-bind:key="macro.order" class='list-unstyled'>
+                        <li class="lead">
+                          {{macro.key}}
+
+                          <span class="fa-stack fa-lg" @click="cycleMacroKeyPosition(macro)">
+                            <i class="fa fa-circle-thin fa-stack-2x"></i>
+                            <i class="fa fa-stack-1x fa-stack">
+                              <i class="fa fa-circle-thin fa-stack-2x fa-2x"></i>
+                              <i class="fa fa-stack-1x fa-long-arrow-down text-warning" v-if="macro.position === 1"></i>
+                              <i class="fa fa-stack-1x fa-long-arrow-up text-info" v-if="macro.position === 2"></i>
+                              <i class="fa fa-stack-1x fa-arrows-v text-success" v-if="macro.position === 3"></i>
+                            </i>
+                          </span>
+
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
                 </div>
+                <!-- END MacroEditor -->
 
               </div>
             </div>
@@ -141,6 +163,9 @@ export default {
     },
     updateSelected (step) {
       store.commit('workflow/updateSelectedStep', { workflow: this.workflow, step: step })
+    },
+    cycleMacroKeyPosition (macroStep) {
+      store.commit('workflow/cycleMacroStepPosition', { macroStep: macroStep })
     }
   },
   computed: {

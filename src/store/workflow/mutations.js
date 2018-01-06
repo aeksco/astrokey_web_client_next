@@ -58,6 +58,29 @@ const mutations = {
     new_step.order = workflow.steps.length
     new_step.id = _.uniqueId('st')
     workflow.steps.push(new_step)
+  },
+  // cycleMacroStepPosition
+  // Determines next position for an individual macroStep
+  cycleMacroStepPosition (state, { macroStep }) {
+    const KEY_DN = 1
+    const KEY_UP = 2
+    const KEY_PR = 3
+    function cyclePosition (oldPosition) {
+      switch (oldPosition) {
+        // KEY_DN -> KEY_UP
+        case KEY_DN:
+          return KEY_UP
+
+        // KEY_UP -> KEY_PR
+        case KEY_UP:
+          return KEY_PR
+
+        // KEY_PR -> KEY_DN
+        case KEY_PR:
+          return KEY_DN
+      }
+    }
+    macroStep.position = cyclePosition(macroStep.position)
   }
 }
 
