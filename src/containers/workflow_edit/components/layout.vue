@@ -157,18 +157,12 @@ import _ from 'lodash'
 import store from '@/store'
 import draggable from 'vuedraggable'
 import WorkFlowItem from './workflow_item'
-import WorkFlowItemText from './workflow_item_text'
-import WorkFlowItemMacro from './workflow_item_macro'
-import WorkFlowItemDelay from './workflow_item_delay'
 
 export default {
   props: ['workflow'],
   components: {
     draggable,
-    WorkFlowItem,
-    WorkFlowItemText,
-    WorkFlowItemMacro,
-    WorkFlowItemDelay
+    WorkFlowItem
   },
   methods: {
     addStep (type) {
