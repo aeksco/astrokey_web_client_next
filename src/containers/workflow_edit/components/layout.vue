@@ -8,8 +8,9 @@
 
     <div class="row">
       <div class="col-lg-12">
-
         <div class="card card-body">
+
+          <!-- Editor Card Header -->
           <div class="row">
             <div class="col-lg-8">
               <p class="card-text lead" v-if="editing">Edit Step</p>
@@ -24,6 +25,7 @@
             </div>
           </div>
 
+          <!-- Editor Card Body -->
           <div class="row">
 
             <!-- Step Editor -->
@@ -34,7 +36,14 @@
                 <div class="col-lg-12" v-if="editing.type === 'TEXT'">
                   <p class="lead">TEXT</p>
                   <p class="lead">{{ editing.value }}</p>
-                  <input class="form-control" :value="editing.value" @input="editing.value = $event.target.value"></input>
+                  <input class="form-control" type='text' :value="editing.value" @input="editing.value = $event.target.value"></input>
+                </div>
+
+                <!-- DELAY Editor -->
+                <div class="col-lg-12" v-if="editing.type === 'DELAY'">
+                  <p class="lead">DELAY</p>
+                  <p class="lead">{{ editing.value }}</p>
+                  <input class="form-control" type='number' min="0" max="255" step="1" :value="editing.value" @input="editing.value = $event.target.value"></input>
                 </div>
 
                 <!-- MACRO Editor -->
@@ -62,6 +71,7 @@
               <hr>
             </div>
 
+            <!-- Editor Card Footer -->
             <div class="col-lg-12 mt-2">
 
               <!-- Step Editor Controls -->
