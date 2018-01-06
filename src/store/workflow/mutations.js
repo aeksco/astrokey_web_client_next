@@ -18,7 +18,7 @@ const mutations = {
     workflow.steps = _.chain(workflow.steps).filter((s) => { return s.id !== step.id }).each((s, i) => { s.order = i }).sortBy('order').value()
   },
   selectStep (state, { step }) {
-    state.selectedStep = _.clone(step)
+    state.selectedStep = _.cloneDeep(step)
   },
   clearSelectedStep (state) {
     state.selectedStep = null
@@ -54,7 +54,7 @@ const mutations = {
       }
     }
 
-    let new_step = _.clone(getStep(step_type))
+    let new_step = _.cloneDeep(getStep(step_type))
     new_step.order = workflow.steps.length
     new_step.id = _.uniqueId('st')
     workflow.steps.push(new_step)
