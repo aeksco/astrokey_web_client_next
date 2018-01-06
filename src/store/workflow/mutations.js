@@ -15,15 +15,29 @@ const mutations = {
     state.current = attributes
   },
   removeStep (state, { workflow, step }) {
-    console.log('REMOVE STEP')
-    console.log(workflow)
-    console.log(step)
     workflow.steps = _.chain(workflow.steps).filter((s) => { return s.id !== step.id }).each((s, i) => { s.order = i }).sortBy('order').value()
   },
   selectStep (state, { step }) {
-    state.selectedStep = step
+    state.selectedStep = _.clone(step)
   },
-  clearSelectedStep (state, { step }) {
+  clearSelectedStep (state) {
+    state.selectedStep = null
+  },
+  // updateSelectedStep
+  // Inserts the updated step into
+  // it's correct position in workflow.steps
+  updateSelectedStep (state, { workflow, step }) {
+    workflow.steps = _.chain(workflow.steps)
+      .map((s) => {
+        if (s.id !== step.id) {
+          return s
+        } else {
+          return step
+        }
+      })
+      .value()
+
+    // Clears state.selected step
     state.selectedStep = null
   },
   addStep (state, { workflow, step_type }) {

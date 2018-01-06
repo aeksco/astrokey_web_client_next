@@ -25,10 +25,28 @@
           </div>
 
           <div class="row">
+
+            <!-- Step Editor -->
             <div class="col-lg-12" v-if="editing">
-              <p class="lead">{{ editing.type }}: {{ editing.value }}</p>
+              <div class="row">
+
+                <!-- TEXT Editor -->
+                <div class="col-lg-12" v-if="editing.type === 'TEXT'">
+                  <p class="lead">TEXT</p>
+                  <p class="lead">{{ editing.value }}</p>
+                  <input class="form-control" :value="editing.value" @input="editing.value = $event.target.value"></input>
+                </div>
+
+                <!-- MACRO Editor -->
+                <div class="col-lg-12" v-if="editing.type === 'MACRO'">
+                  <p class="lead">MACRO</p>
+                  <p class="lead">{{ editing.value }}</p>
+                </div>
+
+              </div>
             </div>
 
+            <!-- Workflow Editor -->
             <div class="col-lg-12" v-if="!editing">
               <ul class="list-group">
                 <WorkFlowItem :item="{ type: 'KEY_DOWN', label: 'Press Key' }" :remove="removeStep" :edit="editStep"/>
@@ -37,25 +55,36 @@
                 </draggable>
                 <WorkFlowItem :item="{ type: 'FINISH', label: 'Finish' }" :remove="removeStep" :edit="editStep" />
               </ul>
-
             </div>
 
+            <!-- HR Break -->
             <div class="col-lg-12 mt-2">
               <hr>
             </div>
 
             <div class="col-lg-12 mt-2">
 
+              <!-- Step Editor Controls -->
               <div class="col-lg-12 text-right" v-if="editing">
-                <button class="btn btn-outline-dark" @click="clearSelected()">BACK TO LIST</button>
+                <button class="btn btn-outline-dark" @click="clearSelected()">
+                  <i class="fa fa-fw fa-times mr-1"></i>
+                  Cancel
+                </button>
+
+                <button class="btn btn-outline-success" @click="updateSelected(editing)">
+                  <i class="fa fa-fw fa-check"></i>
+                  Submit
+                </button>
               </div>
 
+              <!-- Workflow Editor Controls -->
               <div class="btn-group w-100" v-if="!editing">
                 <button class="btn btn-outline-dark w-25" @click="addStep('TEXT')">TEXT</button>
                 <button class="btn btn-outline-dark w-25" @click="addStep('MACRO')">MACRO</button>
                 <button class="btn btn-outline-dark w-25" @click="addStep('DELAY')">DELAY</button>
                 <button class="btn btn-outline-dark w-25" @click="addStep('KEY')">KEY</button>
               </div>
+
             </div>
           </div>
 
@@ -98,7 +127,10 @@ export default {
       store.commit('workflow/selectStep', { step })
     },
     clearSelected () {
-      store.commit('workflow/clearSelectedStep', { step: null })
+      store.commit('workflow/clearSelectedStep')
+    },
+    updateSelected (step) {
+      store.commit('workflow/updateSelectedStep', { workflow: this.workflow, step: step })
     }
   },
   computed: {
