@@ -16,8 +16,8 @@
               <p class="card-text lead" v-if="!editing">Edit Workflow</p>
             </div>
             <div class="col-lg-4 text-right">
-              <button class="btn btn-sm btn-outline-success mr-2"><i class="fa fa-fw fa-save"></i></button>
-              <button class="btn btn-sm btn-outline-dark"><i class="fa fa-fw fa-times"></i></button>
+              <button class="btn btn-sm btn-outline-success mr-2" v-if="!editing"><i class="fa fa-fw fa-save"></i></button>
+              <button class="btn btn-sm btn-outline-dark" v-if="!editing"><i class="fa fa-fw fa-times"></i></button>
             </div>
             <div class="col-lg-12">
               <hr>
@@ -26,8 +26,7 @@
 
           <div class="row">
             <div class="col-lg-12" v-if="editing">
-              <p class="lead">EDIT STEP</p>
-              <p class="lead">TODO - SHOW STEP EDITOR HERE</p>
+              <p class="lead">{{ editing.type }}: {{ editing.value }}</p>
             </div>
 
             <div class="col-lg-12" v-if="!editing">
@@ -93,7 +92,7 @@ export default {
       store.commit('workflow/addStep', { workflow: this.workflow, step_type: type })
     },
     removeStep (step) {
-      store.commit('workflow/removeStep', { step })
+      store.commit('workflow/removeStep', { workflow: this.workflow, step: step })
     },
     editStep (step) {
       store.commit('workflow/selectStep', { step })
