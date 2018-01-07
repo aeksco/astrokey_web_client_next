@@ -1,14 +1,13 @@
 
 <template>
   <div class="container">
-    <a href="/#/workflows">Back</a>
     <h2>{{workflow.label}}</h2>
 
     <hr>
 
     <div class="row">
       <div class="col-lg-12">
-        <div class="card card-body text-dark">
+        <div class="card card-body text-light bg-dark border-light">
 
           <!-- Editor Card Header -->
           <div class="row">

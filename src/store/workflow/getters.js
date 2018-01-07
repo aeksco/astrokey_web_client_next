@@ -1,3 +1,4 @@
+import { KEYS } from './keys'
 
 // Project Module Getters
 const getters = {
@@ -12,6 +13,9 @@ const getters = {
   },
   selectedStep: state => {
     return state.selectedStep
+  },
+  keys: state => {
+    return KEYS
   }
 }
 
