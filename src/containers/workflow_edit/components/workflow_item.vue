@@ -6,7 +6,7 @@
       <div class="col-lg-1 text-left d-flex align-items-center">
         <i class="fa fa-lg fa-fw fa-bars mr-3" v-if="item.icon"></i>
 
-        <i class="fa fa-lg fa-fw fa-chevron-down mr-3" v-if="item.type === 'KEY_DOWN'"></i>
+        <i class="fa fa-lg fa-fw fa-play mr-3" v-if="item.type === 'KEY_DOWN'"></i>
         <i class="fa fa-lg fa-fw fa-chevron-up mr-3" v-if="item.type === 'KEY_UP'"></i>
         <i class="fa fa-lg fa-fw fa-flag-checkered mr-3" v-if="item.type === 'FINISH'"></i>
         <i :class="'fa fa-fw'" v-if="item.icon"></i>
@@ -43,7 +43,9 @@
           </span>
 
           <span class="d-flex align-items-center" v-for="m, i in item.value" v-bind:key="m.id">
-            <span class="badge badge-secondary">{{m.key}}</span>
+            <span class="badge badge-info" v-if='m.position === 1'>{{m.key}}</span>
+            <span class="badge badge-warning" v-if='m.position === 2'>{{m.key}}</span>
+            <span class="badge badge-secondary" v-if='m.position === 3'>{{m.key}}</span>
             <i class="fa fa-fw fa-plus mx-1" v-if="i < item.value.length - 1"></i>
           </span>
         </span>
@@ -79,8 +81,7 @@ export default {
       } else if (this.item.type === 'FINISH') {
         css.push('list-group-item-dark')
       } else {
-        css.push('list-group-item-light')
-        // css.push('bg-dark text-light')
+        css.push('bg-dark text-light')
         css.push('draggable')
       }
 

@@ -53,7 +53,7 @@ export default {
     },
     className (hover, drag, dragstart) {
       let css = 'macro-step flex-column justify-content-center align-items-center my-2'
-      // if (hover) { css = css + ' hovered' }
+      if (hover) { css = css + ' hovered' }
       // if (dragstart) { css = css + ' drag-start hovered' }
       // if (drag) { css = ' hovered' }
       return css
