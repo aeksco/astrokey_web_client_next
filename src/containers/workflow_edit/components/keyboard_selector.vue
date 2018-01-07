@@ -8,10 +8,6 @@
         .col-lg-8.d-flex.justify-content-center
           button( :class="className(nav)" @click="onClick(nav)" v-for="nav in navItems" :key="nav.order" :item="nav") {{ nav.text }}
 
-      //- .row
-      //-   .col-lg-12
-      //-     hr
-
       //- Display Selected Keyboard
       .row.d-flex.justify-content-center.mt-4
 
@@ -33,8 +29,8 @@
 </template>
 
 <script>
-import store from '@/store'
 import _ from 'lodash'
+import store from '@/store'
 
 export default {
   props: ['macro'],
