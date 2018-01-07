@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { TEXT_WORKFLOW_STEP, MACRO_WORKFLOW_STEP, DELAY_WORKFLOW_STEP, KEY_WORKFLOW_STEP } from './constants'
+import { TEXT_WORKFLOW_STEP, MACRO_WORKFLOW_STEP, DELAY_WORKFLOW_STEP, KEY_WORKFLOW_STEP, KEY_DN_POSITION, KEY_UP_POSITION, KEY_PR_POSITION } from './constants'
 
 // // // //
 
@@ -62,22 +62,19 @@ const mutations = {
   // cycleMacroStepPosition
   // Determines next position for an individual macroStep
   cycleMacroStepPosition (state, { macroStep }) {
-    const KEY_DN = 1
-    const KEY_UP = 2
-    const KEY_PR = 3
     function cyclePosition (oldPosition) {
       switch (oldPosition) {
-        // KEY_DN -> KEY_UP
-        case KEY_DN:
-          return KEY_UP
+        // KEY_DN_POSITION -> KEY_UP_POSITION
+        case KEY_DN_POSITION:
+          return KEY_UP_POSITION
 
-        // KEY_UP -> KEY_PR
-        case KEY_UP:
-          return KEY_PR
+        // KEY_UP_POSITION -> KEY_PR_POSITION
+        case KEY_UP_POSITION:
+          return KEY_PR_POSITION
 
-        // KEY_PR -> KEY_DN
-        case KEY_PR:
-          return KEY_DN
+        // KEY_PR_POSITION -> KEY_DN_POSITION
+        case KEY_PR_POSITION:
+          return KEY_DN_POSITION
       }
     }
     macroStep.position = cyclePosition(macroStep.position)

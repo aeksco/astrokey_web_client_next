@@ -13,7 +13,7 @@ const state = {
       compatible_with: [], // DEVICE_TYPE_VERSIONS (?)
       steps: [
         { id: 2, order: 2, icon: 'fa-play-circle-o', type: 'MACRO', label: 'Run Macro', value: [{ key: 'SHIFT', position: 1, order: 0 }, { key: 'a', position: 3, order: 1 }, { key: 'SHIFT', position: 2, order: 2 }] },
-        { id: 3, order: 3, type: 'KEY_UP', label: 'Delay until Key Release' },
+        { id: 3, order: 3, type: 'KEY_UP', label: 'Release Key' },
         { id: 4, order: 4, icon: 'fa-clock-o', type: 'DELAY', label: 'Delay', value: 2 },
         { id: 5, order: 5, icon: 'fa-paragraph', type: 'TEXT', label: 'Type', value: 'Hello, AstroKey!' },
         { id: 6, order: 6, icon: 'fa-cube', type: 'KEY', value: 'ENTER' }
