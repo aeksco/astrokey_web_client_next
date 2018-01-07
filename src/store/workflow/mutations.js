@@ -1,5 +1,16 @@
 import _ from 'lodash'
+import store from '@/store'
 import { TEXT_WORKFLOW_STEP, MACRO_WORKFLOW_STEP, DELAY_WORKFLOW_STEP, KEY_WORKFLOW_STEP, KEY_DN_POSITION, KEY_UP_POSITION, KEY_PR_POSITION } from './constants'
+
+// // // //
+
+function onKeydown (event) {
+  console.log(event.which)
+  console.log(event.keycode)
+  console.log(event.key)
+  console.log(store)
+  // console.log(store.commmit('workflow/addStep', ))
+}
 
 // // // //
 
@@ -93,6 +104,18 @@ const mutations = {
   // Removes an individual macro step from currently edited Macro
   removeMacroStep (state, { macro, macroStep }) {
     macro.value = _.filter(macro.value, (s) => { return s.id !== macroStep.id })
+  },
+  // startRecording
+  // Starts recording by listening for global keystroke events
+  startRecording (state) {
+    state.recording = true
+    window.addEventListener('keydown', onKeydown)
+  },
+  // stopRecording
+  // Stops global keystroke recording
+  stopRecording (state) {
+    window.removeEventListener('keydown', onKeydown)
+    state.recording = false
   }
 }
 

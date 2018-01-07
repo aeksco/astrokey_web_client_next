@@ -22,6 +22,7 @@ const state = {
   ],
   current: {},
   selectedStep: null,
+  recording: false,
   fetching: false
 }
 
