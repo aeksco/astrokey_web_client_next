@@ -53,9 +53,17 @@
       </div>
 
       <div class="col-lg-3 text-right controls" v-if="item.icon">
-        <button class="btn btn-sm btn-outline-secondary" @click="clone(item)"><i class="fa fa-fw fa-clone"></i></button>
-        <button class="btn btn-sm btn-outline-secondary" @click="edit(item)"><i class="fa fa-fw fa-pencil"></i></button>
-        <button class="btn btn-sm btn-outline-danger" @click="remove(item)"><i class="fa fa-fw fa-trash"></i></button>
+        <button class="btn btn-sm btn-outline-secondary" v-b-tooltip.hover.top title="Clone" @click="clone(item)">
+          <i class="fa fa-fw fa-clone"></i>
+        </button>
+
+        <button class="btn btn-sm btn-outline-secondary" v-b-tooltip.hover.top title="Edit" @click="edit(item)">
+          <i class="fa fa-fw fa-pencil"></i>
+        </button>
+
+        <button class="btn btn-sm btn-outline-danger" v-b-tooltip.hover.top title="Remove" @click="remove(item)">
+          <i class="fa fa-fw fa-trash"></i>
+        </button>
       </div>
 
     </div>

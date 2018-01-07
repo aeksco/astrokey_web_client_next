@@ -16,7 +16,7 @@
     </div>
 
     <div class="position mt-2">
-      <span :class="positionCss()" @click="cycleMacroKeyPosition(item)">
+      <span :id='item.id' :class="positionCss()" @click="cycleMacroKeyPosition(item)" v-b-tooltip.hover.bottom.html="positionTooltip">
         <i class="fa fa-circle-thin fa-stack-2x"></i>
         <i class="fa fa-stack-1x fa-stack">
           <i class="fa fa-circle-thin fa-stack-2x fa-2x"></i>
@@ -46,7 +46,14 @@ export default {
   },
   methods: {
     cycleMacroKeyPosition (macroStep) {
+      // Hides the tooltip
+      this.$root.$emit('bv::hide::tooltip')
+
+      // Changes MacroStep.position
       store.commit('workflow/cycleMacroStepPosition', { macroStep: macroStep })
+
+      // Shows the updated tooltip
+      this.$root.$emit('bv::show::tooltip', this.item.id)
     },
     removeMacroStep () {
       store.commit('workflow/removeMacroStep', { macro: this.macro, macroStep: this.item })
@@ -64,6 +71,13 @@ export default {
       if (this.item.position === 2) css += ' text-info'
       if (this.item.position === 3) css += ' text-success'
       return css
+    },
+    positionTooltip () {
+      let tooltip = ''
+      if (this.item.position === 1) tooltip = 'Key Down'
+      if (this.item.position === 2) tooltip = 'Key Up'
+      if (this.item.position === 3) tooltip = 'Key Press'
+      return tooltip
     }
   }
 }

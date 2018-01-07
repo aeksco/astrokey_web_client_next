@@ -181,26 +181,12 @@ export default {
     },
     steps: {
       get () {
-        // console.log('GETTERS\n')
+        // TODO - this should be moved into Vuex store
         this.workflow.steps = _.orderBy(this.workflow.steps, ['order'], ['asc'])
-        // this.workflow.steps = _.sortBy(this.workflow.steps, (s) => { return s.order }) // TODO - does this need to be sorted here?
-        // console.log(_.each(this.workflow.steps, (s) => { console.log(s.type) }))
         return this.workflow.steps
       },
       set (value) {
-        // console.log('VALUE VALUE')
-        // let key_down = _.remove(value, (s) => { return s.type === 'KEY_DOWN' })
-        // console.log(key_down)
-        // console.log(_.each(value, (v) => { console.log(v.type) }))
-
-        // console.log(value)
         _.each(value, (s, i) => { s.order = i })
-
-        // console.log(key_down.concat(value))
-        // value = key_down.concat(value)
-
-        // console.log(key_down.concat(value))
-        // this.workflow.steps = _.orderBy(key_down.concat(value), ['order'], ['asc'])
       }
     }
   }
