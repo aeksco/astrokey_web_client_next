@@ -32,3 +32,8 @@ export const KEY_WORKFLOW_STEP = {
   type: 'KEY',
   value: 2
 }
+
+// Key Position Constants
+export const KEY_DN_POSITION = 1
+export const KEY_UP_POSITION = 2
+export const KEY_PR_POSITION = 3
