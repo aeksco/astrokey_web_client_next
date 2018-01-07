@@ -1,15 +1,24 @@
 import _ from 'lodash'
 import store from '@/store'
+import { KEYS } from './keys'
 import { TEXT_WORKFLOW_STEP, MACRO_WORKFLOW_STEP, DELAY_WORKFLOW_STEP, KEY_WORKFLOW_STEP, KEY_DN_POSITION, KEY_UP_POSITION, KEY_PR_POSITION } from './constants'
 
 // // // //
+
+const debounceStopRecording = _.debounce(() => {
+  store.commit('workflow/stopRecording')
+}, 1500)
 
 function onKeydown (event) {
   console.log(event.which)
   console.log(event.keycode)
   console.log(event.key)
   console.log(store)
+  console.log(KEYS)
   // console.log(store.commmit('workflow/addStep', ))
+
+  // Debounces stopRecoring
+  debounceStopRecording()
 }
 
 // // // //
