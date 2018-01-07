@@ -1,16 +1,16 @@
 
 <template>
-  <li class="macro-step flex-column justify-content-center align-items-center my-2">
+  <li :class="className(hovered)" @mouseover="hovered = true" @mouseout="hovered = false">
 
     <div class="key d-flex">
       <div class="inner content">
         <div class="shift" v-if="item.shift_key && item.shifted">{{ item.shift_key }}</div>
-        <div v-if="item.shift_key && item.shifted">{{ item.key }}</div>
-        <div class='plain' v-if="!item.shift_key">{{ item.key }}</div>
+        <div v-else-if="item.shift_key && item.shifted">{{ item.key }}</div>
+        <div class='plain' v-else>{{ item.key }}</div>
       </div>
 
       <div class="inner hover">
-        <i class="fa fa-fw fa-lg fa-times"></i>
+        <i class="fa fa-fw fa-lg fa-times" @click="removeMacroStep()"></i>
       </div>
 
     </div>
@@ -36,16 +36,31 @@
 import store from '@/store'
 
 export default {
-  props: ['item'],
+  props: ['item', 'macro'],
+  data () {
+    return {
+      hovered: false
+    }
+  },
   methods: {
     cycleMacroKeyPosition (macroStep) {
       store.commit('workflow/cycleMacroStepPosition', { macroStep: macroStep })
+    },
+    removeMacroStep () {
+      store.commit('workflow/removeMacroStep', { macro: this.macro, macroStep: this.item })
+    },
+    className (hover) {
+      let css = 'macro-step flex-column justify-content-center align-items-center my-2'
+      if (hover) { css = css + ' hovered' }
+      return css
     }
   }
 }
 </script>
 
 <style lang='sass' scoped>
+  @import '../../../sass/vendor.sass'
+
   $macro_size: 3rem
 
   li.macro-step
@@ -56,9 +71,9 @@ export default {
     .key
       height: $macro_size
       width: $macro_size
-      border: .15rem solid #333333 // theme-color('secondary')
+      border: .15rem solid theme-color('secondary')
       border-radius: .2rem
-      color: #999 // theme-color('light')
+      color: theme-color('light')
       display: flex
       font-size: .75rem
       font-weight: 400
@@ -97,8 +112,7 @@ export default {
           display: none
         .inner.hover
           display: flex
-          // color: lighten(theme-color('danger'), 25%)
-          color: red
+          color: lighten(theme-color('danger'), 25%)
 
     // TODO - this should be adjusted to
     &.drag-start
@@ -117,7 +131,6 @@ export default {
         border-width: .3rem
         border-color: #f3f3f3
         border-style: dashed
-        // color: theme-color('warning')
-        color: orange
+        color: theme-color('warning')
 
 </style>

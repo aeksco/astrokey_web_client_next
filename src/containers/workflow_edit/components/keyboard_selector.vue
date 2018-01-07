@@ -6,7 +6,7 @@
       //- Select Keyboard
       .row.justify-content-center
         .col-lg-8.d-flex.justify-content-center
-          button( :class="className(item)" @click="onClick(item)" v-for="item in navItems" :key="item.order" :item="item") {{ item.text }}
+          button( :class="className(nav)" @click="onClick(nav)" v-for="nav in navItems" :key="nav.order" :item="nav") {{ nav.text }}
 
       .row
         .col-lg-12
@@ -37,10 +37,10 @@ import store from '@/store'
 import _ from 'lodash'
 
 export default {
-  props: ['item'],
+  props: ['macro'],
   methods: {
     onClick (selected) {
-      // Selects the navItem
+      // Selects the clicked navItem
       this.navItems = _.map(this.navItems, (item) => {
         if (item.trigger === selected.trigger) {
           item.selected = true
@@ -52,8 +52,7 @@ export default {
       })
     },
     onKeyClick (keyItem) {
-      console.log('ONKEYCLICK')
-      console.log(keyItem)
+      store.commit('workflow/addMacroKey', { macro: this.macro, key: keyItem })
     },
     className (item) {
       let css = ['selector-btn', 'btn', 'btn-outline-secondary', 'btn-sm', 'mx-3'] // TODO - build into base styles
@@ -79,11 +78,8 @@ export default {
     keyboardRows () {
       let keys = store.getters['workflow/keys']
 
-      console.log('ROWS??')
-      console.log(keys)
-
-      this.keyboard_id = 'keyboard'
       // TODO - change this for each distinct keyboard
+      // TODO - pull this from a Vuex getter
       let keyboard = {
         r4: _.filter(keys, (k) => { return k.row === 'r4' }),
         r3: _.filter(keys, (k) => { return k.row === 'r3' }),
@@ -91,8 +87,6 @@ export default {
         r1: _.filter(keys, (k) => { return k.row === 'r1' }),
         r0: _.filter(keys, (k) => { return k.row === 'r0' })
       }
-
-      console.log(keyboard)
 
       return keyboard
     }

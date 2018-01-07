@@ -78,6 +78,21 @@ const mutations = {
       }
     }
     macroStep.position = cyclePosition(macroStep.position)
+  },
+  // addMacroKey
+  // Adds an additional key to the currently selected macro
+  addMacroKey (state, { macro, key }) {
+    let newKey = _.cloneDeep(key)
+    newKey.order = macro.value.length
+    newKey.position = KEY_PR_POSITION
+    newKey.id = _.uniqueId('macrostep_')
+    macro.value.push(newKey)
+  },
+
+  // removeMacroStep
+  // Removes an individual macro step from currently edited Macro
+  removeMacroStep (state, { macro, macroStep }) {
+    macro.value = _.filter(macro.value, (s) => { return s.id !== macroStep.id })
   }
 }
 
