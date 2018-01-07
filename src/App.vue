@@ -34,20 +34,19 @@ export default {
 }
 </script>
 
-<style type="text/css">
-  html {
-    height: 100%;
-  }
+<style lang="sass">
+  @import "./sass/vendor.sass"
 
-  body {
-    height: 100%;
-  }
+  html
+    height: 100%
 
-  .container-fluid {
-    height: 100%;
-  }
+  body
+    height: 100%
 
-  #app {
-    height: 100%;
-  }
+  .container-fluid
+    height: 100%
+
+  #app
+    height: 100%
+
 </style>

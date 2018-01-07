@@ -5,7 +5,8 @@ import Router from 'vue-router'
 import { MainHomeRoute } from './main'
 import { AuthLoginRoute, AuthRegisterRoute } from './auth'
 import { UserListRoute, UserShowRoute } from './user'
-import { DeviceShowRoute } from './device'
+import { DeviceListRoute, DeviceShowRoute } from './device'
+import { WorkflowListRoute, WorkflowShowRoute, WorkflowEditRoute } from './workflow'
 
 // Vue Router setup
 Vue.use(Router)
@@ -18,6 +19,10 @@ export default new Router({
     AuthRegisterRoute,
     UserListRoute,
     UserShowRoute,
-    DeviceShowRoute
+    DeviceListRoute,
+    DeviceShowRoute,
+    WorkflowListRoute,
+    WorkflowShowRoute,
+    WorkflowEditRoute
   ]
 })

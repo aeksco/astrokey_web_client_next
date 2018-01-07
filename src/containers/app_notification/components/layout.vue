@@ -27,12 +27,13 @@ export default {
 <!-- // // // //  -->
 
 <!-- QUESTION - SCOPED? -->
-<style>
-  .list-enter-active, .list-leave-active {
-    transition: opacity .5s;
-  }
+<style lang='sass'>
+   // @import '../../../sass/app.sass'
 
-  .list-enter, .list-leave-to {
-    opacity: 0;
-  }
+   .list-enter-active, .list-leave-active
+     transition: opacity .5s
+
+   .list-enter, .list-leave-to
+     opacity: 0
+
 </style>
