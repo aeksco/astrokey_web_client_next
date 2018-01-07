@@ -89,7 +89,7 @@
             <ul class="list-group">
               <WorkFlowItem :item="{ type: 'KEY_DOWN', label: 'Start' }" :remove="removeStep" :edit="editStep"/>
               <draggable v-model='steps' :options="sortableOptions">
-                <WorkFlowItem v-for="each in steps" :item="each" :key="each.id" :remove="removeStep" :edit="editStep"/>
+                <WorkFlowItem v-for="each in steps" :item="each" :key="each.id" :remove="removeStep" :edit="editStep" :clone="cloneStep"/>
               </draggable>
               <WorkFlowItem :item="{ type: 'FINISH', label: 'Finish' }" :remove="removeStep" :edit="editStep" />
             </ul>
@@ -139,6 +139,9 @@ export default {
   methods: {
     addStep (type) {
       store.commit('workflow/addStep', { workflow: this.workflow, step_type: type })
+    },
+    cloneStep (step) {
+      store.commit('workflow/cloneStep', { workflow: this.workflow, step: step })
     },
     removeStep (step) {
       store.commit('workflow/removeStep', { workflow: this.workflow, step: step })
