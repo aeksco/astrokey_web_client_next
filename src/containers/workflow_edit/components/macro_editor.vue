@@ -25,11 +25,6 @@
 
     </div>
 
-    <!-- Break -->
-<!--     <div class="col-lg-12">
-      <hr>
-    </div> -->
-
     <!-- Keyboard Layouts -->
     <div class="col-lg-12">
       <KeyboardSelector :macro="editing" />

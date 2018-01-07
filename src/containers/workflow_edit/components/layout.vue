@@ -9,24 +9,46 @@
       <div class="col-lg-12">
 
         <!-- Editor Card Header -->
-        <div class="row">
-          <div class="col-lg-8">
+        <div class="row mb-4">
+<!--           <div class="col-lg-8">
             <p class="card-text lead" v-if="editing">Edit Step</p>
             <p class="card-text lead" v-if="!editing">Edit Workflow</p>
-          </div>
-          <div class="col-lg-4 text-right">
-            <button class="btn btn-sm btn-outline-success mr-2" v-if="!editing"><i class="fa fa-fw fa-save"></i></button>
-            <button class="btn btn-sm btn-outline-dark" v-if="!editing"><i class="fa fa-fw fa-times"></i></button>
-
-            <!-- Step Editor Controls -->
-            <button class="btn btn-outline-light" @click="clearSelected()" v-if="editing">
+          </div> -->
+          <div class="col-lg-12" v-if="!editing">
+            <button class="btn btn-sm btn-outline-light" v-if="!editing">
               <i class="fa fa-fw fa-times mr-1"></i>
-              Cancel
+              Back
             </button>
 
-            <button class="btn btn-outline-success" @click="updateSelected(editing)" v-if="editing">
-              <i class="fa fa-fw fa-check"></i>
-              Submit
+            <button class="btn btn-sm btn-outline-success mr-2" v-if="!editing">
+              <i class="fa fa-fw fa-save mr-1"></i>
+              Save
+            </button>
+          </div>
+
+          <!-- Macro Editor Controls -->
+          <div class="col-lg-12 justify-content-center d-flex" v-if="editing">
+
+            <button class="btn btn-sm btn-outline-secondary mx-2 px-4" @click="clearSelected()">
+              <i class="fa fa-fw fa-2x mx-4 fa-angle-left"></i>
+            </button>
+
+            <button class="btn btn-sm btn-outline-success mx-2 px-4" @click="updateSelected(editing)">
+              <i class="fa fa-fw fa-2x mx-4 fa-check-circle-o"></i>
+            </button>
+
+            <!-- <button  class="btn btn-sm btn-outline-light mx-2 px-4"><i class="fa fa-fw fa-2x mx-4 fa-save"></i></button> -->
+            <!-- <button  class="btn btn-sm btn-outline-info mx-2 px-4"><i class="fa fa-fw fa-2x mx-4 fa-folder-open-o"></i></button> -->
+            <button  class="btn btn-sm btn-outline-warning mx-2 px-4" v-if="editing.type === 'MACRO'">
+              <i class="fa fa-fw fa-2x mx-4 fa-times"></i>
+            </button>
+
+            <button  class="btn btn-sm btn-outline-danger mx-2 px-4" @click="startRecording()" v-if="editing.type == 'MACRO' && !recording">
+              <i class="fa fa-fw fa-2x mx-4 fa-circle"></i>
+            </button>
+
+            <button  class="btn btn-sm btn-outline-danger mx-2 px-4" @click="stopRecording()" v-if="editing.type == 'MACRO' && recording">
+              <i class="fa fa-fw fa-2x mx-4 fa-circle-o-notch fa-spin"></i>
             </button>
 
           </div>
@@ -44,7 +66,8 @@
             <!-- TEXT Editor -->
             <div class="row" v-if="editing.type === 'TEXT'">
               <div class="col-lg-12">
-                <p class="lead">TEXT: {{ editing.value }}</p>
+                <p class="lead mb-0">TEXT: {{ editing.value }}</p>
+                <small>TODO - this should be integrated into the WorkflowItem View</small>
                 <input class="form-control" type='text' :value="editing.value" @input="editing.value = $event.target.value"></input>
               </div>
             </div>
@@ -53,7 +76,8 @@
             <!-- TODO - build DELAY Editor into WorkflowStepChild -->
             <div class="row" v-if="editing.type === 'DELAY'">
               <div class="col-lg-12">
-                <p class="lead">DELAY: {{editing.value * 10}} ms</p>
+                <p class="lead mb-0">DELAY: {{editing.value * 10}} ms</p>
+                <small>TODO - this should be integrated into the WorkflowItem View</small>
                 <input class="form-control" type='number' min="0" max="255" step="1" :value="editing.value" @input="editing.value = $event.target.value"></input>
               </div>
             </div>
@@ -130,9 +154,18 @@ export default {
     },
     cycleMacroKeyPosition (macroStep) {
       store.commit('workflow/cycleMacroStepPosition', { macroStep: macroStep })
+    },
+    startRecording () {
+      store.commit('workflow/startRecording')
+    },
+    stopRecording () {
+      store.commit('workflow/stopRecording')
     }
   },
   computed: {
+    recording () {
+      return store.getters['workflow/recording']
+    },
     sortableOptions () {
       return {
         draggable: '.draggable',
