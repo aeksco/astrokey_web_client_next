@@ -1,6 +1,6 @@
 
 <template>
-  <li :class="className(hovered)" @mouseover="hovered = true" @mouseout="hovered = false">
+  <li :class="className(hovered, dragging, dragstart)" @drag="hovered = false" @drop="dragging = false" @mouseover="hovered = true" @mouseout="hovered = false">
 
     <div class="key d-flex">
       <div class="inner content">
@@ -39,7 +39,9 @@ export default {
   props: ['item', 'macro'],
   data () {
     return {
-      hovered: false
+      hovered: false,
+      dragging: false,
+      dragstart: false
     }
   },
   methods: {
@@ -49,9 +51,11 @@ export default {
     removeMacroStep () {
       store.commit('workflow/removeMacroStep', { macro: this.macro, macroStep: this.item })
     },
-    className (hover) {
+    className (hover, drag, dragstart) {
       let css = 'macro-step flex-column justify-content-center align-items-center my-2'
-      if (hover) { css = css + ' hovered' }
+      // if (hover) { css = css + ' hovered' }
+      // if (dragstart) { css = css + ' drag-start hovered' }
+      // if (drag) { css = ' hovered' }
       return css
     }
   }
@@ -110,6 +114,7 @@ export default {
 
         .inner.content
           display: none
+
         .inner.hover
           display: flex
           color: lighten(theme-color('danger'), 25%)
@@ -131,6 +136,6 @@ export default {
         border-width: .3rem
         border-color: #f3f3f3
         border-style: dashed
-        color: theme-color('warning')
+        color: theme-color('warning') !important
 
 </style>
