@@ -16,7 +16,7 @@
 
     <!-- Keyboard Layouts -->
     <div class="col-lg-12">
-      <hr>
+      <KeyboardSelector/>
     </div>
 
   </div>
@@ -27,13 +27,15 @@
 <script>
 import store from '@/store'
 import MacroStep from './macro_step'
+import KeyboardSelector from './keyboard_selector'
 import draggable from 'vuedraggable'
 
 export default {
   props: ['editing'],
   components: {
     draggable,
-    MacroStep
+    MacroStep,
+    KeyboardSelector
   },
   methods: {
     cycleMacroKeyPosition (macroStep) {
