@@ -11,6 +11,9 @@ const getters = {
   fetching: state => {
     return state.fetching
   },
+  recording: state => {
+    return state.recording
+  },
   selectedStep: state => {
     return state.selectedStep
   },

@@ -4,20 +4,16 @@
     .col-lg-12
 
       //- Select Keyboard
-      .row.justify-content-center
+      .row.justify-content-center.mt-4
         .col-lg-8.d-flex.justify-content-center
           button( :class="className(nav)" @click="onClick(nav)" v-for="nav in navItems" :key="nav.order" :item="nav") {{ nav.text }}
 
-      .row
-        .col-lg-12
-          hr
-
       //- Display Selected Keyboard
-      .row.d-flex.justify-content-center
+      .row.d-flex.justify-content-center.mt-4
 
         .col-lg-8(v-if=" keyboard_id === 'keyboard' ")
 
-          ul.list-unstyled.mb-0.keyboard--row.w-100( v-for="(keys, row) in keyboardRows" :key="row" )
+          ul.list-unstyled.mb-0.keyboard--row.w-100( v-for="(keys, row) in keyboardRows(keyboard_id)" :key="row" )
 
             li.btn.btn-outline-light.keyboard--key( :class="keyItem.css" @click="onKeyClick(keyItem)" v-for="keyItem in keys" :key="keyItem.keycode")
               i.fa.fa-fw( :class="keyItem.icon" v-if="!!keyItem.icon" )
@@ -33,18 +29,30 @@
 </template>
 
 <script>
-import store from '@/store'
 import _ from 'lodash'
+import store from '@/store'
 
 export default {
   props: ['macro'],
+  data () {
+    let navItems = [
+      { icon: 'fa-keyboard-o', text: 'Keyboard', trigger: 'keyboard', selected: true },
+      { icon: 'fa-file-text-o', text: 'Numpad', trigger: 'numpad' },
+      { icon: 'fa-caret-square-o-up', text: 'Function', trigger: 'function' },
+      { icon: 'fa-asterisk', text: 'Media', trigger: 'media' },
+      { icon: 'fa-asterisk', text: 'Navigation', trigger: 'nav' },
+      { icon: 'fa-universal-access', text: 'Unicode', trigger: 'unicode' }
+    ]
+
+    return { navItems: navItems, keyboard_id: 'keyboard' }
+  },
   methods: {
     onClick (selected) {
       // Selects the clicked navItem
       this.navItems = _.map(this.navItems, (item) => {
         if (item.trigger === selected.trigger) {
           item.selected = true
-          this.keyboard_id = item.trigger
+          this._data.keyboard_id = item.trigger
         } else {
           item.selected = false
         }
@@ -58,37 +66,66 @@ export default {
       let css = ['selector-btn', 'btn', 'btn-outline-secondary', 'btn-sm', 'mx-3'] // TODO - build into base styles
       if (item.selected) { css.push('active') }
       return css.join(' ')
-    }
-  },
-  data () {
-    let keyboard_id = 'keyboard'
-
-    let navItems = [
-      { icon: 'fa-keyboard-o', text: 'Keyboard', trigger: 'keyboard', selected: true },
-      { icon: 'fa-file-text-o', text: 'Numpad', trigger: 'numpad' },
-      { icon: 'fa-caret-square-o-up', text: 'Function', trigger: 'function' },
-      { icon: 'fa-asterisk', text: 'Media', trigger: 'media' },
-      { icon: 'fa-asterisk', text: 'Navigation', trigger: 'nav' },
-      { icon: 'fa-universal-access', text: 'Unicode', trigger: 'unicode' }
-    ]
-
-    return { navItems: navItems, keyboard_id: keyboard_id }
-  },
-  computed: {
-    keyboardRows () {
+    },
+    keyboardRows (keyboard_id) {
       let keys = store.getters['workflow/keys']
 
       // TODO - change this for each distinct keyboard
       // TODO - pull this from a Vuex getter
-      let keyboard = {
-        r4: _.filter(keys, (k) => { return k.row === 'r4' }),
-        r3: _.filter(keys, (k) => { return k.row === 'r3' }),
-        r2: _.filter(keys, (k) => { return k.row === 'r2' }),
-        r1: _.filter(keys, (k) => { return k.row === 'r1' }),
-        r0: _.filter(keys, (k) => { return k.row === 'r0' })
+      if (keyboard_id === 'keyboard') {
+        return {
+          r4: _.filter(keys, (k) => { return k.row === 'r4' }),
+          r3: _.filter(keys, (k) => { return k.row === 'r3' }),
+          r2: _.filter(keys, (k) => { return k.row === 'r2' }),
+          r1: _.filter(keys, (k) => { return k.row === 'r1' }),
+          r0: _.filter(keys, (k) => { return k.row === 'r0' })
+        }
       }
 
-      return keyboard
+      // Numpad
+      if (keyboard_id === 'numpad') {
+        return {
+          r0: _.filter(keys, (k) => { return k.row === 'num_r0' }),
+          r1: _.filter(keys, (k) => { return k.row === 'num_r1' }),
+          r2: _.filter(keys, (k) => { return k.row === 'num_r2' }),
+          r3: _.filter(keys, (k) => { return k.row === 'num_r3' }),
+          r4: _.filter(keys, (k) => { return k.row === 'num_r4' }),
+          col: _.filter(keys, (k) => { return k.row === 'num_col' })
+        }
+      }
+
+      // function
+      if (keyboard_id === 'function') {
+        return {
+          r4: _.filter(keys, (k) => { return k.row === 'r4' }),
+          r3: _.filter(keys, (k) => { return k.row === 'r3' }),
+          r2: _.filter(keys, (k) => { return k.row === 'r2' }),
+          r1: _.filter(keys, (k) => { return k.row === 'r1' }),
+          r0: _.filter(keys, (k) => { return k.row === 'r0' })
+        }
+      }
+
+      // nav
+      if (keyboard_id === 'nav') {
+        return {
+          r4: _.filter(keys, (k) => { return k.row === 'r4' }),
+          r3: _.filter(keys, (k) => { return k.row === 'r3' }),
+          r2: _.filter(keys, (k) => { return k.row === 'r2' }),
+          r1: _.filter(keys, (k) => { return k.row === 'r1' }),
+          r0: _.filter(keys, (k) => { return k.row === 'r0' })
+        }
+      }
+
+      // unicode
+      if (keyboard_id === 'unicode') {
+        return {
+          r4: _.filter(keys, (k) => { return k.row === 'r4' }),
+          r3: _.filter(keys, (k) => { return k.row === 'r3' }),
+          r2: _.filter(keys, (k) => { return k.row === 'r2' }),
+          r1: _.filter(keys, (k) => { return k.row === 'r1' }),
+          r0: _.filter(keys, (k) => { return k.row === 'r0' })
+        }
+      }
     }
   }
 }
