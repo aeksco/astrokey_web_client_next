@@ -16,13 +16,13 @@
     </div>
 
     <div class="position mt-2">
-      <span class="fa-stack fa-lg" @click="cycleMacroKeyPosition(item)">
+      <span :id='item.id' :class="positionCss()" @click="cycleMacroKeyPosition(item)" v-b-tooltip.hover.bottom.html="positionTooltip">
         <i class="fa fa-circle-thin fa-stack-2x"></i>
         <i class="fa fa-stack-1x fa-stack">
           <i class="fa fa-circle-thin fa-stack-2x fa-2x"></i>
-          <i class="fa fa-stack-1x fa-long-arrow-down text-warning" v-if="item.position === 1"></i>
-          <i class="fa fa-stack-1x fa-long-arrow-up text-info" v-if="item.position === 2"></i>
-          <i class="fa fa-stack-1x fa-arrows-v text-success" v-if="item.position === 3"></i>
+          <i class="fa fa-stack-1x fa-long-arrow-down" v-if="item.position === 1"></i>
+          <i class="fa fa-stack-1x fa-long-arrow-up" v-if="item.position === 2"></i>
+          <i class="fa fa-stack-1x fa-arrows-v" v-if="item.position === 3"></i>
         </i>
       </span>
     </div>
@@ -46,17 +46,38 @@ export default {
   },
   methods: {
     cycleMacroKeyPosition (macroStep) {
+      // Hides the tooltip
+      this.$root.$emit('bv::hide::tooltip')
+
+      // Changes MacroStep.position
       store.commit('workflow/cycleMacroStepPosition', { macroStep: macroStep })
+
+      // Shows the updated tooltip
+      this.$root.$emit('bv::show::tooltip', this.item.id)
     },
     removeMacroStep () {
       store.commit('workflow/removeMacroStep', { macro: this.macro, macroStep: this.item })
     },
     className (hover, drag, dragstart) {
       let css = 'macro-step flex-column justify-content-center align-items-center my-2'
-      // if (hover) { css = css + ' hovered' }
+      if (hover) { css = css + ' hovered' }
       // if (dragstart) { css = css + ' drag-start hovered' }
       // if (drag) { css = ' hovered' }
       return css
+    },
+    positionCss () {
+      let css = 'fa-stack fa-lg'
+      if (this.item.position === 1) css += ' text-warning'
+      if (this.item.position === 2) css += ' text-info'
+      if (this.item.position === 3) css += ' text-success'
+      return css
+    },
+    positionTooltip () {
+      let tooltip = ''
+      if (this.item.position === 1) tooltip = 'Key Down'
+      if (this.item.position === 2) tooltip = 'Key Up'
+      if (this.item.position === 3) tooltip = 'Key Press'
+      return tooltip
     }
   }
 }

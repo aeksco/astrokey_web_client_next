@@ -6,7 +6,7 @@
       <div class="col-lg-1 text-left d-flex align-items-center">
         <i class="fa fa-lg fa-fw fa-bars mr-3" v-if="item.icon"></i>
 
-        <i class="fa fa-lg fa-fw fa-chevron-down mr-3" v-if="item.type === 'KEY_DOWN'"></i>
+        <i class="fa fa-lg fa-fw fa-play mr-3" v-if="item.type === 'KEY_DOWN'"></i>
         <i class="fa fa-lg fa-fw fa-chevron-up mr-3" v-if="item.type === 'KEY_UP'"></i>
         <i class="fa fa-lg fa-fw fa-flag-checkered mr-3" v-if="item.type === 'FINISH'"></i>
         <i :class="'fa fa-fw'" v-if="item.icon"></i>
@@ -43,7 +43,9 @@
           </span>
 
           <span class="d-flex align-items-center" v-for="m, i in item.value" v-bind:key="m.id">
-            <span class="badge badge-secondary">{{m.key}}</span>
+            <span class="badge bordered border-warning" v-if='m.position === 1'>{{m.key}}</span>
+            <span class="badge bordered border-info" v-if='m.position === 2'>{{m.key}}</span>
+            <span class="badge bordered border-success" v-if='m.position === 3'>{{m.key}}</span>
             <i class="fa fa-fw fa-plus mx-1" v-if="i < item.value.length - 1"></i>
           </span>
         </span>
@@ -51,8 +53,17 @@
       </div>
 
       <div class="col-lg-3 text-right controls" v-if="item.icon">
-        <button class="btn btn-sm btn-outline-danger" @click="remove(item)"><i class="fa fa-fw fa-trash"></i></button>
-        <button class="btn btn-sm btn-outline-secondary" @click="edit(item)"><i class="fa fa-fw fa-pencil"></i></button>
+        <button class="btn btn-sm btn-outline-secondary" v-b-tooltip.hover.top title="Clone" @click="clone(item)">
+          <i class="fa fa-fw fa-clone"></i>
+        </button>
+
+        <button class="btn btn-sm btn-outline-secondary" v-b-tooltip.hover.top title="Edit" @click="edit(item)">
+          <i class="fa fa-fw fa-pencil"></i>
+        </button>
+
+        <button class="btn btn-sm btn-outline-danger" v-b-tooltip.hover.top title="Remove" @click="remove(item)">
+          <i class="fa fa-fw fa-trash"></i>
+        </button>
       </div>
 
     </div>
@@ -63,7 +74,7 @@
 
 <script>
 export default {
-  props: ['item', 'remove', 'edit'],
+  props: ['item', 'remove', 'edit', 'clone'],
   computed: {
     className () {
       let css = ['list-group-item']
@@ -79,8 +90,7 @@ export default {
       } else if (this.item.type === 'FINISH') {
         css.push('list-group-item-dark')
       } else {
-        css.push('list-group-item-light')
-        // css.push('bg-dark text-light')
+        css.push('bg-dark text-light')
         css.push('draggable')
       }
 
@@ -111,6 +121,9 @@ export default {
   .badge
     font-weight: 300
     padding: .3rem .3rem
+
+    &.bordered
+      border: 1px solid
 
   .controls
     transition: opacity .25s ease-in
