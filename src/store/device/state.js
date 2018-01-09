@@ -3,7 +3,9 @@
 const state = {
   collection: [],
   current: {},
-  fetching: false
+  fetching: false,
+  selectedDevice: null,
+  selectedKey: null
 }
 
 export default state

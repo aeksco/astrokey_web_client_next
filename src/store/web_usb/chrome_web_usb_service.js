@@ -71,6 +71,11 @@ class ChromeWebUsbService {
   // addDevice
   // Adds a device to this.devices
   addDevice (usbDeviceInstance) {
+    // TODO - SERIOUS
+    // Devices must maintain a unique attribute that can be
+    // reliably used to single out a specific device
+    console.log(usbDeviceInstance)
+
     // Fetches an existing device by serialNumber,
     // or creates a new abstract representation of a device
     let device = this.getDevice(usbDeviceInstance)

@@ -1,6 +1,6 @@
 
 <template>
-  <LayoutView :device="device" v-if="!!device" />
+  <LayoutView :device="device" v-if="device" />
 </template>
 
 <!-- // // // //  -->
@@ -15,20 +15,19 @@ export default {
     LayoutView
   },
   metaInfo: {
-    title: 'Device - Show' // title is now "AstroKey - Device - Show"
+    title: 'Device - Interface' // title is now "AstroKey - Device - Interface"
   },
   props: ['id'],
-  // created () {
-  //   this.fetch()
-  // },
-  // methods: {
-  //   fetch () {
-  //     return store.dispatch('web_usb/getDevices')
-  //   }
-  // },
+  mounted () {
+    // NOTE: eases delays that occur while developing this page as a standalone
+    setTimeout(() => {
+      let device = _.find(store.getters['device/collection'], { serialNumber: this.id })
+      store.commit('device/selectedDevice', { device })
+    }, 200)
+  },
   computed: {
     device () {
-      return _.find(store.getters['device/collection'], { serialNumber: this.id })
+      return store.getters['device/selectedDevice']
     }
   }
 }
