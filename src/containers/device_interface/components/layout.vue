@@ -137,16 +137,19 @@ export default {
     closeDevice: (device) => {
       return store.dispatch('device/disconnect', { device: device })
     },
-    writeSelectedKey: () => {
+    writeSelectedKey () {
+      // TODO - must of this should be managed in the Vuex store
       // Isolate order and workflow variables
       let order = store.getters['device/selectedKey'].order
       let workflow = store.getters['workflow/collection'][0]
-      // return store.getters['device/writeSelectedWorkflow']
 
       store.dispatch('workflow/serialize', { workflow }).then((workflowPacket) => {
-        console.log('WRITE SELECTED KEY')
-        console.log(order)
-        console.log(workflowPacket)
+        // console.log('WRITE SELECTED KEY')
+        // console.log(order)
+        // console.log(workflowPacket)
+        // console.log(this.device)
+        if (!this.device.opened) return
+        return store.dispatch('web_usb/writeMacro', { device: this.device.instance, key: order, data: workflowPacket })
       })
     },
     clearSelectedKey: () => {
@@ -168,6 +171,8 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+
+// TODO - move <MOST> if not all of this into the DeviceMockup component
 @import '../../../sass/vendor.sass'
 
 // AstroKey Selector Styles

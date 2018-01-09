@@ -103,10 +103,10 @@
 
           <!-- Workflow Editor Controls -->
           <div class="btn-group w-100" v-if="!editing">
-            <button class="btn btn-outline-light w-25" @click="addStep('TEXT')">TEXT</button>
-            <button class="btn btn-outline-light w-25" @click="addStep('MACRO')">MACRO</button>
-            <button class="btn btn-outline-light w-25" @click="addStep('DELAY')">DELAY</button>
-            <button class="btn btn-outline-light w-25" @click="addStep('KEY')">KEY</button>
+            <!-- <button class="btn btn-outline-light w-25" @click="addStep('TEXT')">TEXT</button> -->
+            <button class="btn btn-outline-light w-50" @click="addStep('MACRO')">MACRO</button>
+            <button class="btn btn-outline-light w-50" @click="addStep('DELAY')">DELAY</button>
+            <!-- <button class="btn btn-outline-light w-25" @click="addStep('KEY')">KEY</button> -->
           </div>
 
         </div>
