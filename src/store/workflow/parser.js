@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { KEYS } from './keys'
-import { WORKFLOW_STEP_DELAY, WORKFLOW_STEP_MACRO, WORKFLOW_STEP_KEYUP } from './constants'
+import { WORKFLOW_STEP_DELAY, WORKFLOW_STEP_MACRO, WORKFLOW_STEP_KEYUP, WORKFLOW_STEP_TEXT } from './constants'
 
 // // // //
 
@@ -129,9 +129,11 @@ class WorkflowParser {
         return
       }
 
-      // if (step.type === WORKFLOW_STEP_TEXT) {
-      //   data = _.concat(data, this.serializeText(step.value))
-      // }
+      if (step.type === WORKFLOW_STEP_TEXT) {
+        data.push(254) // TODO - Constantize as TEXT_START indicator
+        data.push(0) // ARBITRARY
+        data = _.concat(data, this.serializeText(step.value))
+      }
 
       if (step.type === WORKFLOW_STEP_MACRO) {
         data = _.concat(data, this.serializeKeys(step.value))
