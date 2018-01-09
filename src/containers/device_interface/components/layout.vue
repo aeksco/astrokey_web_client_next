@@ -121,7 +121,11 @@ export default {
         }
         return k
       })
-      store.commit('device/selectedKey', { key })
+
+      store.dispatch('web_usb/readMacro', { device: this.device.instance, key: key.order }).then((data) => {
+        store.dispatch('workflow/parse', { data: data })
+        store.commit('device/selectedKey', { key })
+      })
     },
     className (key) {
       let css = 'btn btn-outline-light key--child d-flex justify-content-center align-items-center mx-2 my-2'
