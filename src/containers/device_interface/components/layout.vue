@@ -2,7 +2,7 @@
 <template>
   <div class="container">
     <a href="/#/devices">Back</a>
-    <h2>Device Show</h2>
+    <h2>Device Interface</h2>
   	<hr>
 
     <div class="row">
