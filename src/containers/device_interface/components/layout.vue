@@ -66,12 +66,12 @@
             <p class="lead" v-if="selectedKey">Key {{ selectedKey.order }}</p>
           </div>
           <div class="col-lg-6">
-            <button class="btn btn-sm btn-outline-light" v-if="!selectedStep">
+            <button class="btn btn-sm btn-outline-light" v-if="!selectedStep" @click="clearSelectedKey">
               <i class="fa fa-fw fa-times mr-1"></i>
               Back
             </button>
 
-            <button class="btn btn-sm btn-outline-success mr-2" v-if="!selectedStep">
+            <button class="btn btn-sm btn-outline-success mr-2" v-if="!selectedStep" @click="writeSelectedKey">
               <i class="fa fa-fw fa-save mr-1"></i>
               Save
             </button>
@@ -136,6 +136,21 @@ export default {
     },
     closeDevice: (device) => {
       return store.dispatch('device/disconnect', { device: device })
+    },
+    writeSelectedKey: () => {
+      // Isolate order and workflow variables
+      let order = store.getters['device/selectedKey'].order
+      let workflow = store.getters['workflow/collection'][0]
+      // return store.getters['device/writeSelectedWorkflow']
+
+      store.dispatch('workflow/serialize', { workflow }).then((workflowPacket) => {
+        console.log('WRITE SELECTED KEY')
+        console.log(order)
+        console.log(workflowPacket)
+      })
+    },
+    clearSelectedKey: () => {
+      return store.commit('device/clearSelectedKey', { device: this.device })
     }
   },
   computed: {

@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { KEYS } from './keys'
+import { WORKFLOW_STEP_DELAY, WORKFLOW_STEP_MACRO, WORKFLOW_STEP_KEYUP } from './constants'
 
 // // // //
 
@@ -113,22 +114,26 @@ class WorkflowParser {
   // serializes a workflow from the database-level abstraction into a data buffer to be sent to a device
   serialize (workflow) {
     let data = []
-
-    // TODO - CONSTANTIZE 'delay', 'text', etc.
     _.each(workflow.steps, (step) => {
       // console.log(step)
 
-      if (step.type === 'delay') {
+      if (step.type === WORKFLOW_STEP_DELAY) {
         data.push(16) // TODO - CONSTANTIZE AS DELAY INDICATOR
         data.push(step.value) // 1 - 255 (i.e. 5 = 5 x 100ms = 500ms)
         return
       }
 
-      if (step.type === 'text') {
-        data = _.concat(data, this.serializeText(step.value))
+      if (step.type === WORKFLOW_STEP_KEYUP) {
+        data.push(255) // TODO - CONSTANTIZE as KEY_UP indicator
+        data.push(0) // ARBITRARY
+        return
       }
 
-      if (step.type === 'macro') {
+      // if (step.type === WORKFLOW_STEP_TEXT) {
+      //   data = _.concat(data, this.serializeText(step.value))
+      // }
+
+      if (step.type === WORKFLOW_STEP_MACRO) {
         data = _.concat(data, this.serializeKeys(step.value))
       }
     })

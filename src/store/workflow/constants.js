@@ -37,3 +37,10 @@ export const KEY_WORKFLOW_STEP = {
 export const KEY_DN_POSITION = 1
 export const KEY_UP_POSITION = 2
 export const KEY_PR_POSITION = 3
+
+// WorkflowStep Tyoe Constants
+export const WORKFLOW_STEP_DELAY = 'DELAY'
+export const WORKFLOW_STEP_TEXT = 'TEXT'
+export const WORKFLOW_STEP_KEY = 'KEY'
+export const WORKFLOW_STEP_MACRO = 'MACRO'
+export const WORKFLOW_STEP_KEYUP = 'KEY_UP'
