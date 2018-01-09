@@ -1,6 +1,6 @@
 
 <template>
-  <div class="container">
+  <div class="container-fluid">
 
     <!-- Interface Header -->
     <div class="row d-flex align-items-center">
@@ -36,9 +36,11 @@
       </div>
     </div>
 
-
+    <!-- Interface Body -->
     <div class="row">
-      <div class="col-lg-6">
+
+      <!-- Device Mockup -->
+      <div class="col-lg-4 d-flex justify-content-center">
 
         <div class="row">
           <div class="px-3 py-3 d-flex align-items-center">
@@ -56,12 +58,27 @@
 
       </div>
 
-      <div class="col-lg-6" v-if="!selectedKey">
-        <p class="lead">No Key Selected</p>
-      </div>
+      <!-- Selected Key UI -->
+      <!-- No Key Selected message -->
+      <div class="col-lg-8 selected-key-detail">
+        <div class="row">
+          <div class="col-lg-6">
+            <p class="lead" v-if="selectedKey">Key {{ selectedKey.order }}</p>
+          </div>
+          <div class="col-lg-6">
+            <button class="btn btn-sm btn-outline-light" v-if="!selectedStep">
+              <i class="fa fa-fw fa-times mr-1"></i>
+              Back
+            </button>
 
-      <div class="col-lg-6" v-if="selectedKey">
-        <p class="lead">{{ selectedKey.order }} Selected</p>
+            <button class="btn btn-sm btn-outline-success mr-2" v-if="!selectedStep">
+              <i class="fa fa-fw fa-save mr-1"></i>
+              Save
+            </button>
+          </div>
+        </div>
+        <WorkflowEditor :workflow="workflow" v-if="selectedKey" />
+        <p class="lead" v-if="!selectedKey">No Key Selected</p>
       </div>
 
     </div>
@@ -74,9 +91,13 @@
 <script>
 import _ from 'lodash'
 import store from '@/store'
+import WorkflowEditor from '../../workflow_edit/components/layout.vue'
 
 export default {
   props: ['device'],
+  components: {
+    WorkflowEditor
+  },
   created () {
     this.keys = [
       { id: 'device_1_key_1', order: '0x0000', selected: false, config: { type: 'macro', macros: [] } },
@@ -91,8 +112,7 @@ export default {
   },
   methods: {
     onKeyClick (key) {
-      // key.selected = true
-      // TODO - should be managed in store
+      // TODO - keys should be managed in store
       this.keys = _.map(this.keys, (k) => {
         if (k.id === key.id) {
           k.selected = true
@@ -101,7 +121,6 @@ export default {
         }
         return k
       })
-
       store.commit('device/selectedKey', { key })
     },
     className (key) {
@@ -122,6 +141,12 @@ export default {
   computed: {
     selectedKey () {
       return store.getters['device/selectedKey']
+    },
+    workflow () {
+      return store.getters['workflow/collection'][0] // TODO - remove
+    },
+    selectedStep () {
+      return store.getters['workflow/selectedStep']
     }
   }
 }
@@ -132,6 +157,9 @@ export default {
 
 // AstroKey Selector Styles
 $astrokey_child_size: 3rem
+
+.selected-key-detail
+  border-left: 1px solid theme-color('light')
 
 .key-selector-wrapper
   height: 100%

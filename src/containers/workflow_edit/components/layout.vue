@@ -1,123 +1,120 @@
 
 <template>
-  <div class="container">
-    <h2>{{workflow.label}}</h2>
+  <!-- <div class="container"> -->
+  <!-- <h2>{{workflow.label}}</h2> -->
+  <!-- <hr> -->
 
-    <hr>
+  <div class="row">
+    <div class="col-lg-12">
 
-    <div class="row">
-      <div class="col-lg-12">
+      <!-- Editor Card Header -->
+      <div class="row mb-4">
+        <!-- <p class="card-text lead" v-if="editing">Edit Step</p> -->
+        <!-- <p class="card-text lead" v-if="!editing">Edit Workflow</p> -->
 
-        <!-- Editor Card Header -->
-        <div class="row mb-4">
-<!--           <div class="col-lg-8">
-            <p class="card-text lead" v-if="editing">Edit Step</p>
-            <p class="card-text lead" v-if="!editing">Edit Workflow</p>
-          </div> -->
-          <div class="col-lg-12" v-if="!editing">
-            <button class="btn btn-sm btn-outline-light" v-if="!editing">
-              <i class="fa fa-fw fa-times mr-1"></i>
-              Back
-            </button>
+        <!-- <div class="col-lg-12" v-if="!editing"> -->
+          <!-- <button class="btn btn-sm btn-outline-light" v-if="!editing"> -->
+            <!-- <i class="fa fa-fw fa-times mr-1"></i> -->
+            <!-- Back -->
+          <!-- </button> -->
 
-            <button class="btn btn-sm btn-outline-success mr-2" v-if="!editing">
-              <i class="fa fa-fw fa-save mr-1"></i>
-              Save
-            </button>
-          </div>
+          <!-- <button class="btn btn-sm btn-outline-success mr-2" v-if="!editing"> -->
+            <!-- <i class="fa fa-fw fa-save mr-1"></i> -->
+            <!-- Save -->
+          <!-- </button> -->
+        <!-- </div> -->
 
-          <!-- Macro Editor Controls -->
-          <div class="col-lg-12 justify-content-center d-flex" v-if="editing">
+        <!-- Macro Editor Controls -->
+        <div class="col-lg-12 justify-content-center d-flex" v-if="editing">
 
-            <button class="btn btn-sm btn-outline-secondary mx-2 px-4" @click="clearSelected()">
-              <i class="fa fa-fw fa-2x mx-4 fa-angle-left"></i>
-            </button>
+          <button class="btn btn-sm btn-outline-secondary mx-2 px-4" @click="clearSelected()">
+            <i class="fa fa-fw fa-2x mx-4 fa-angle-left"></i>
+          </button>
 
-            <button class="btn btn-sm btn-outline-success mx-2 px-4" @click="updateSelected(editing)">
-              <i class="fa fa-fw fa-2x mx-4 fa-check-circle-o"></i>
-            </button>
+          <button class="btn btn-sm btn-outline-success mx-2 px-4" @click="updateSelected(editing)">
+            <i class="fa fa-fw fa-2x mx-4 fa-check-circle-o"></i>
+          </button>
 
-            <!-- <button  class="btn btn-sm btn-outline-light mx-2 px-4"><i class="fa fa-fw fa-2x mx-4 fa-save"></i></button> -->
-            <!-- <button  class="btn btn-sm btn-outline-info mx-2 px-4"><i class="fa fa-fw fa-2x mx-4 fa-folder-open-o"></i></button> -->
-            <button  class="btn btn-sm btn-outline-warning mx-2 px-4" v-if="editing.type === 'MACRO'">
-              <i class="fa fa-fw fa-2x mx-4 fa-times"></i>
-            </button>
+          <!-- <button  class="btn btn-sm btn-outline-light mx-2 px-4"><i class="fa fa-fw fa-2x mx-4 fa-save"></i></button> -->
+          <!-- <button  class="btn btn-sm btn-outline-info mx-2 px-4"><i class="fa fa-fw fa-2x mx-4 fa-folder-open-o"></i></button> -->
+          <button  class="btn btn-sm btn-outline-warning mx-2 px-4" v-if="editing.type === 'MACRO'">
+            <i class="fa fa-fw fa-2x mx-4 fa-times"></i>
+          </button>
 
-            <button  class="btn btn-sm btn-outline-danger mx-2 px-4" @click="startRecording()" v-if="editing.type == 'MACRO' && !recording">
-              <i class="fa fa-fw fa-2x mx-4 fa-circle"></i>
-            </button>
+          <button  class="btn btn-sm btn-outline-danger mx-2 px-4" @click="startRecording()" v-if="editing.type == 'MACRO' && !recording">
+            <i class="fa fa-fw fa-2x mx-4 fa-circle"></i>
+          </button>
 
-            <button  class="btn btn-sm btn-outline-danger mx-2 px-4" @click="stopRecording()" v-if="editing.type == 'MACRO' && recording">
-              <i class="fa fa-fw fa-2x mx-4 fa-circle-o-notch fa-spin"></i>
-            </button>
+          <button  class="btn btn-sm btn-outline-danger mx-2 px-4" @click="stopRecording()" v-if="editing.type == 'MACRO' && recording">
+            <i class="fa fa-fw fa-2x mx-4 fa-circle-o-notch fa-spin"></i>
+          </button>
 
-          </div>
         </div>
-
-        <!-- Editor Card Body -->
-        <div class="row">
-
-          <!-- Workflow Step Editor -->
-          <div class="col-lg-12" v-if="editing">
-
-            <!-- MACRO Editor -->
-            <MacroEditor :editing="editing" v-if="editing.type === 'MACRO'"/>
-
-            <!-- TEXT Editor -->
-            <div class="row" v-if="editing.type === 'TEXT'">
-              <div class="col-lg-12">
-                <p class="lead mb-0">TEXT: {{ editing.value }}</p>
-                <small>TODO - this should be integrated into the WorkflowItem View</small>
-                <input class="form-control" type='text' :value="editing.value" @input="editing.value = $event.target.value"></input>
-              </div>
-            </div>
-
-            <!-- DELAY Editor -->
-            <!-- TODO - build DELAY Editor into WorkflowStepChild -->
-            <div class="row" v-if="editing.type === 'DELAY'">
-              <div class="col-lg-12">
-                <p class="lead mb-0">DELAY: {{editing.value * 10}} ms</p>
-                <small>TODO - this should be integrated into the WorkflowItem View</small>
-                <input class="form-control" type='number' min="0" max="255" step="1" :value="editing.value" @input="editing.value = $event.target.value"></input>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Workflow Editor -->
-          <div class="col-lg-12" v-if="!editing">
-            <ul class="list-group">
-              <WorkFlowItem :item="{ type: 'KEY_DOWN', label: 'Start' }" :remove="removeStep" :edit="editStep"/>
-              <draggable v-model='steps' :options="sortableOptions">
-                <WorkFlowItem v-for="each in steps" :item="each" :key="each.id" :remove="removeStep" :edit="editStep" :clone="cloneStep"/>
-              </draggable>
-              <WorkFlowItem :item="{ type: 'FINISH', label: 'Finish' }" :remove="removeStep" :edit="editStep" />
-            </ul>
-          </div>
-
-          <!-- HR Break -->
-          <div class="col-lg-12 mt-2" v-if="!editing">
-            <hr>
-          </div>
-
-          <!-- Editor Card Footer -->
-          <div class="col-lg-12 mt-2">
-
-            <!-- Workflow Editor Controls -->
-            <div class="btn-group w-100" v-if="!editing">
-              <button class="btn btn-outline-light w-25" @click="addStep('TEXT')">TEXT</button>
-              <button class="btn btn-outline-light w-25" @click="addStep('MACRO')">MACRO</button>
-              <button class="btn btn-outline-light w-25" @click="addStep('DELAY')">DELAY</button>
-              <button class="btn btn-outline-light w-25" @click="addStep('KEY')">KEY</button>
-            </div>
-
-          </div>
-        </div>
-
       </div>
-    </div>
 
+      <!-- Editor Card Body -->
+      <div class="row">
+
+        <!-- Workflow Step Editor -->
+        <div class="col-lg-12" v-if="editing">
+
+          <!-- MACRO Editor -->
+          <MacroEditor :editing="editing" v-if="editing.type === 'MACRO'"/>
+
+          <!-- TEXT Editor -->
+          <div class="row" v-if="editing.type === 'TEXT'">
+            <div class="col-lg-12">
+              <p class="lead mb-0">TEXT: {{ editing.value }}</p>
+              <small>TODO - this should be integrated into the WorkflowItem View</small>
+              <input class="form-control" type='text' :value="editing.value" @input="editing.value = $event.target.value"></input>
+            </div>
+          </div>
+
+          <!-- DELAY Editor -->
+          <!-- TODO - build DELAY Editor into WorkflowStepChild -->
+          <div class="row" v-if="editing.type === 'DELAY'">
+            <div class="col-lg-12">
+              <p class="lead mb-0">DELAY: {{editing.value * 10}} ms</p>
+              <small>TODO - this should be integrated into the WorkflowItem View</small>
+              <input class="form-control" type='number' min="0" max="255" step="1" :value="editing.value" @input="editing.value = $event.target.value"></input>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Workflow Editor -->
+        <div class="col-lg-12" v-if="!editing">
+          <ul class="list-group">
+            <WorkFlowItem :item="{ type: 'KEY_DOWN', label: 'Start' }" :remove="removeStep" :edit="editStep"/>
+            <draggable v-model='steps' :options="sortableOptions">
+              <WorkFlowItem v-for="each in steps" :item="each" :key="each.id" :remove="removeStep" :edit="editStep" :clone="cloneStep"/>
+            </draggable>
+            <WorkFlowItem :item="{ type: 'FINISH', label: 'Finish' }" :remove="removeStep" :edit="editStep" />
+          </ul>
+        </div>
+
+        <!-- HR Break -->
+        <div class="col-lg-12 mt-2" v-if="!editing">
+          <hr>
+        </div>
+
+        <!-- Editor Card Footer -->
+        <div class="col-lg-12 mt-2">
+
+          <!-- Workflow Editor Controls -->
+          <div class="btn-group w-100" v-if="!editing">
+            <button class="btn btn-outline-light w-25" @click="addStep('TEXT')">TEXT</button>
+            <button class="btn btn-outline-light w-25" @click="addStep('MACRO')">MACRO</button>
+            <button class="btn btn-outline-light w-25" @click="addStep('DELAY')">DELAY</button>
+            <button class="btn btn-outline-light w-25" @click="addStep('KEY')">KEY</button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
   </div>
+
 </template>
 
 <!-- // // // //  -->
