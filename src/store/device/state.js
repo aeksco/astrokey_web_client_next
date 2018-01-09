@@ -5,7 +5,8 @@ const state = {
   current: {},
   fetching: false,
   selectedDevice: null,
-  selectedKey: null
+  selectedKey: null,
+  selectedKeyWorkflow: {}
 }
 
 export default state

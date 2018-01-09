@@ -178,6 +178,7 @@ export default {
     },
     steps: {
       get () {
+        if (!this.workflow) return []
         // TODO - this should be moved into Vuex store
         this.workflow.steps = _.orderBy(this.workflow.steps, ['order'], ['asc'])
         return this.workflow.steps

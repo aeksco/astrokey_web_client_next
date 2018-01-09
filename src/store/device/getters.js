@@ -15,6 +15,9 @@ const getters = {
   },
   selectedKey: state => {
     return state.selectedKey
+  },
+  selectedKeyWorkflow: state => {
+    return state.selectedKeyWorkflow
   }
 }
 

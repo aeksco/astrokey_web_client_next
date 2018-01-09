@@ -110,19 +110,29 @@ class WorkflowParser {
       // 253 == MACRO Workflow Step
       // TODO - constantize
       // MACRO_WORKFLOW_STEP
-      } else if (pair[0] === 253) {
-        if (currentWorkflowStep) {
-          addWorkflowStep()
+      // } else if (pair[0] === 253) {
+      //   if (currentWorkflowStep) {
+      //     addWorkflowStep()
+      //   }
+
+      //   // Clones the macro object
+      //   macro = _.clone(MACRO_WORKFLOW_STEP)
+
+      //   // Assignss the proper order/index and position attributes
+      //   macro.value = []
+
+      //   currentWorkflowStep = macro
+      } else {
+        // HACK until workflow actions are fully integrated
+        if (!currentWorkflowStep) {
+          macro = _.clone(MACRO_WORKFLOW_STEP)
+
+          // Assignss the proper order/index and position attributes
+          macro.value = []
+
+          currentWorkflowStep = macro
         }
 
-        // Clones the macro object
-        macro = _.clone(MACRO_WORKFLOW_STEP)
-
-        // Assignss the proper order/index and position attributes
-        macro.value = []
-
-        currentWorkflowStep = macro
-      } else {
         // Finds key object
         let key = _.find(KEYS, { dec: pair[1] }) // TODO - CONSTANTIZE INDEX HERE
 
@@ -160,8 +170,8 @@ class WorkflowParser {
 
     // OUTPUT
     // TODO - rename to `workflow`
-    console.log(macros)
-    return macros
+    console.log({ steps: macros })
+    return { steps: macros }
   }
 
   // sanitizeMacro
@@ -321,8 +331,8 @@ class WorkflowParser {
       }
 
       if (step.type === WORKFLOW_STEP_MACRO) {
-        data.push(253) // TODO - Constantize as MACRO_START indicator
-        data.push(1) // ARBITRARY
+        // data.push(253) // TODO - Constantize as MACRO_START indicator
+        // data.push(1) // ARBITRARY
         data = _.concat(data, this.serializeKeys(step.value))
       }
     })

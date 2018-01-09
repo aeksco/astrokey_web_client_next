@@ -36,6 +36,9 @@ const mutations = {
   },
   clearSelectedKey (state) {
     state.selectedKey = null
+  },
+  selectedKeyWorkflow (state, { workflow }) {
+    state.selectedKeyWorkflow = _.cloneDeep(workflow)
   }
 }
 

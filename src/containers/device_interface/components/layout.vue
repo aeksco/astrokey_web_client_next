@@ -77,7 +77,7 @@
             </button>
           </div>
         </div>
-        <WorkflowEditor :workflow="workflow" v-if="selectedKey" />
+        <WorkflowEditor :workflow="selectedKeyWorkflow" v-if="selectedKey" />
         <p class="lead" v-if="!selectedKey">No Key Selected</p>
       </div>
 
@@ -123,7 +123,13 @@ export default {
       })
 
       store.dispatch('web_usb/readMacro', { device: this.device.instance, key: key.order }).then((data) => {
-        store.dispatch('workflow/parse', { data: data })
+        store.dispatch('workflow/parse', { data: data }).then((workflow) => {
+          // Clean this up
+          workflow._id = 'abcdefabcdef123333'
+          workflow.label = 'My New Workflow'
+          workflow.author = 'aeksco'
+          store.commit('device/selectedKeyWorkflow', { workflow })
+        })
         store.commit('device/selectedKey', { key })
       })
     },
@@ -145,13 +151,9 @@ export default {
       // TODO - must of this should be managed in the Vuex store
       // Isolate order and workflow variables
       let order = store.getters['device/selectedKey'].order
-      let workflow = store.getters['workflow/collection'][0]
+      let workflow = store.getters['device/selectedKeyWorkflow']
 
       store.dispatch('workflow/serialize', { workflow }).then((workflowPacket) => {
-        // console.log('WRITE SELECTED KEY')
-        // console.log(order)
-        // console.log(workflowPacket)
-        // console.log(this.device)
         if (!this.device.opened) return
         return store.dispatch('web_usb/writeMacro', { device: this.device.instance, key: order, data: workflowPacket })
       })
@@ -164,11 +166,11 @@ export default {
     selectedKey () {
       return store.getters['device/selectedKey']
     },
-    workflow () {
-      return store.getters['workflow/collection'][0] // TODO - remove
+    selectedKeyWorkflow () {
+      return store.getters['device/selectedKeyWorkflow'] // TODO - remove
     },
     selectedStep () {
-      return store.getters['workflow/selectedStep']
+      return store.getters['device/selectedStep']
     }
   }
 }
