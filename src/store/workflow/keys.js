@@ -141,7 +141,8 @@ export const KEYS = [
     { row: 'nav_r0', key: 'DEL', keycode: 4076, dec: 76 },
 
     // SPECIAL / MISC
-    { row: 'special_r0', key: 'DELAY', keycode: 1008, delay: true, position: 3 }
+    { row: 'special_r0', key: 'DELAY', keycode: 1008, delay: true, position: 3 },
+    { row: 'special_r0', key: 'KEY_UP', icon: 'fa-arrow-up', keycode: 1009, key_up: true, position: 3 }
     // { row: 'special_r0', key: 'CUT', keycode: 1000 }
     // { row: 'special_r0', key: 'COPY', keycode: 1001 }
     // { row: 'special_r0', key: 'PASTE', keycode: 1002 }

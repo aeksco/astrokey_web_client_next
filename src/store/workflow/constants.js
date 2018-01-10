@@ -1,3 +1,16 @@
+// Key Position Constants
+export const KEY_DN_POSITION = 1
+export const KEY_UP_POSITION = 2
+export const KEY_PR_POSITION = 3
+
+// WorkflowStep Tyoe Constants
+export const WORKFLOW_STEP_DELAY = 'DELAY'
+export const WORKFLOW_STEP_TEXT = 'TEXT'
+export const WORKFLOW_STEP_KEY = 'KEY'
+export const WORKFLOW_STEP_MACRO = 'MACRO'
+export const WORKFLOW_STEP_KEYUP = 'KEY_UP'
+
+// WorkflowStep primatives
 export const TEXT_WORKFLOW_STEP = {
   order: null,
   icon: 'fa-paragraph',
@@ -33,7 +46,8 @@ export const KEY_WORKFLOW_STEP = {
   value: 2
 }
 
-// Key Position Constants
-export const KEY_DN_POSITION = 1
-export const KEY_UP_POSITION = 2
-export const KEY_PR_POSITION = 3
+export const KEYUP_WORKFLOW_STEP = {
+  order: null,
+  type: 'KEY_UP',
+  value: 2
+}

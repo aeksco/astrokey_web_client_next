@@ -10,9 +10,11 @@ const actions = {
 
   create: ({ commit }, attributes) => Factory.create({ commit }, attributes),
 
-  serialize: ({ commit }, workflow) => WorkflowParser.serialize(workflow),
+  // TODO - move to mutations?
+  serialize: ({ commit }, { workflow }) => WorkflowParser.serialize(workflow),
 
-  parse: ({ commit }, data) => WorkflowParser.parse({ commit }, data)
+  // TODO - move to mutations?
+  parse: ({ commit }, { data }) => WorkflowParser.parse(data)
 }
 
 // // // //

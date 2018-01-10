@@ -24,6 +24,21 @@ const mutations = {
   remove (state, device) {
     // Filters state.collection to remove the device with the matching serial number
     state.collection = _.filter(state.collection, (d) => { return d.serialNumber !== device.serialNumber })
+  },
+  selectedDevice (state, { device }) {
+    state.selectedDevice = device
+  },
+  selectedKey (state, { key }) {
+    state.selectedKey = key
+  },
+  clearSelectedDevice (state) {
+    state.selectedDevice = null
+  },
+  clearSelectedKey (state) {
+    state.selectedKey = null
+  },
+  selectedKeyWorkflow (state, { workflow }) {
+    state.selectedKeyWorkflow = _.cloneDeep(workflow)
   }
 }
 

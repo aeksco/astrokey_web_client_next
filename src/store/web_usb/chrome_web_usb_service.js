@@ -71,6 +71,11 @@ class ChromeWebUsbService {
   // addDevice
   // Adds a device to this.devices
   addDevice (usbDeviceInstance) {
+    // TODO - SERIOUS
+    // Devices must maintain a unique attribute that can be
+    // reliably used to single out a specific device
+    console.log(usbDeviceInstance)
+
     // Fetches an existing device by serialNumber,
     // or creates a new abstract representation of a device
     let device = this.getDevice(usbDeviceInstance)
@@ -215,9 +220,10 @@ class ChromeWebUsbService {
       // NOTE - `device.controlTransferOut` WRITES DATA TO DEVICE
       return deviceInstance.controlTransferOut(WRITE_MACRO_OPTIONS, new Uint8Array(data).buffer)
       .then((response) => {
-        // console.log('writeMacro response:')
-        // console.log(response)
-        return resolve(new Uint8Array(response.data.buffer))
+        console.log('writeMacro response:')
+        console.log(response)
+        // return resolve(new Uint8Array(response.data.buffer))
+        return resolve(response)
       })
       .catch((err) => {
         console.log('writeMacro error:')

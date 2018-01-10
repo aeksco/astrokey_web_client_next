@@ -25,13 +25,13 @@ const actions = {
     // Handles WebUSB & WebBluetooth devices
     // TODO - constantize 'web_usb'
     if (device.type === 'web_usb') {
-      store.dispatch('web_usb/openDevice', { device: device })
+      return store.dispatch('web_usb/openDevice', { device: device })
     }
 
     // Handles WebUSB & WebBluetooth devices
     // TODO - constantize 'web_bluetooth'
     if (device.type === 'web_bluetooth') {
-      store.dispatch('web_bluetooth/openDevice', { device: device })
+      return store.dispatch('web_bluetooth/openDevice', { device: device })
     }
   },
 
@@ -41,13 +41,13 @@ const actions = {
     // Handles WebUSB & WebBluetooth devices
     // TODO - constantize 'web_usb'
     if (device.type === 'web_usb') {
-      store.dispatch('web_usb/closeDevice', { device: device })
+      return store.dispatch('web_usb/closeDevice', { device: device })
     }
 
     // Handles WebUSB & WebBluetooth devices
     // TODO - constantize 'web_bluetooth'
     if (device.type === 'web_bluetooth') {
-      store.dispatch('web_bluetooth/closeDevice', { device: device })
+      return store.dispatch('web_bluetooth/closeDevice', { device: device })
     }
   }
 }
