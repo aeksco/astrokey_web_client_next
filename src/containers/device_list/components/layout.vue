@@ -16,7 +16,7 @@
 
     <div class='row'>
       <div v-for="device in sortedDevices" v-bind:key="device.serialNumber" class='col-lg-12 mt-2'>
-        <div class="card card-body bg-light">
+        <div class="card card-body bg-dark border-light text-light">
           <div class="row">
 
             <div class="col-lg-8">
@@ -27,6 +27,11 @@
             </div>
 
             <div class="col-lg-4 text-right">
+
+              <a class="btn btn-sm btn-outline-info" :href="'/#/devices/' + device.serialNumber + '/interface'">
+                <i class="fa fa-fw fa-cog mr-2"></i>
+                Interface
+              </a>
               <!-- Open Device -->
               <button class='btn btn-sm btn-outline-success' v-if="device.instance && !device.opened && !device.loading" @click="openDevice(device)">
                 <i class="fa fa-check-circle-o mr-1"></i>

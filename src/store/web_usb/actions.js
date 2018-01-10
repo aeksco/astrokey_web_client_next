@@ -30,6 +30,7 @@ const actions = {
 
   // Invoked with:
   // store.dispatch('web_usb/writeMacro', { device: UsbDevice, key: 0x0000, data: [ 1, 2, ... ] })
+  // TODO - rename to writeWorkflow
   writeMacro: ({ commit }, { device, key, data }) => WebUsbService.writeMacro({ commit }, device, key, data)
 }
 

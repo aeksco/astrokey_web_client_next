@@ -3,7 +3,10 @@
 const state = {
   collection: [],
   current: {},
-  fetching: false
+  fetching: false,
+  selectedDevice: null,
+  selectedKey: null,
+  selectedKeyWorkflow: {}
 }
 
 export default state
