@@ -21,14 +21,14 @@
 
             <div class="col-lg-8">
               <!-- Device URL -->
-              <a v-bind:href="'/#/devices/' + device.serialNumber">{{device.productName}}</a>
+              <a v-bind:href="'#/devices/' + device.serialNumber">{{device.productName}}</a>
               <!-- Device Serial Number -->
               <small class='text-muted'>({{device.serialNumber}})</small>
             </div>
 
             <div class="col-lg-4 text-right">
 
-              <a class="btn btn-sm btn-outline-info" :href="'/#/devices/' + device.serialNumber + '/interface'">
+              <a class="btn btn-sm btn-outline-info" :href="'#/devices/' + device.serialNumber + '/interface'">
                 <i class="fa fa-fw fa-cog mr-2"></i>
                 Interface
               </a>

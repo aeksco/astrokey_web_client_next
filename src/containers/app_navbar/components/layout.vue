@@ -1,7 +1,7 @@
 <template>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-    <a class="navbar-brand" href="/#/">
+    <a class="navbar-brand" href="#/">
       <img class='logo mr-3' src="/static/icon_white.svg">
       <strong>Astro</strong>Key
     </a>
@@ -14,21 +14,21 @@
 	    <ul class="navbar-nav mr-auto">
 
         <li class="nav-item">
-          <a class="nav-link" href="/#/devices">Devices</a>
+          <a class="nav-link" href="#/devices">Devices</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="/#/workflows">Workflows</a>
+          <a class="nav-link" href="#/workflows">Workflows</a>
         </li>
 
 	    </ul>
 
 	    <ul class="navbar-nav ml-auto">
 	      <li class="nav-item">
-	        <a class="nav-link" href="/#/auth/register">Register</a>
+	        <a class="nav-link" href="#/auth/register">Register</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="/#/auth/login">Login</a>
+	        <a class="nav-link" href="#/auth/login">Login</a>
 	      </li>
 	    </ul>
 	  </div>

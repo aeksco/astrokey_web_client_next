@@ -11,12 +11,12 @@
 
             <div class="col-lg-8">
               <!-- workflow URL -->
-              <a v-bind:href="'/#/workflows/' + workflow._id">{{workflow.label}}</a>
+              <a v-bind:href="'#/workflows/' + workflow._id">{{workflow.label}}</a>
             </div>
 
             <div class="col-lg-4 text-right">
               <!-- Open workflow -->
-              <a class='btn btn-sm btn-outline-light' v-bind:href="'/#/workflows/' + workflow._id + '/edit'">
+              <a class='btn btn-sm btn-outline-light' v-bind:href="'#/workflows/' + workflow._id + '/edit'">
                 <i class="fa fa-pencil mr-1"></i>
                 Edit
               </a>
@@ -30,7 +30,7 @@
 
     <div class="row mt-2">
       <div class="col-lg-12">
-        <a class="btn btn-block btn-outline-success" href="/#/workflows/new">
+        <a class="btn btn-block btn-outline-success" href="#/workflows/new">
           <i class="fa fa-fw fa-plus mr-2"></i>
           New Workflow
         </a>
