@@ -107,6 +107,7 @@
             <button class="btn btn-outline-light w-25" @click="addStep('MACRO')">MACRO</button>
             <button class="btn btn-outline-light w-25" @click="addStep('DELAY')">DELAY</button>
             <!-- <button class="btn btn-outline-light w-25" @click="addStep('KEY')">KEY</button> -->
+            <button class="btn btn-outline-light w-25" @click="addStep('KEYUP')">KEYUP</button>
           </div>
 
         </div>

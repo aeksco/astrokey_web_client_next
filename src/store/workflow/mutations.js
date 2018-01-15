@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import store from '@/store'
 import { KEYS } from './keys'
-import { TEXT_WORKFLOW_STEP, MACRO_WORKFLOW_STEP, DELAY_WORKFLOW_STEP, KEY_WORKFLOW_STEP, KEY_DN_POSITION, KEY_UP_POSITION, KEY_PR_POSITION } from './constants'
+import { TEXT_WORKFLOW_STEP, MACRO_WORKFLOW_STEP, DELAY_WORKFLOW_STEP, KEY_WORKFLOW_STEP, KEYUP_WORKFLOW_STEP, KEY_DN_POSITION, KEY_UP_POSITION, KEY_PR_POSITION } from './constants'
 
 // // // //
 
@@ -94,6 +94,8 @@ const mutations = {
           return DELAY_WORKFLOW_STEP
         case 'KEY': // TODO - CONSTANTIZE
           return KEY_WORKFLOW_STEP
+        case 'KEYUP': // TODO - CONSTANTIZE
+          return KEYUP_WORKFLOW_STEP
       }
     }
 

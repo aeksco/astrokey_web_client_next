@@ -2,6 +2,14 @@ import _ from 'lodash'
 import { KEYS } from './keys'
 import { KEY_UP_POSITION, KEY_PR_POSITION, KEY_DN_POSITION, WORKFLOW_STEP_DELAY, WORKFLOW_STEP_MACRO, WORKFLOW_STEP_KEYUP, WORKFLOW_STEP_TEXT, TEXT_WORKFLOW_STEP, MACRO_WORKFLOW_STEP, DELAY_WORKFLOW_STEP, KEYUP_WORKFLOW_STEP } from './constants'
 
+// 224-255 - Encapsulation delimiters
+const INDICATOR_START = 1 // INDICATOR START
+// const INDICATOR_END = 1 // INDICATOR END
+const KEYUP_INDICATOR = 128 // TEST KEYUP
+const DELAY_INDICATOR = 16 // WORKING
+const MACRO_INDICATOR = 253 // WORKING
+const TEXT_INDICATOR = 254 // WORKING
+
 // // // //
 
 // Accepts an array and splits it
@@ -43,6 +51,7 @@ class WorkflowParser {
     let currentWorkflowStep = null
 
     const addWorkflowStep = () => {
+      currentWorkflowStep.id =
       currentWorkflowStep.order = macros.length
       // Parses TEXT
       if (currentWorkflowStep.type === 'TEXT') {
@@ -61,9 +70,9 @@ class WorkflowParser {
       const pair = pairs[index]
       const position = pair[0]
 
-      // 255 == KEY_UP Workflow Step
+      // KEYUP_INDICATOR == KEY_UP Workflow Step
       // KEYUP_WORKFLOW_STEP
-      if (pair[0] === 255) {
+      if (pair[0] === KEYUP_INDICATOR) {
         if (currentWorkflowStep) {
           addWorkflowStep()
         }
@@ -72,9 +81,9 @@ class WorkflowParser {
         macro.order = macros.length
         macros.push(macro)
 
-      // 16 == DELAY Workflow Step
+      // DELAY_INDICATOR == DELAY Workflow Step
       // DELAY_WORKFLOW_STEP
-      } else if (pair[0] === 16) {
+      } else if (pair[0] === DELAY_INDICATOR) {
         if (currentWorkflowStep) {
           addWorkflowStep()
         }
@@ -87,10 +96,10 @@ class WorkflowParser {
         macros.push(macro)
 
       // Finds the macro object
-      // 254 == TEXT Workflow Step
+      // TEXT_INDICATOR == TEXT Workflow Step
       // TODO - constantize
       // TEXT_WORKFLOW_STEP
-      } else if (pair[0] === 254) {
+      } else if (pair[0] === TEXT_INDICATOR) {
         if (currentWorkflowStep) {
           addWorkflowStep()
         }
@@ -107,22 +116,23 @@ class WorkflowParser {
         // let value =
         // macro.value = 'TEXT TEXT'
 
-      // 253 == MACRO Workflow Step
+      // MACRO_INDICATOR == MACRO Workflow Step
       // TODO - constantize
       // MACRO_WORKFLOW_STEP
-      // } else if (pair[0] === 253) {
-      //   if (currentWorkflowStep) {
-      //     addWorkflowStep()
-      //   }
+      } else if (pair[0] === MACRO_INDICATOR) {
+        if (currentWorkflowStep) {
+          addWorkflowStep()
+        }
 
-      //   // Clones the macro object
-      //   macro = _.clone(MACRO_WORKFLOW_STEP)
+        // Clones the macro object
+        macro = _.clone(MACRO_WORKFLOW_STEP)
 
-      //   // Assignss the proper order/index and position attributes
-      //   macro.value = []
+        // Assignss the proper order/index and position attributes
+        macro.value = []
 
-      //   currentWorkflowStep = macro
+        currentWorkflowStep = macro
       } else {
+        // // // // // // // //
         // HACK until workflow actions are fully integrated
         if (!currentWorkflowStep) {
           macro = _.clone(MACRO_WORKFLOW_STEP)
@@ -132,6 +142,8 @@ class WorkflowParser {
 
           currentWorkflowStep = macro
         }
+        // END HACK
+        // // // // // // // //
 
         // Finds key object
         let key = _.find(KEYS, { dec: pair[1] }) // TODO - CONSTANTIZE INDEX HERE
@@ -231,7 +243,7 @@ class WorkflowParser {
 
     // Iterates over each character in the text
     // and stores it in it's KEY representation
-    for (var index = 0; index < text.length - 1; index++) {
+    for (var index = 0; index < text.length; index++) {
       // Isolaets the character
       const char = text[index]
 
@@ -313,26 +325,26 @@ class WorkflowParser {
 
       // TODO - change to switch statement
       if (step.type === WORKFLOW_STEP_DELAY) {
-        data.push(16) // TODO - CONSTANTIZE AS DELAY INDICATOR
+        data.push(DELAY_INDICATOR) // TODO - CONSTANTIZE AS DELAY INDICATOR
         data.push(step.value) // 1 - 255 (i.e. 5 = 5 x 100ms = 500ms)
         return
       }
 
       if (step.type === WORKFLOW_STEP_KEYUP) {
-        data.push(255) // TODO - CONSTANTIZE as KEY_UP indicator
-        data.push(1) // ARBITRARY
+        data.push(KEYUP_INDICATOR) // TODO - CONSTANTIZE as KEY_UP indicator
+        data.push(INDICATOR_START) // ARBITRARY
         return
       }
 
       if (step.type === WORKFLOW_STEP_TEXT) {
-        data.push(254) // TODO - Constantize as TEXT_START indicator
-        data.push(1) // ARBITRARY
+        data.push(TEXT_INDICATOR) // TODO - Constantize as TEXT_START indicator
+        data.push(INDICATOR_START) // ARBITRARY
         data = _.concat(data, this.serializeText(step.value))
       }
 
       if (step.type === WORKFLOW_STEP_MACRO) {
-        // data.push(253) // TODO - Constantize as MACRO_START indicator
-        // data.push(1) // ARBITRARY
+        data.push(MACRO_INDICATOR) // TODO - Constantize as MACRO_START indicator
+        data.push(INDICATOR_START) // ARBITRARY
         data = _.concat(data, this.serializeKeys(step.value))
       }
     })

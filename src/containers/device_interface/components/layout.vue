@@ -157,6 +157,7 @@ export default {
         if (!this.device.opened) return
         return store.dispatch('web_usb/writeMacro', { device: this.device.instance, key: order, data: workflowPacket })
       })
+      this.clearSelectedKey()
     },
     clearSelectedKey: () => {
       return store.commit('device/clearSelectedKey', { device: this.device })
