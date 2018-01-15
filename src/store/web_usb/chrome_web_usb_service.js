@@ -195,8 +195,8 @@ class ChromeWebUsbService {
       // QUESTION - what is this `256` again, expected return length?
       return deviceInstance.controlTransferIn(READ_MACRO_OPTIONS, 256)
       .then((response) => {
-        // console.log('readMacro response:')
-        // console.log(new Uint8Array(response.data.buffer))
+        console.log('readMacro response:')
+        console.log(new Uint8Array(response.data.buffer))
         return resolve(new Uint8Array(response.data.buffer))
       })
       .catch((err) => {

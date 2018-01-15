@@ -6,7 +6,7 @@ import AbstractFactory from '../lib/factory'
 // TODO - abstract into ./factory.js?
 const ProjectFactory = new AbstractFactory({
   API_ROOT: '/api/projects',
-  REDIRECT_SUCCESS: '/#/projects',
+  REDIRECT_SUCCESS: '#/projects',
   messages: {
     CREATE_SUCCESS: 'Created Project.',
     UPDATE_SUCCESS: 'Updated Project.',

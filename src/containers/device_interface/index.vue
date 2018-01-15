@@ -27,7 +27,9 @@ export default {
   },
   computed: {
     device () {
-      return store.getters['device/selectedDevice']
+      let device = store.getters['device/selectedDevice']
+      if (device) store.dispatch('device/connect', { device })
+      return device
     }
   }
 }

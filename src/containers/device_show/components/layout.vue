@@ -1,7 +1,7 @@
 
 <template>
-  <div class="container">
-    <a href="/#/devices">Back</a>
+  <div class="container-fluid">
+    <a href="#/devices">Back</a>
     <h2>Device Show</h2>
   	<hr>
 
