@@ -17,7 +17,7 @@ export const READ_MACRO_CONTROL_TRANSFER = {
 export const WRITE_MACRO_CONTROL_TRANSFER = {
   'requestType': 'vendor',
   'recipient': 'device',
-  'request': 0x03, // TODO - document
+  'request': 0x03, // TODO - document (B-REQUEST)
   // 'value': keyIndex, // NOTE - `value` attribute is assigned in the ChromeWebUSBService.writeMacro() method
   'index': 0x01 // TODO - We can use index for the key the macro corresponds to (low-byte = key, high-byte = number of actions in the macro)
 }

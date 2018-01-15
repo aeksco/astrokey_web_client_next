@@ -1,7 +1,7 @@
 <template>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 
-    <a class="navbar-brand" href="/#/">
+    <a class="navbar-brand" href="#/">
       <img class='logo mr-3' src="/static/icon_white.svg">
       <strong>Astro</strong>Key
     </a>
@@ -14,23 +14,23 @@
 	    <ul class="navbar-nav mr-auto">
 
         <li class="nav-item">
-          <a class="nav-link" href="/#/devices">Devices</a>
+          <a class="nav-link" href="#/devices">Devices</a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="/#/workflows">Workflows</a>
-        </li>
+        <!-- <li class="nav-item"> -->
+          <!-- <a class="nav-link" href="#/workflows">Workflows</a> -->
+        <!-- </li> -->
 
 	    </ul>
 
-	    <ul class="navbar-nav ml-auto">
-	      <li class="nav-item">
-	        <a class="nav-link" href="/#/auth/register">Register</a>
-	      </li>
-	      <li class="nav-item">
-	        <a class="nav-link" href="/#/auth/login">Login</a>
-	      </li>
-	    </ul>
+	    <!-- <ul class="navbar-nav ml-auto"> -->
+	      <!-- <li class="nav-item"> -->
+	        <!-- <a class="nav-link" href="#/auth/register">Register</a> -->
+	      <!-- </li> -->
+	      <!-- <li class="nav-item"> -->
+	        <!-- <a class="nav-link" href="#/auth/login">Login</a> -->
+	      <!-- </li> -->
+	    <!-- </ul> -->
 	  </div>
 	</nav>
 </template>
@@ -44,20 +44,23 @@ export default {
 
 <style lang="sass">
 
-  .navbar-brand
-    letter-spacing: .25rem !important
-    font-family: sans-serif
-    text-transform: uppercase
-    font-weight: 100
-    letter-spacing: 0.1rem
+  nav.navbar
+    border-bottom: 1px solid #fff
 
-    strong
-      font-weight: 400
+    .navbar-brand
+      letter-spacing: .25rem !important
+      font-family: sans-serif
+      text-transform: uppercase
+      font-weight: 100
+      letter-spacing: 0.1rem
 
-    img.logo
-      float: left
-      margin-right: 0.4rem
-      height: 2rem
-      display: flex
+      strong
+        font-weight: 400
+
+      img.logo
+        float: left
+        margin-right: 0.4rem
+        height: 2rem
+        display: flex
 
 </style>

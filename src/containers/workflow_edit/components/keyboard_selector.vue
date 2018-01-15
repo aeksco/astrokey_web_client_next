@@ -40,8 +40,8 @@ export default {
       { icon: 'fa-file-text-o', text: 'Numpad', trigger: 'numpad' },
       { icon: 'fa-caret-square-o-up', text: 'Function', trigger: 'function' },
       { icon: 'fa-asterisk', text: 'Media', trigger: 'media' },
-      { icon: 'fa-asterisk', text: 'Navigation', trigger: 'nav' },
-      { icon: 'fa-universal-access', text: 'Unicode', trigger: 'unicode' }
+      { icon: 'fa-asterisk', text: 'Navigation', trigger: 'nav' }
+      // { icon: 'fa-universal-access', text: 'Unicode', trigger: 'unicode' }
     ]
 
     return { navItems: navItems, keyboard_id: 'keyboard' }
@@ -107,17 +107,6 @@ export default {
 
       // nav
       if (keyboard_id === 'nav') {
-        return {
-          r4: _.filter(keys, (k) => { return k.row === 'r4' }),
-          r3: _.filter(keys, (k) => { return k.row === 'r3' }),
-          r2: _.filter(keys, (k) => { return k.row === 'r2' }),
-          r1: _.filter(keys, (k) => { return k.row === 'r1' }),
-          r0: _.filter(keys, (k) => { return k.row === 'r0' })
-        }
-      }
-
-      // unicode
-      if (keyboard_id === 'unicode') {
         return {
           r4: _.filter(keys, (k) => { return k.row === 'r4' }),
           r3: _.filter(keys, (k) => { return k.row === 'r3' }),

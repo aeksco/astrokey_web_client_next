@@ -1,5 +1,5 @@
 <template>
-  <transition-group name="list" tag='div' class="container">
+  <transition-group name="list" tag='div' class="container-fluid">
     <div class="row" v-for="each in collection" v-bind:key="each.id">
       <NotificationChild :item="each"/>
     </div>

@@ -1,6 +1,6 @@
 
 <template>
-  <!-- <div class="container"> -->
+  <!-- <div class="container-fluid"> -->
   <!-- <h2>{{workflow.label}}</h2> -->
   <!-- <hr> -->
 
@@ -37,7 +37,7 @@
 
           <!-- <button  class="btn btn-sm btn-outline-light mx-2 px-4"><i class="fa fa-fw fa-2x mx-4 fa-save"></i></button> -->
           <!-- <button  class="btn btn-sm btn-outline-info mx-2 px-4"><i class="fa fa-fw fa-2x mx-4 fa-folder-open-o"></i></button> -->
-          <button  class="btn btn-sm btn-outline-warning mx-2 px-4" v-if="editing.type === 'MACRO'">
+          <button  class="btn btn-sm btn-outline-warning mx-2 px-4" v-if="editing.type === 'MACRO'" @click="clearSelectedMacro()">
             <i class="fa fa-fw fa-2x mx-4 fa-times"></i>
           </button>
 
@@ -107,6 +107,7 @@
             <button class="btn btn-outline-light w-25" @click="addStep('MACRO')">MACRO</button>
             <button class="btn btn-outline-light w-25" @click="addStep('DELAY')">DELAY</button>
             <!-- <button class="btn btn-outline-light w-25" @click="addStep('KEY')">KEY</button> -->
+            <button class="btn btn-outline-light w-25" @click="addStep('KEYUP')">KEYUP</button>
           </div>
 
         </div>
@@ -160,6 +161,9 @@ export default {
     },
     stopRecording () {
       store.commit('workflow/stopRecording')
+    },
+    clearSelectedMacro () {
+      store.commit('workflow/clearMacro')
     }
   },
   computed: {

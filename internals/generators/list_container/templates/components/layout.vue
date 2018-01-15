@@ -1,6 +1,6 @@
 
 <template>
-  <div class="container">
+  <div class="container-fluid">
   	<div class="row">
   		<div class="col-lg-12">
 
@@ -10,7 +10,7 @@
 
         <!-- New Button -->
   			<ul class="list-group mt-2 mb-4 text-center">
-  				<a class="list-group-item" href="/#/<%= resource_route %>/new">NEW</a>
+  				<a class="list-group-item" href="#/<%= resource_route %>/new">NEW</a>
   			</ul>
 
         <!-- Fetching -->
