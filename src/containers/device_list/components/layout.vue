@@ -1,6 +1,6 @@
 
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <div class="row align-items-center d-flex">
       <div class="col-lg-12">
         <h2>Devices</h2>
@@ -13,7 +13,7 @@
     <div class='row'>
       <div v-for="device in sortedDevices" v-bind:key="device.serialNumber" class='col-lg-12 mt-2'>
         <div class="card card-body bg-dark border-light text-light">
-          <div class="row">
+          <div class="row d-flex align-items-center">
 
             <div class="col-lg-8">
               <!-- Device URL -->

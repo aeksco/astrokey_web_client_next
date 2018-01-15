@@ -3,45 +3,51 @@
   <div class="container-fluid">
 
     <!-- Interface Header -->
-    <div class="row d-flex align-items-center">
-      <div class="col-lg-6">
-        <h2>Device Interface</h2>
-      </div>
-      <div class="col-lg-6">
-        <!-- Open Device -->
-        <button class='btn btn-sm btn-outline-success' v-if="device.instance && !device.opened && !device.loading" @click="openDevice(device)">
-          <i class="fa fa-check-circle-o mr-1"></i>
-          Open
-        </button>
-
-        <!-- Loading -->
-        <span class='badge badge-dark' v-if="device.instance && device.loading">
-          <i class="p-1 fa fa-spinner fa-spin"></i>
-        </span>
-
-        <!-- Scan -->
-        <button class='btn btn-sm btn-outline-primary' v-if="!device.instance.gatt && device.type === 'web_bluetooth'" @click="scanBluetooth()">
-          <i class="fa fa-bluetooth-b mr-1"></i>
-          Scan
-        </button>
-
-        <!-- Close Device -->
-        <button class='btn btn-sm btn-outline-warning' v-if="device.instance && device.opened" @click="closeDevice(device)">
-          <i class="fa fa-times-circle-o mr-1"></i>
-          Close
-        </button>
-      </div>
-      <div class="col-lg-12">
-        <hr>
-      </div>
-    </div>
+    <!-- <div class="row d-flex align-items-center"> -->
+      <!-- <div class="col-lg-12"> -->
+        <!-- <h2>Device Interface</h2> -->
+      <!-- </div> -->
+      <!-- <div class="col-lg-12"> -->
+        <!-- <hr> -->
+      <!-- </div> -->
+    <!-- </div> -->
 
     <!-- Interface Body -->
-    <div class="row">
+    <div class="row h-100">
 
       <!-- Device Mockup -->
-      <div class="col-lg-4 d-flex justify-content-center">
+      <div class="col-lg-4 d-flex justify-content-center flex-column align-items-center">
 
+        <div class="row">
+          <div class="col-lg-12">
+
+            <!-- Open Device -->
+            <button class='btn btn-sm btn-outline-success' v-if="device.instance && !device.opened && !device.loading" @click="openDevice(device)">
+              <i class="fa fa-check-circle-o mr-1"></i>
+              Open
+            </button>
+
+            <!-- Loading -->
+            <span class='badge badge-dark' v-if="device.instance && device.loading">
+              <i class="p-1 fa fa-spinner fa-spin"></i>
+            </span>
+
+            <!-- Scan -->
+            <button class='btn btn-sm btn-outline-primary' v-if="!device.instance.gatt && device.type === 'web_bluetooth'" @click="scanBluetooth()">
+              <i class="fa fa-bluetooth-b mr-1"></i>
+              Scan
+            </button>
+
+            <!-- Close Device -->
+            <button class='btn btn-sm btn-outline-warning' v-if="device.instance && device.opened" @click="closeDevice(device)">
+              <i class="fa fa-times-circle-o mr-1"></i>
+              Close
+            </button>
+
+          </div>
+        </div>
+
+        <!-- Device -->
         <div class="row">
           <div class="px-3 py-3 d-flex align-items-center">
             <div class="key--list--wrapper px-3 pb-2 d-flex">
@@ -61,24 +67,51 @@
       <!-- Selected Key UI -->
       <!-- No Key Selected message -->
       <div class="col-lg-8 selected-key-detail">
-        <div class="row">
-          <div class="col-lg-6">
-            <p class="lead" v-if="selectedKey">Key {{ selectedKey.order }}</p>
-          </div>
-          <div class="col-lg-6">
-            <button class="btn btn-sm btn-outline-light" v-if="!selectedStep" @click="clearSelectedKey">
-              <i class="fa fa-fw fa-times mr-1"></i>
-              Back
-            </button>
 
-            <button class="btn btn-sm btn-outline-success mr-2" v-if="!selectedStep" @click="writeSelectedKey">
-              <i class="fa fa-fw fa-save mr-1"></i>
-              Save
-            </button>
+        <div class="row mt-4 align-items-center" v-if="selectedKey">
+          <div class="col-lg-12">
+            <div class="row">
+              <div class="col-lg-12" v-if="!selectedStep">
+                <!-- <button class="btn btn-sm btn-outline-light" v-if="!selectedStep" @click="clearSelectedKey"> -->
+                  <!-- <i class="fa fa-fw fa-times mr-1"></i> -->
+                  <!-- Back -->
+                <!-- </button> -->
+
+                <button class="btn btn-sm btn-outline-success mr-2" @click="writeSelectedKey">
+                  <i class="fa fa-fw fa-save mr-1"></i>
+                  Save Workflow
+                </button>
+              </div>
+              <div class="col-lg-12">
+                <WorkflowEditor :workflow="selectedKeyWorkflow" v-if="selectedKey" />
+              </div>
+            </div>
           </div>
         </div>
-        <WorkflowEditor :workflow="selectedKeyWorkflow" v-if="selectedKey" />
-        <p class="lead" v-if="!selectedKey">No Key Selected</p>
+
+        <div class="row h-100 align-items-center" v-if="!selectedKey">
+          <div class="col-lg-12">
+            <div class="row my-4">
+              <div class="col-lg-12 text-center"><img src="/static/icon_white.svg" class="welcome-logo"/></div>
+            </div>
+            <div class="row my-4">
+              <div class="col-lg-12 text-center">
+                <p class="welcome-text">WELCOME</p>
+              </div>
+            </div>
+            <div class="row my-4">
+              <div class="col-lg-12 text-center">
+                <p class="lead"><a href="https://github.com/AstroKey" target="_blank"> AstroKey</a> is an open-source platform for automating keyboard workflows.</p>
+              </div>
+            </div>
+            <div class="row py-2">
+              <div class="col-lg-12 text-center">
+                <p class="lead">Drag and drop keyboard keys to construct your desired workflow - AstroKey does the rest.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -171,7 +204,7 @@ export default {
       return store.getters['device/selectedKeyWorkflow'] // TODO - remove
     },
     selectedStep () {
-      return store.getters['device/selectedStep']
+      return store.getters['workflow/selectedStep']
     }
   }
 }
@@ -181,6 +214,15 @@ export default {
 
 // TODO - move <MOST> if not all of this into the DeviceMockup component
 @import '../../../sass/vendor.sass'
+
+img.welcome-logo
+  height: 4rem
+  width: 4rem
+
+.welcome-text
+  letter-spacing: .6rem
+  font-weight: 300
+  font-size: 2rem
 
 // AstroKey Selector Styles
 $astrokey_child_size: 3rem

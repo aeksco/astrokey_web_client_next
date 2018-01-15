@@ -177,6 +177,11 @@ const mutations = {
     window.removeEventListener('keydown', onKeyAction)
     window.removeEventListener('keyup', onKeyAction)
     state.recording = false
+  },
+
+  clearMacro (state) {
+    store.commit('workflow/stopRecording')
+    state.selectedStep.value = []
   }
 }
 

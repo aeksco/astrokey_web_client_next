@@ -1,6 +1,6 @@
 
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <a href="#/workflows">Back</a>
     <h2>{{workflow.label}}</h2>
   	<hr>

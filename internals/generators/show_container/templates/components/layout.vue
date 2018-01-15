@@ -1,6 +1,6 @@
 g
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <a href="#/<%= resource_route %>">Back</a>
     <h2><%= resource_title %> Show - {{model.name}}</h2>
   	<hr>

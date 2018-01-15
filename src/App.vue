@@ -3,14 +3,14 @@
   <div id="app">
     <AppNavbar/>
     <router-view/>
-    <Notification/>
+    <!-- <Notification/> -->
   </div>
 </template>
 
 <script>
 import AppNavbar from './containers/app_navbar'
 import AppFooter from './containers/app_footer'
-import Notification from './containers/app_notification'
+// import Notification from './containers/app_notification'
 
 export default {
   name: 'app',
@@ -18,7 +18,7 @@ export default {
   // Top-Level Application Components
   components: {
     AppNavbar,
-    Notification,
+    // Notification,
     AppFooter
   },
 
@@ -45,8 +45,10 @@ export default {
 
   .container-fluid
     height: 100%
+    padding-top: 3.5rem
 
   #app
     height: 100%
+    width: 100%
 
 </style>

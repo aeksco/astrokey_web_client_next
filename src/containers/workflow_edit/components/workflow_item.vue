@@ -66,6 +66,12 @@
         </button>
       </div>
 
+      <div class="col-lg-3 text-right controls" v-if="item.type === 'KEY_UP'">
+        <button class="btn btn-sm btn-outline-danger" v-b-tooltip.hover.top title="Remove" @click="remove(item)">
+          <i class="fa fa-fw fa-trash"></i>
+        </button>
+      </div>
+
     </div>
   </li>
 </template>

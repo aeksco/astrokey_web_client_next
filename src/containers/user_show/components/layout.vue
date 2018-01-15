@@ -1,6 +1,6 @@
 
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <a href="#/users">Back</a>
     <h2>User Show - {{model.name}}</h2>
   	<hr>

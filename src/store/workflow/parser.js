@@ -51,7 +51,7 @@ class WorkflowParser {
     let currentWorkflowStep = null
 
     const addWorkflowStep = () => {
-      currentWorkflowStep.id =
+      currentWorkflowStep.id = 'wfst_' + Math.floor((Math.random() * 100000000000000) + 1)
       currentWorkflowStep.order = macros.length
       // Parses TEXT
       if (currentWorkflowStep.type === 'TEXT') {
@@ -70,7 +70,6 @@ class WorkflowParser {
       const pair = pairs[index]
       const position = pair[0]
 
-      // KEYUP_INDICATOR == KEY_UP Workflow Step
       // KEYUP_WORKFLOW_STEP
       if (pair[0] === KEYUP_INDICATOR) {
         if (currentWorkflowStep) {
@@ -78,10 +77,10 @@ class WorkflowParser {
         }
         // Clones the macro object
         macro = _.clone(KEYUP_WORKFLOW_STEP)
+        macro.id = 'wfst_' + Math.floor((Math.random() * 100000000000000) + 1)
         macro.order = macros.length
         macros.push(macro)
 
-      // DELAY_INDICATOR == DELAY Workflow Step
       // DELAY_WORKFLOW_STEP
       } else if (pair[0] === DELAY_INDICATOR) {
         if (currentWorkflowStep) {
@@ -92,12 +91,10 @@ class WorkflowParser {
 
         // Assignss the proper delay value
         macro.value = pair[1]
+        macro.id = 'wfst_' + Math.floor((Math.random() * 100000000000000) + 1)
         macro.order = macros.length
         macros.push(macro)
 
-      // Finds the macro object
-      // TEXT_INDICATOR == TEXT Workflow Step
-      // TODO - constantize
       // TEXT_WORKFLOW_STEP
       } else if (pair[0] === TEXT_INDICATOR) {
         if (currentWorkflowStep) {
@@ -105,6 +102,7 @@ class WorkflowParser {
         }
         // Clones the macro object
         macro = _.clone(TEXT_WORKFLOW_STEP)
+        macro.id = 'wfst_' + Math.floor((Math.random() * 100000000000000) + 1)
 
         // Temporarily hold the keys used to construct the text
         macro.value = []
@@ -116,8 +114,6 @@ class WorkflowParser {
         // let value =
         // macro.value = 'TEXT TEXT'
 
-      // MACRO_INDICATOR == MACRO Workflow Step
-      // TODO - constantize
       // MACRO_WORKFLOW_STEP
       } else if (pair[0] === MACRO_INDICATOR) {
         if (currentWorkflowStep) {
@@ -126,6 +122,7 @@ class WorkflowParser {
 
         // Clones the macro object
         macro = _.clone(MACRO_WORKFLOW_STEP)
+        macro.id = 'wfst_' + Math.floor((Math.random() * 100000000000000) + 1)
 
         // Assignss the proper order/index and position attributes
         macro.value = []
@@ -136,6 +133,7 @@ class WorkflowParser {
         // HACK until workflow actions are fully integrated
         if (!currentWorkflowStep) {
           macro = _.clone(MACRO_WORKFLOW_STEP)
+          macro.id = 'wfst_' + Math.floor((Math.random() * 100000000000000) + 1)
 
           // Assignss the proper order/index and position attributes
           macro.value = []
@@ -150,6 +148,7 @@ class WorkflowParser {
 
         // Clones the macro object
         key = _.clone(key)
+        key.id = 'key_' + Math.floor((Math.random() * 100000000000000) + 1)
 
         // Sets the appropriate position on the key
         key.position = position
@@ -167,6 +166,7 @@ class WorkflowParser {
 
     // Appends the last macro the the `macros` array
     if (currentWorkflowStep) {
+      currentWorkflowStep.id = 'wfst_' + Math.floor((Math.random() * 100000000000000) + 1)
       currentWorkflowStep.order = macros.length
       // Parses TEXT
       if (currentWorkflowStep.type === 'TEXT') {

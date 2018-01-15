@@ -1,6 +1,6 @@
 
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <h2>Workflows</h2>
   	<hr>
 
