@@ -40,10 +40,10 @@
               </span>
 
               <!-- Scan -->
-              <button class='btn btn-sm btn-outline-primary' v-if="!device.instance.gatt && device.type === 'web_bluetooth'" @click="scanBluetooth()">
-                <i class="fa fa-bluetooth-b mr-1"></i>
-                Scan
-              </button>
+              <!-- <button class='btn btn-sm btn-outline-primary' v-if="!device.instance.gatt && device.type === 'web_bluetooth'" @click="scanBluetooth()"> -->
+                <!-- <i class="fa fa-bluetooth-b mr-1"></i> -->
+                <!-- Scan -->
+              <!-- </button> -->
 
               <!-- Close Device -->
               <button class='btn btn-sm btn-outline-warning' v-if="device.instance && device.opened" @click="closeDevice(device)">
@@ -88,13 +88,14 @@
 <!-- // // // //  -->
 
 <script>
-import _ from 'lodash'
+// import _ from 'lodash'
 
 export default {
   props: ['collection'],
   methods: {
     requestDevices () {
-      return this.$store.dispatch('web_usb/requestDevices')
+      return this.$store.dispatch('chrome_usb/requestDevices')
+      // return this.$store.dispatch('web_usb/requestDevices')
     },
     scanBluetooth () {
       return this.$store.dispatch('web_bluetooth/requestDevices')
@@ -109,7 +110,11 @@ export default {
   computed: {
     sortedDevices () {
       // TODO - sorting should happen in store
-      return _.sortBy(this.collection, (i) => i.productName)
+      // return _.sortBy(this.collection, (i) => i.productName)
+      return this.$store.getters['chrome_usb/collection']
+    },
+    chromeUsbDevices () {
+      return this.$store.getters['chrome_usb/collection']
     }
   }
 }
