@@ -1,7 +1,5 @@
 import ChromeAppUsbService from './chrome_app_usb_service'
-import store from '@/store'
 import _ from 'lodash'
-window.store = store
 
 function getVuexDevice (usbDeviceInstance) {
   // Isolates the requisite attributes
@@ -26,25 +24,38 @@ const actions = {
   // store.dispatch('chrome_usb/requestDevices')
   requestDevices: ({ state, commit }) => {
     commit('fetching', true)
+
+    // Defines an array to add a representation of each device to the Vuex store
     let vuexDevices = []
+
+    // Fetches devices from ChromeAppUsbService
     return ChromeAppUsbService.getDevices()
     .then((devices) => {
-      console.log(devices)
+      // Iterates over each device
       _.each(devices, (d) => {
         let device = _.find(state.collection, { serialNumber: d.serialNumber })
         if (device) return vuexDevices.push(device)
         return vuexDevices.push(getVuexDevice(d))
       })
-      // console.log(devices)
-      // console.log(vuexDevices)
+
+      // Updates the collection and fetching state
       commit('collection', vuexDevices)
+      commit('fetching', false)
+
+      // Updates the global device collection
+      commit('device/collection', vuexDevices, { root: true })
     })
   },
 
   // openDevice
   // store.dispatch('web_usb/openDevice', { device: UsbDevice })
   openDevice: ({ commit }, { device }) => {
-    ChromeAppUsbService.openDevice(device.serialNumber).then((d) => { device.opened = true })
+    ChromeAppUsbService.openDevice({ device })
+    .then((d) => {
+      console.log('OPENED')
+      console.log(d)
+      device.opened = true
+    })
   },
 
   // closeDevice
@@ -55,14 +66,16 @@ const actions = {
 
   // readMacro
   // store.dispatch('web_usb/readMacro', { device: UsbDevice, key: 0x0000 })
+  // TODO - move selectedDevice into STATE
+  // TODO - move selectedKey into STATE
   readMacro: ({ commit }, { device, key }) => {
-    ChromeAppUsbService.readMacro({ commit }, device, key)
+    return ChromeAppUsbService.readMacro({ device, key })
   },
 
   // store.dispatch('web_usb/writeMacro', { device: UsbDevice, key: 0x0000, data: [ 1, 2, ... ] })
   // TODO - rename to writeWorkflow
   writeMacro: ({ commit }, { device, key, data }) => {
-    ChromeAppUsbService.writeMacro({ commit }, device, key, data)
+    ChromeAppUsbService.writeMacro({ device, key, data })
   }
 }
 

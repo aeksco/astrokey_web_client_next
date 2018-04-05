@@ -2,16 +2,6 @@
 <template>
   <div class="container-fluid">
 
-    <!-- Interface Header -->
-    <!-- <div class="row d-flex align-items-center"> -->
-      <!-- <div class="col-lg-12"> -->
-        <!-- <h2>Device Interface</h2> -->
-      <!-- </div> -->
-      <!-- <div class="col-lg-12"> -->
-        <!-- <hr> -->
-      <!-- </div> -->
-    <!-- </div> -->
-
     <!-- Interface Body -->
     <div class="row h-100">
 
@@ -33,10 +23,10 @@
             </span>
 
             <!-- Scan -->
-            <button class='btn btn-sm btn-outline-primary' v-if="!device.instance.gatt && device.type === 'web_bluetooth'" @click="scanBluetooth()">
-              <i class="fa fa-bluetooth-b mr-1"></i>
-              Scan
-            </button>
+            <!-- <button class='btn btn-sm btn-outline-primary' v-if="!device.instance.gatt && device.type === 'web_bluetooth'" @click="scanBluetooth()"> -->
+              <!-- <i class="fa fa-bluetooth-b mr-1"></i> -->
+              <!-- Scan -->
+            <!-- </button> -->
 
             <!-- Close Device -->
             <button class='btn btn-sm btn-outline-warning' v-if="device.instance && device.opened" @click="closeDevice(device)">
@@ -133,11 +123,11 @@ export default {
   },
   created () {
     this.keys = [
-      { id: 'device_1_key_1', order: '0x0000', selected: false, config: { type: 'macro', macros: [] } },
-      { id: 'device_1_key_2', order: '0x0001', selected: false, config: { type: 'macro', macros: [] } },
-      { id: 'device_1_key_3', order: '0x0002', selected: false, config: { type: 'macro', macros: [] } },
-      { id: 'device_1_key_4', order: '0x0003', selected: false, config: { type: 'macro', macros: [] } },
-      { id: 'device_1_key_5', order: '0x0004', selected: false, config: { type: 'macro', macros: [] } }
+      { id: 'device_1_key_1', order: 0x0000, selected: false, config: { type: 'macro', macros: [] } },
+      { id: 'device_1_key_2', order: 0x0001, selected: false, config: { type: 'macro', macros: [] } },
+      { id: 'device_1_key_3', order: 0x0002, selected: false, config: { type: 'macro', macros: [] } },
+      { id: 'device_1_key_4', order: 0x0003, selected: false, config: { type: 'macro', macros: [] } },
+      { id: 'device_1_key_5', order: 0x0004, selected: false, config: { type: 'macro', macros: [] } }
     ]
   },
   data () {
@@ -155,7 +145,10 @@ export default {
         return k
       })
 
-      store.dispatch('web_usb/readMacro', { device: this.device.instance, key: key.order }).then((data) => {
+      // store.dispatch('web_usb/readMacro', { device: this.device, key: key.order }).then((data) => {
+      store.dispatch('chrome_usb/readMacro', { device: this.device, key: key }).then((data) => {
+        console.log('READ MACRO - PARSE INTO WORKFLOW')
+        console.log(data)
         store.dispatch('workflow/parse', { data: data }).then((workflow) => {
           // Clean this up
           workflow._id = 'abcdefabcdef123333'
@@ -183,12 +176,13 @@ export default {
     writeSelectedKey () {
       // TODO - must of this should be managed in the Vuex store
       // Isolate order and workflow variables
-      let order = store.getters['device/selectedKey'].order
+      let key = store.getters['device/selectedKey']
       let workflow = store.getters['device/selectedKeyWorkflow']
 
       store.dispatch('workflow/serialize', { workflow }).then((workflowPacket) => {
         if (!this.device.opened) return
-        return store.dispatch('web_usb/writeMacro', { device: this.device.instance, key: order, data: workflowPacket })
+        // return store.dispatch('web_usb/writeMacro', { device: this.device.instance, key: order, data: workflowPacket })
+        return store.dispatch('chrome_usb/writeMacro', { device: this.device, key: key, data: workflowPacket })
       })
       this.clearSelectedKey()
     },

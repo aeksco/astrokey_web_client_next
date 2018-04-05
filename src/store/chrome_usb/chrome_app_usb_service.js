@@ -2,17 +2,6 @@ import _ from 'lodash'
 // import { REQUEST_DEVICE_FILTERS, READ_MACRO_CONTROL_TRANSFER, WRITE_MACRO_CONTROL_TRANSFER } from './constants'
 import { SERIAL_NUMBER, GET_DEVICE_OPTIONS, READ_MACRO_CONTROL_TRANSFER, WRITE_MACRO_CONTROL_TRANSFER } from './constants'
 
-// Meh
-if (window.chrome && window.chrome.usb) {
-  window.navigator.chrome_usb = window.chrome.usb
-} else {
-  window.navigator.chrome_usb = {
-    getDevices () {},
-    openDevice () {},
-    closeDevice () {}
-  }
-}
-
 // // // //
 
 // ChromeAppUsbService class definition
@@ -50,7 +39,7 @@ class ChromeAppUsbService {
   addDevice (usbDeviceInstance) {
     // TODO - Devices must maintain a unique attribute that can be
     // reliably used to single out a specific device
-    console.log(usbDeviceInstance)
+    // console.log(usbDeviceInstance)
 
     let devicePresent = false
     this.devices = _.map(this.devices, (d) => {
@@ -64,7 +53,6 @@ class ChromeAppUsbService {
     })
 
     if (!devicePresent) {
-      console.log('NOT FOUBD')
       this.devices.push(usbDeviceInstance)
     }
 
@@ -81,12 +69,24 @@ class ChromeAppUsbService {
 
   // openDevice
   // Opens a single device
-  openDevice (serialNumber) {
-    let device = _.find(this.devices, { serialNumber })
-    if (!device) return
+  openDevice ({ device }) {
+    let deviceInstance = _.find(this.devices, { serialNumber: device[SERIAL_NUMBER] })
+    if (!deviceInstance) return
     return new Promise((resolve, reject) => {
-      return navigator.chrome_usb.openDevice(device, (e) => {
-        return resolve(device)
+      return window.chrome.usb.openDevice(deviceInstance, (connectionHandle) => {
+        console.log('OPENED')
+        console.log('device', device)
+        console.log('connectionHandle', connectionHandle)
+
+        // Updates deviceInstance with `opened` and `connectionHandle`
+        deviceInstance.opened = true
+        deviceInstance.connectionHandle = connectionHandle
+
+        // Re-adds the device to this.devices
+        this.addDevice(deviceInstance)
+
+        // Resovles with
+        return resolve(deviceInstance)
       })
     })
   }
@@ -95,19 +95,21 @@ class ChromeAppUsbService {
   // Closes a single device
   closeDevice (device) {
     return new Promise((resolve, reject) => {
-      return navigator.chrome_usb.closeDevice(device, (e) => {
+      return window.chrome.usb.closeDevice(device, (e) => {
         return resolve(device)
       })
     })
   }
 
   // getDevices
-  // Invokes navigator.chrome_usb.getDevices()
+  // Invokes window.chrome.usb.getDevices()
   // Used to populate state.collection with an array of paired devices
   getDevices () {
     return new Promise((resolve, reject) => {
-      return navigator.chrome_usb.getDevices(GET_DEVICE_OPTIONS, (deviceArray) => {
-        _.each(deviceArray, (d) => { this.addDevice(d) })
+      return window.chrome.usb.getDevices(GET_DEVICE_OPTIONS, (deviceArray) => {
+        _.each(deviceArray, (d) => {
+          this.addDevice(d)
+        })
         return resolve(this.devices)
       })
     })
@@ -115,9 +117,10 @@ class ChromeAppUsbService {
 
   // readMacro
   // Reads a raw macro from an opened device
-  readMacro ({ commit }, deviceInstance, keyIndex) {
-    console.log(deviceInstance)
-    console.log(keyIndex)
+  readMacro ({ device, key }) {
+    // Isolates the deviceInstance from this.devices
+    // TODO - handle error if deviceInstance is not defined?
+    const deviceInstance = _.find(this.devices, { serialNumber: device[SERIAL_NUMBER] })
 
     // keyIndex in hex: `0x0000`
     // Returns a Promise to manage asynchonous behavior
@@ -125,48 +128,51 @@ class ChromeAppUsbService {
       // Clones the READ_MACRO_CONTROL_TRANSFER request object
       // And adds custom `value` attribute to handle the index of the key we're reading from
       let READ_MACRO_OPTIONS = _.clone(READ_MACRO_CONTROL_TRANSFER)
-      READ_MACRO_OPTIONS.value = keyIndex
+      READ_MACRO_OPTIONS.value = key.order
 
       // NOTE - `device.controlTransferIn` READS DATA FROM DEVICE
-      // TODO - '256' should be '128'
-      // TODO - `256` should be moved into constants.js
-      // QUESTION - what is this `256` again, expected return length?
-      return deviceInstance.controlTransferIn(READ_MACRO_OPTIONS, 256)
-      .then((response) => {
+      window.chrome.usb.controlTransfer(deviceInstance.connectionHandle, READ_MACRO_OPTIONS, (response) => {
         console.log('readMacro response:')
-        console.log(new Uint8Array(response.data.buffer))
-        return resolve(new Uint8Array(response.data.buffer))
+        console.log(response)
+        console.log(new Uint8Array(response.data))
+        return resolve(new Uint8Array(response.data))
       })
-      .catch((err) => {
-        console.log('readMacro error:')
-        return reject(err)
-      })
+      // .catch((err) => {
+      //   console.log('readMacro error:')
+      //   return reject(err)
+      // })
     })
   }
 
   // writeMacro
   // Writes a raw macro to an opened device
-  writeMacro ({ commit }, deviceInstance, keyIndex, data) {
+  writeMacro ({ device, key, data }) {
+    // Isolates the deviceInstance from this.devices
+    // TODO - handle error if deviceInstance is not defined?
+    const deviceInstance = _.find(this.devices, { serialNumber: device[SERIAL_NUMBER] })
+
     // keyIndex in hex: `0x0000`
     // Returns a Promise to manage asynchonous behavior
     return new Promise((resolve, reject) => {
       // Clones the READ_MACRO_CONTROL_TRANSFER request object
       // And adds custom `value` attribute to handle the index of the key we're reading from
       let WRITE_MACRO_OPTIONS = _.clone(WRITE_MACRO_CONTROL_TRANSFER)
-      WRITE_MACRO_OPTIONS.value = keyIndex
+      WRITE_MACRO_OPTIONS.value = key.order
+      WRITE_MACRO_OPTIONS.data = new Uint8Array(data).buffer
 
       // NOTE - `device.controlTransferOut` WRITES DATA TO DEVICE
-      return deviceInstance.controlTransferOut(WRITE_MACRO_OPTIONS, new Uint8Array(data).buffer)
-      .then((response) => {
+      // return deviceInstance.controlTransferOut(WRITE_MACRO_OPTIONS, new Uint8Array(data).buffer)
+      return window.chrome.usb.controlTransfer(deviceInstance.connectionHandle, WRITE_MACRO_OPTIONS, (response) => {
         console.log('writeMacro response:')
         console.log(response)
         // return resolve(new Uint8Array(response.data.buffer))
         return resolve(response)
       })
-      .catch((err) => {
-        console.log('writeMacro error:')
-        return reject(err)
-      })
+      // TODO - integrate error handling
+      // .catch((err) => {
+      //   console.log('writeMacro error:')
+      //   return reject(err)
+      // })
     })
   }
 }

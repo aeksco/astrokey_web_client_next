@@ -30,7 +30,7 @@ const actions = {
     }
 
     if (device.type === 'chrome_usb') {
-      return store.dispatch('chrome_usb/openDevice', { device: device })
+      return store.dispatch('chrome_usb/openDevice', { device })
     }
 
     // Handles WebUSB & WebBluetooth devices
