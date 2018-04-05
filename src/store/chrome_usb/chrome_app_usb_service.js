@@ -1,6 +1,6 @@
 import _ from 'lodash'
 // import { REQUEST_DEVICE_FILTERS, READ_MACRO_CONTROL_TRANSFER, WRITE_MACRO_CONTROL_TRANSFER } from './constants'
-import { READ_MACRO_CONTROL_TRANSFER, WRITE_MACRO_CONTROL_TRANSFER } from './constants'
+import { SERIAL_NUMBER, GET_DEVICE_OPTIONS, READ_MACRO_CONTROL_TRANSFER, WRITE_MACRO_CONTROL_TRANSFER } from './constants'
 
 // Meh
 if (window.chrome && window.chrome.usb) {
@@ -51,7 +51,23 @@ class ChromeAppUsbService {
     // TODO - Devices must maintain a unique attribute that can be
     // reliably used to single out a specific device
     console.log(usbDeviceInstance)
-    this.devices.push(usbDeviceInstance)
+
+    let devicePresent = false
+    this.devices = _.map(this.devices, (d) => {
+      // TODO - constantize 'serialNumber'
+      if (d[SERIAL_NUMBER] === usbDeviceInstance[SERIAL_NUMBER]) {
+        devicePresent = true
+        return usbDeviceInstance
+      } else {
+        return d
+      }
+    })
+
+    if (!devicePresent) {
+      console.log('NOT FOUBD')
+      this.devices.push(usbDeviceInstance)
+    }
+
     return usbDeviceInstance
   }
 
@@ -90,8 +106,7 @@ class ChromeAppUsbService {
   // Used to populate state.collection with an array of paired devices
   getDevices () {
     return new Promise((resolve, reject) => {
-      // { filters: REQUEST_DEVICE_FILTERS }
-      return navigator.chrome_usb.getDevices({ }, (deviceArray) => {
+      return navigator.chrome_usb.getDevices(GET_DEVICE_OPTIONS, (deviceArray) => {
         _.each(deviceArray, (d) => { this.addDevice(d) })
         return resolve(this.devices)
       })

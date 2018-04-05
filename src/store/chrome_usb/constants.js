@@ -1,6 +1,8 @@
-export const REQUEST_DEVICE_FILTERS = [
-  { vendorId: 0x10c4 }
-]
+export const SERIAL_NUMBER = 'serialNumber'
+
+export const GET_DEVICE_OPTIONS = {
+  vendorId: 4292
+}
 
 export const READ_MACRO_CONTROL_TRANSFER = {
   'requestType': 'vendor',

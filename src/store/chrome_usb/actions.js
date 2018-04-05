@@ -29,6 +29,7 @@ const actions = {
     let vuexDevices = []
     return ChromeAppUsbService.getDevices()
     .then((devices) => {
+      console.log(devices)
       _.each(devices, (d) => {
         let device = _.find(state.collection, { serialNumber: d.serialNumber })
         if (device) return vuexDevices.push(device)
