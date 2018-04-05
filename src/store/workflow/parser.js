@@ -2,13 +2,17 @@ import _ from 'lodash'
 import { KEYS } from './keys'
 import { KEY_UP_POSITION, KEY_PR_POSITION, KEY_DN_POSITION, WORKFLOW_STEP_DELAY, WORKFLOW_STEP_MACRO, WORKFLOW_STEP_KEYUP, WORKFLOW_STEP_TEXT, TEXT_WORKFLOW_STEP, MACRO_WORKFLOW_STEP, DELAY_WORKFLOW_STEP, KEYUP_WORKFLOW_STEP } from './constants'
 
-// 224-255 - Encapsulation delimiters
+// 1,2,3 - KEY ACTIONS
+// 224-254 - Encapsulation delimiters
+// 255 - RESERVED - INDICATES END OF MACRO
 const INDICATOR_START = 1 // INDICATOR START
 // const INDICATOR_END = 1 // INDICATOR END
 const KEYUP_INDICATOR = 128 // TEST KEYUP
 const DELAY_INDICATOR = 16 // WORKING
 const MACRO_INDICATOR = 253 // WORKING
 const TEXT_INDICATOR = 254 // WORKING
+
+// WORKFLOW SIZE LIMIT = 4096
 
 // // // //
 
@@ -148,7 +152,18 @@ class WorkflowParser {
 
         if (!key) {
           console.log('ALERT - KEY NOT FOUND!')
-          return { steps: [] }
+
+          if (pair[0] === 255 && pair[1] === 255) {
+            console.log('END MACRO')
+            console.log(macros)
+            // return { steps: macros }
+            break
+          } else {
+            console.log('??????')
+            console.log(pair)
+            console.log(macros)
+            return { steps: [] }
+          }
         }
 
         // Clones the macro object

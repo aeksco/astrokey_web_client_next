@@ -50,18 +50,13 @@ const actions = {
   // openDevice
   // store.dispatch('web_usb/openDevice', { device: UsbDevice })
   openDevice: ({ commit }, { device }) => {
-    ChromeAppUsbService.openDevice({ device })
-    .then((d) => {
-      console.log('OPENED')
-      console.log(d)
-      device.opened = true
-    })
+    return ChromeAppUsbService.openDevice({ device })
   },
 
   // closeDevice
   // store.dispatch('web_usb/closeDevice', { device: UsbDevice })
   closeDevice: ({ commit }, { device }) => {
-    ChromeAppUsbService.closeDevice(device).then((d) => { device.opened = false })
+    return ChromeAppUsbService.closeDevice(device).then((d) => { device.opened = false })
   },
 
   // readMacro
@@ -75,7 +70,7 @@ const actions = {
   // store.dispatch('web_usb/writeMacro', { device: UsbDevice, key: 0x0000, data: [ 1, 2, ... ] })
   // TODO - rename to writeWorkflow
   writeMacro: ({ commit }, { device, key, data }) => {
-    ChromeAppUsbService.writeMacro({ device, key, data })
+    return ChromeAppUsbService.writeMacro({ device, key, data })
   }
 }
 
