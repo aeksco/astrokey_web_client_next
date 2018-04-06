@@ -180,8 +180,9 @@ export default {
       let workflow = store.getters['device/selectedKeyWorkflow']
 
       store.dispatch('workflow/serialize', { workflow }).then((workflowPacket) => {
-        if (!this.device.opened) return
+        // if (!this.device.opened) return
         // return store.dispatch('web_usb/writeMacro', { device: this.device.instance, key: order, data: workflowPacket })
+        console.log(workflowPacket)
         return store.dispatch('chrome_usb/writeMacro', { device: this.device, key: key, data: workflowPacket })
       })
       this.clearSelectedKey()

@@ -360,12 +360,16 @@ class WorkflowParser {
         data.push(TEXT_INDICATOR) // TODO - Constantize as TEXT_START indicator
         data.push(INDICATOR_START) // ARBITRARY
         data = _.concat(data, this.serializeText(step.value))
+        // data.push(TEXT_INDICATOR) // TODO - Constantize as TEXT_START indicator
+        // data.push(INDICATOR_END) // ARBITRARY
       }
 
       if (step.type === WORKFLOW_STEP_MACRO) {
         data.push(MACRO_INDICATOR) // TODO - Constantize as MACRO_START indicator
         data.push(INDICATOR_START) // ARBITRARY
         data = _.concat(data, this.serializeKeys(step.value))
+        // data.push(MACRO_INDICATOR) // TODO - Constantize as MACRO_START indicator
+        // data.push(INDICATOR_END) // ARBITRARY
       }
     })
 

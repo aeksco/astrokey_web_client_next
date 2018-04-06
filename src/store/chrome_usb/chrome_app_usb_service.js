@@ -4,6 +4,12 @@ import { SERIAL_NUMBER, GET_DEVICE_OPTIONS, READ_MACRO_CONTROL_TRANSFER, WRITE_M
 
 // // // //
 
+const handleError = () => {
+  if (window.chrome.runtime.lastError) {
+    console.log('CAPTURED LAST ERROR: ', window.chrome.runtime.lastError.message)
+  }
+}
+
 // ChromeAppUsbService class definition
 // Responsible for managing USB devices
 // - requesting permission to pair with devices
@@ -70,6 +76,8 @@ class ChromeAppUsbService {
   // openDevice
   // Opens a single device
   openDevice ({ device }) {
+    handleError()
+
     let deviceInstance = _.find(this.devices, { serialNumber: device[SERIAL_NUMBER] })
     if (!deviceInstance) return
     return new Promise((resolve, reject) => {
@@ -105,6 +113,8 @@ class ChromeAppUsbService {
   // Invokes window.chrome.usb.getDevices()
   // Used to populate state.collection with an array of paired devices
   getDevices () {
+    handleError()
+
     return new Promise((resolve, reject) => {
       return window.chrome.usb.getDevices(GET_DEVICE_OPTIONS, (deviceArray) => {
         _.each(deviceArray, (d) => {
@@ -118,6 +128,8 @@ class ChromeAppUsbService {
   // readMacro
   // Reads a raw macro from an opened device
   readMacro ({ device, key }) {
+    handleError()
+
     // Isolates the deviceInstance from this.devices
     // TODO - handle error if deviceInstance is not defined?
     const deviceInstance = _.find(this.devices, { serialNumber: device[SERIAL_NUMBER] })
@@ -147,6 +159,8 @@ class ChromeAppUsbService {
   // writeMacro
   // Writes a raw macro to an opened device
   writeMacro ({ device, key, data }) {
+    handleError()
+
     // Isolates the deviceInstance from this.devices
     // TODO - handle error if deviceInstance is not defined?
     const deviceInstance = _.find(this.devices, { serialNumber: device[SERIAL_NUMBER] })
