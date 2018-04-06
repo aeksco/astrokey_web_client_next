@@ -1,6 +1,8 @@
 import ChromeAppUsbService from './chrome_app_usb_service'
 import _ from 'lodash'
+import { KEY_IDS } from './constants'
 
+// TODO - move into constants?
 function getVuexDevice (usbDeviceInstance) {
   // Isolates the requisite attributes
   return {
@@ -57,6 +59,16 @@ const actions = {
   // store.dispatch('web_usb/closeDevice', { device: UsbDevice })
   closeDevice: ({ commit }, { device }) => {
     return ChromeAppUsbService.closeDevice(device).then((d) => { device.opened = false })
+  },
+
+  // readAllMacros
+  // Read all macros from the device in a single pass
+  readAllMacros: ({ commit, dispatch }, { device }) => {
+    // Sets state.reading = true
+    commit('reading', true)
+    _.each(KEY_IDS, (key) => {
+      dispatch('readMacro', { device, key })
+    })
   },
 
   // readMacro
