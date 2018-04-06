@@ -127,6 +127,7 @@ class ChromeAppUsbService {
 
   // readMacro
   // Reads a raw macro from an opened device
+  // TODO - this should open and close the device each time it's invoked.
   readMacro ({ device, key }) {
     handleError()
 
@@ -146,6 +147,7 @@ class ChromeAppUsbService {
       window.chrome.usb.controlTransfer(deviceInstance.connectionHandle, READ_MACRO_OPTIONS, (response) => {
         console.log('readMacro response:')
         console.log(response)
+        // TODO - handle response code -> 1 == success, else == error
         console.log(new Uint8Array(response.data))
         return resolve(new Uint8Array(response.data))
       })
@@ -158,6 +160,7 @@ class ChromeAppUsbService {
 
   // writeMacro
   // Writes a raw macro to an opened device
+  // TODO - this should open and close the device each time it's invoked
   writeMacro ({ device, key, data }) {
     handleError()
 
@@ -179,6 +182,7 @@ class ChromeAppUsbService {
       return window.chrome.usb.controlTransfer(deviceInstance.connectionHandle, WRITE_MACRO_OPTIONS, (response) => {
         console.log('writeMacro response:')
         console.log(response)
+        // TODO - handle response code -> 1 == success, else == error
         // return resolve(new Uint8Array(response.data.buffer))
         return resolve(response)
       })
