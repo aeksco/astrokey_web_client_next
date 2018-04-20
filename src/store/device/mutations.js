@@ -16,14 +16,16 @@ const mutations = {
   add (state, device) {
     // Finds a device currently in the collection that matches
     // TODO - rename `serialNumber` to `id`?
-    let trackedDevice = _.find(state.collection, { serialNumber: device.serialNumber })
+    // let trackedDevice = _.find(state.collection, { serialNumber: device.serialNumber })
+    let trackedDevice = _.find(state.collection, { id: device.id })
 
     // Adds the device unless a tracked device is already present
     if (!trackedDevice) { state.collection.push(device) }
   },
   remove (state, device) {
     // Filters state.collection to remove the device with the matching serial number
-    state.collection = _.filter(state.collection, (d) => { return d.serialNumber !== device.serialNumber })
+    // state.collection = _.filter(state.collection, (d) => { return d.serialNumber !== device.serialNumber })
+    state.collection = _.filter(state.collection, (d) => { return d.id !== device.id })
   },
   selectedDevice (state, { device }) {
     state.selectedDevice = device

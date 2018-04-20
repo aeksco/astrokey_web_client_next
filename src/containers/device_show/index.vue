@@ -28,7 +28,8 @@ export default {
   // },
   computed: {
     device () {
-      return _.find(store.getters['device/collection'], { serialNumber: this.id })
+      // return _.find(store.getters['device/collection'], { serialNumber: this.id })
+      return _.find(store.getters['device/collection'], { id: this.id })
     }
   }
 }

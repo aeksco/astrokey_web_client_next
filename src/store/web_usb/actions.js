@@ -1,27 +1,80 @@
+import _ from 'lodash'
 import WebUsbService from './service'
+const USBDevices = []
 
-// actions
-// functions that causes side effects and can involve asynchronous operations.
-const actions = {
+// // // //
 
+function buildVuexDevice (usbDevice) {
+  return {
+    id: usbDevice.id,
+    productName: 'AstroKey',
+    type: 'chrome_web_usb',
+    opened: usbDevice.opened
+  }
+}
+
+function trackUsbDevice (device) {
+  let trackedDevice = _.find(USBDevices, { id: device.id })
+  if (trackedDevice) return
+  USBDevices.push(device)
+}
+
+function getUsbDevice (device_id) {
+  return _.find(USBDevices, { id: device_id })
+}
+
+// // // //
+
+export default {
   // Invoked with:
   // store.dispatch('web_usb/requestDevices')
-  requestDevices: ({ commit }) => WebUsbService.requestDevices({ commit }),
+  // TODO - ensure that this function does not add duplicate devices to store.collection
+  requestDevices: ({ dispatch }) => {
+    return WebUsbService.requestDevices()
+    .then((device) => {
+      trackUsbDevice(device)
+      dispatch('resetCollcetion')
+    })
+  },
+
+  // resets state.collection to be up-to-date with all devices in USBDevices array
+  resetCollcetion ({ commit }) {
+    let collection = []
+    _.each(USBDevices, (d) => {
+      collection.push(buildVuexDevice(d))
+    })
+
+    commit('collection', collection)
+  },
 
   // Invoked with:
   // store.dispatch('web_usb/getDevices')
-  getDevices: ({ commit }) => WebUsbService.getDevices(),
+  getDevices: ({ state, commit, dispatch }) => {
+    WebUsbService.getDevices()
+    .then((devices) => {
+      _.each(devices, (d) => { trackUsbDevice(d) })
+      dispatch('resetCollcetion')
+    })
+  },
 
   // Invoked with:
-  // store.dispatch('web_usb/openDevice', { device: UsbDevice })
-  openDevice: ({ commit }, { device }) => {
-    WebUsbService.openDevice(device).then((d) => { device.opened = true })
+  // store.dispatch('web_usb/openDevice', vuexDevice)
+  openDevice: ({ dispatch }, vuexDevice) => {
+    let usbDevice = getUsbDevice(vuexDevice.id)
+    if (!usbDevice) return
+
+    return WebUsbService.openDevice(usbDevice)
+    .then((d) => { dispatch('resetCollcetion') })
   },
 
   // Invoked with:
   // store.dispatch('web_usb/closeDevice', { device: UsbDevice })
-  closeDevice: ({ commit }, { device }) => {
-    WebUsbService.closeDevice(device).then((d) => { device.opened = false })
+  closeDevice: ({ dispatch }, vuexDevice) => {
+    let usbDevice = getUsbDevice(vuexDevice.id)
+    if (!usbDevice) return
+
+    WebUsbService.closeDevice(usbDevice)
+    .then((d) => { dispatch('resetCollcetion') })
   },
 
   // Invoked with:
@@ -33,7 +86,3 @@ const actions = {
   // TODO - rename to writeWorkflow
   writeMacro: ({ commit }, { device, key, data }) => WebUsbService.writeMacro({ commit }, device, key, data)
 }
-
-// // // //
-
-export default actions

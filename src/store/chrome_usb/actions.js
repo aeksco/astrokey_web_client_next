@@ -8,8 +8,9 @@ function getVuexDevice (usbDeviceInstance) {
   return {
     id: _.uniqueId('chrome_app_usb_'),
     type: 'chrome_usb',
-    serialNumber: usbDeviceInstance.serialNumber,
-    productName: usbDeviceInstance.productName,
+    // serialNumber: usbDeviceInstance.serialNumber,
+    // productName: usbDeviceInstance.productName,
+    productName: 'AstroKey',
     opened: usbDeviceInstance.opened || false,
     vendorId: usbDeviceInstance.vendorId,
     deviceVersionMajor: usbDeviceInstance.version,
@@ -35,7 +36,8 @@ const actions = {
     .then((devices) => {
       // Iterates over each device
       _.each(devices, (d) => {
-        let device = _.find(state.collection, { serialNumber: d.serialNumber })
+        // let device = _.find(state.collection, { serialNumber: d.serialNumber })
+        let device = _.find(state.collection, { id: d.id })
         if (device) return vuexDevices.push(device)
         return vuexDevices.push(getVuexDevice(d))
       })

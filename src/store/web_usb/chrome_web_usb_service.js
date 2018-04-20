@@ -37,7 +37,7 @@ class ChromeWebUsbService {
     })
 
     // Performs initial fetch of devices
-    this.getDevices()
+    // this.getDevices()
 
     return this
   }
@@ -46,16 +46,19 @@ class ChromeWebUsbService {
   // Gets or creates a new abstract represnetation of a WebUSB device
   getDevice (usbDeviceInstance) {
     // Finds and returns the device if it exists
-    let device = _.find(this.devices, { serialNumber: usbDeviceInstance.serialNumber })
+    // let device = _.find(this.devices, { serialNumber: usbDeviceInstance.serialNumber })
+    let device = _.find(this.devices, { id: usbDeviceInstance.id })
     if (device) { return device }
 
     // Adds a new device
     // Isolates the requisite attributes
     device = {
+      id: _.uniqueId('DEVICE_'),
       type: 'web_usb',
       instance: usbDeviceInstance,
       serialNumber: usbDeviceInstance.serialNumber,
-      productName: usbDeviceInstance.productName,
+      // productName: usbDeviceInstance.productName,
+      productName: 'AstroKey',
       opened: usbDeviceInstance.opened,
       deviceVersionMajor: usbDeviceInstance.deviceVersionMajor,
       deviceVersionMinor: usbDeviceInstance.deviceVersionMinor,
@@ -70,6 +73,7 @@ class ChromeWebUsbService {
 
   // addDevice
   // Adds a device to this.devices
+  // TODO - this should be in Vuex
   addDevice (usbDeviceInstance) {
     // TODO - SERIOUS
     // Devices must maintain a unique attribute that can be
@@ -81,12 +85,14 @@ class ChromeWebUsbService {
     let device = this.getDevice(usbDeviceInstance)
 
     // Adds device to device store
-    store.commit('device/add', device)
+    // store.commit('device/add', device)
+    this.devices.push(device)
     return device
   }
 
   // removeDevice
   // Adds a device to this.devices
+  // TODO - this should be in Vuex
   removeDevice (usbDeviceInstance) {
     let device = this.getDevice(usbDeviceInstance)
     // console.log('REMOVING DEVICE')
@@ -101,10 +107,10 @@ class ChromeWebUsbService {
   // Opens a single device
   openDevice (device) {
     return new Promise((resolve, reject) => {
-      return device.instance.open()
+      return device.open()
       .then(() => {
         // TODO - do we want to manage configuration selection in a separate method?
-        return device.instance.selectConfiguration(1)
+        return device.selectConfiguration(1)
         .then(() => {
           // Refreshes device list
           return resolve(device)
@@ -123,7 +129,7 @@ class ChromeWebUsbService {
   // Closes a single device
   closeDevice (device) {
     return new Promise((resolve, reject) => {
-      return device.instance.close()
+      return device.close()
       .then(() => {
         // Refreshes device list
         return resolve(device)
@@ -144,10 +150,12 @@ class ChromeWebUsbService {
     return new Promise((resolve, reject) => {
       return navigator.usb.getDevices()
       .then((deviceArray) => {
-        // Transforms each WebUSB device into an abstract representation
-        _.each(deviceArray, (d) => { this.addDevice(d) })
-        // Resolves the promise with this.devices
-        return resolve(this.devices)
+        deviceArray = deviceArray.map((d) => {
+          d.id = _.uniqueId('CWEB_USB_DEVICE_')
+          return d
+        })
+
+        return resolve(deviceArray)
       })
       .catch((err) => {
         console.log('ERR - navigator.usb.getDevices()')
@@ -160,12 +168,12 @@ class ChromeWebUsbService {
   // requestDevices
   // Invokes navigator.usb.requestDevice()
   // Used to find available devices that may not have already been paired
-  requestDevices ({ commit }) {
+  requestDevices () {
     // Returns a Promise to manage asynchonous behavior
     return new Promise((resolve, reject) => {
       return navigator.usb.requestDevice({ filters: REQUEST_DEVICE_FILTERS })
       .then((device) => {
-        return resolve(this.getDevices({ commit }))
+        return resolve(device)
       })
       .catch((err) => {
         console.log('ERR - navigator.usb.requestDevice()')

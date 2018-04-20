@@ -11,8 +11,11 @@
         <div class="card card-body bg-dark border-light text-light">
           <div class="row">
             <div class="col-lg-12">
-              <p class="card-text lead">{{device.productName}}
-                <small class='text-muted'>({{device.serialNumber}})</small>
+              <p class="card-text lead">
+                <!-- {{device.productName}} -->
+                {{ 'AstroKey' }}
+                <!-- <small class='text-muted'>({{device.serialNumber}})</small> -->
+                <small class='text-muted'>({{device.id}})</small>
               </p>
             </div>
           </div>
