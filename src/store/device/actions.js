@@ -1,4 +1,4 @@
-// import ProjectFactory from './factory'
+import _ from 'lodash'
 import store from '@/store'
 import router from '@/routers'
 
@@ -80,6 +80,43 @@ export default {
   // clearSelectedDevice
   // Clears state.selectedDevice
   clearSelectedDevice ({ commit }) {
+    commit('selectedKey', {})
     commit('selectedDevice', {})
+  },
+
+  // selectKey
+  // Sets state.selectedKey
+  selectKey ({ state, commit, dispatch }, key) {
+    // Stores state.selectedDevice
+    let device = state.selectedDevice
+
+    // Updates key.selected
+    device.keys = _.map(device.keys, (k) => {
+      if (k.id === key.id) {
+        k.selected = true
+      } else {
+        k.selected = false
+      }
+      return k
+    })
+
+    // // // //
+    // TODO - move all of this into an action that reads ALL macros from the device
+    dispatch('web_usb/readMacro', { device: device, key: key.order }, { root: true }).then((data) => {
+      console.log('READ MACRO - PARSE INTO WORKFLOW')
+      console.log(data)
+      dispatch('workflow/parse', { data: data }, { root: true }).then((workflow) => {
+        // Clean this up
+        workflow._id = 'abcdefabcdef123333'
+        workflow.label = 'My New Workflow'
+        workflow.author = 'aeksco'
+
+        // TODO - should be workflow/selectedWorkflow
+        commit('selectedKeyWorkflow', workflow)
+      })
+
+      // Updates state.selectedKey
+      commit('selectedKey', key)
+    })
   }
 }

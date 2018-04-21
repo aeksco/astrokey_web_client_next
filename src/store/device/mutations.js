@@ -30,16 +30,16 @@ const mutations = {
   selectedDevice (state, device) {
     state.selectedDevice = device
   },
-  selectedKey (state, { key }) {
+  selectedKey (state, key) {
     state.selectedKey = key
   },
   clearSelectedDevice (state) {
-    state.selectedDevice = null
+    state.selectedDevice = {}
   },
   clearSelectedKey (state) {
-    state.selectedKey = null
+    state.selectedKey = {}
   },
-  selectedKeyWorkflow (state, { workflow }) {
+  selectedKeyWorkflow (state, workflow) {
     state.selectedKeyWorkflow = _.cloneDeep(workflow)
   }
 }

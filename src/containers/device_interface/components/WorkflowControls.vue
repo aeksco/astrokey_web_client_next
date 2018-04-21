@@ -1,5 +1,5 @@
 <template>
-  <div class="row mt-4 align-items-center" v-if="selectedKey">
+  <div class="row mt-4 align-items-center">
     <div class="col-lg-12">
       <div class="row">
         <div class="col-lg-12" v-if="!selectedStep">
@@ -14,7 +14,7 @@
           </button>
         </div>
         <div class="col-lg-12">
-          <WorkflowEditor :workflow="selectedKeyWorkflow" v-if="selectedKey" />
+          <WorkflowEditor :workflow="selectedKeyWorkflow" />
         </div>
       </div>
     </div>
@@ -24,6 +24,7 @@
 <!-- // // // //  -->
 
 <script>
+import { mapGetters } from 'vuex'
 import WorkflowEditor from '../../workflow_edit/components/layout.vue'
 
 export default {
@@ -50,16 +51,9 @@ export default {
       return this.$store.commit('device/clearSelectedKey', { device: this.device })
     }
   },
-  computed: {
-    selectedKey () {
-      return this.$store.getters['device/selectedKey']
-    },
-    selectedKeyWorkflow () {
-      return this.$store.getters['device/selectedKeyWorkflow'] // TODO - remove
-    },
-    selectedStep () {
-      return this.$store.getters['workflow/selectedStep']
-    }
-  }
+  computed: mapGetters({
+    selectedKeyWorkflow: 'device/selectedKeyWorkflow',
+    selectedStep: 'workflow/selectedStep'
+  })
 }
 </script>

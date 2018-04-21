@@ -14,7 +14,14 @@ function buildVuexDevice (usbDevice) {
     productName: 'AstroKey',
     type: 'chrome_web_usb',
     opened: usbDevice.opened,
-    fetching: false
+    fetching: false,
+    keys: [
+      { id: 'KEY_01', order: 0x0000, selected: false, workflow: {} },
+      { id: 'KEY_02', order: 0x0001, selected: false, workflow: {} },
+      { id: 'KEY_03', order: 0x0002, selected: false, workflow: {} },
+      { id: 'KEY_04', order: 0x0003, selected: false, workflow: {} },
+      { id: 'KEY_05', order: 0x0004, selected: false, workflow: {} }
+    ]
   }
 }
 

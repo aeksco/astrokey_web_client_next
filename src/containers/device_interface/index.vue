@@ -10,7 +10,7 @@
 
       <!-- WelcomeMessage and Workflow -->
       <div class="col-lg-8 selected-key-detail">
-        <WelcomeMessage v-if="!selectedKey"/>
+        <WelcomeMessage v-if="!selectedKey.id"/>
         <WorkflowControls v-else :device="device" />
       </div>
 
@@ -54,15 +54,12 @@ export default {
 }
 </script>
 
+<!-- // // // //  -->
 
 <style lang="sass" scoped>
-
-// TODO - move <MOST> if not all of this into the DeviceMockup component
 @import '../../sass/vendor.sass'
 
 .selected-key-detail
   border-left: 1px solid theme-color('light')
 
 </style>
-
-

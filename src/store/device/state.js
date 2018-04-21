@@ -5,7 +5,7 @@ const state = {
   current: {},
   fetching: false,
   selectedDevice: {},
-  selectedKey: null,
+  selectedKey: {},
   selectedKeyWorkflow: {}
 }
 
