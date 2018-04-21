@@ -79,9 +79,20 @@ export default {
 
   // clearSelectedDevice
   // Clears state.selectedDevice
-  clearSelectedDevice ({ commit }) {
+  clearSelectedDevice ({ commit, dispatch }) {
     commit('selectedKey', {})
     commit('selectedDevice', {})
+  },
+
+  // clearSelectedKey
+  // Clears state.selectedKey
+  clearSelectedKey ({ state, commit }) {
+    let device = state.selectedDevice
+    device.keys = _.map(device.keys, (k) => {
+      k.selected = false
+      return k
+    })
+    commit('selectedKey', {})
   },
 
   // selectKey

@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import store from '@/store'
+import router from '@/routers'
 import { REQUEST_DEVICE_FILTERS, READ_MACRO_CONTROL_TRANSFER, WRITE_MACRO_CONTROL_TRANSFER } from './constants'
 const USBDevices = []
 
@@ -77,6 +78,7 @@ export default {
       .catch((err) => {
         console.log('ERR - navigator.usb.requestDevice()')
         // throw err
+        dispatch('handleError')
         return reject(err)
       })
     })
@@ -129,6 +131,7 @@ export default {
       .catch((err) => {
         console.log('ERR - navigator.usb.getDevices()')
         // throw err
+        dispatch('handleError')
         return reject(err)
       })
     })
@@ -150,6 +153,7 @@ export default {
       .catch((err) => {
         console.log('ERR - USBDevice.open() failure')
         // throw err
+        dispatch('handleError')
         return reject(err)
       })
     })
@@ -168,6 +172,7 @@ export default {
       .catch((err) => {
         console.log('ERR - USBDevice.close() failure')
         // throw err
+        dispatch('handleError')
         return reject(err)
       })
     })
@@ -175,7 +180,7 @@ export default {
 
   // Invoked with:
   // store.dispatch('web_usb/readMacro', { device: UsbDevice, key: 0x0000 })
-  readMacro: ({ commit }, { device, key }) => {
+  readMacro: ({ commit, dispatch }, { device, key }) => {
     let usbDevice = getUsbDevice(device.id)
     if (!usbDevice) return
 
@@ -199,6 +204,7 @@ export default {
       })
       .catch((err) => {
         console.log('readMacro error:')
+        dispatch('handleError')
         return reject(err)
       })
     })
@@ -207,7 +213,7 @@ export default {
   // Invoked with:
   // store.dispatch('web_usb/writeMacro', { device: UsbDevice, key: 0x0000, data: [ 1, 2, ... ] })
   // TODO - rename to writeWorkflow
-  writeMacro: ({ commit }, { device, key, data }) => {
+  writeMacro: ({ commit, dispatch }, { device, key, data }) => {
     let usbDevice = getUsbDevice(device.id)
     if (!usbDevice) return
 
@@ -227,8 +233,14 @@ export default {
       })
       .catch((err) => {
         console.log('writeMacro error:')
+        dispatch('handleError')
         return reject(err)
       })
     })
+  },
+
+  handleError ({ commit }) {
+    router.push('/devices')
+    commit('notification/add', { message: 'A USB error has occured', context: 'danger', dismissible: true }, { root: true })
   }
 }
