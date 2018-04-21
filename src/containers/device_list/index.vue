@@ -5,7 +5,7 @@
     <PageHeader title="Devices" />
     <DeviceList />
 
-    <!-- <hr> -->
+    <!-- TODO - maybe pull these out into a separate component... -->
     <div class="row mt-4">
       <div class="col-lg-12">
         <button class='btn btn-light btn-block' @click="requestDevices">
