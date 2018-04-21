@@ -27,7 +27,7 @@ const mutations = {
     // state.collection = _.filter(state.collection, (d) => { return d.serialNumber !== device.serialNumber })
     state.collection = _.filter(state.collection, (d) => { return d.id !== device.id })
   },
-  selectedDevice (state, { device }) {
+  selectedDevice (state, device) {
     state.selectedDevice = device
   },
   selectedKey (state, { key }) {

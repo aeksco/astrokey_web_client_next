@@ -41,7 +41,7 @@ navigator.usb.addEventListener('connect', (usbConnectionEvent) => {
   let device = usbConnectionEvent.device
   device.id = getUniqueId()
   trackUsbDevice(device)
-  store.dispatch('web_usb/resetCollcetion')
+  store.dispatch('web_usb/resetCollection')
 })
 
 // WebUSB Device 'disconnect' event handler
@@ -51,7 +51,7 @@ navigator.usb.addEventListener('disconnect', (usbConnectionEvent) => {
   // TODO - these should JUST hit the 'device/add' directly
   // store.commit('web_usb/remove', usbConnectionEvent.device)
   // USBDevices.push(usbConnectionEvent.device)
-  store.dispatch('web_usb/resetCollcetion')
+  store.dispatch('web_usb/resetCollection')
 })
 
 // // // //
@@ -65,7 +65,7 @@ export default {
       return navigator.usb.requestDevice({ filters: REQUEST_DEVICE_FILTERS })
       .then((device) => {
         trackUsbDevice(device)
-        dispatch('resetCollcetion')
+        dispatch('resetCollection')
       })
       .catch((err) => {
         console.log('ERR - navigator.usb.requestDevice()')
@@ -76,13 +76,33 @@ export default {
   },
 
   // resets state.collection to be up-to-date with all devices in USBDevices array
-  resetCollcetion ({ commit }) {
+  resetCollection ({ commit, dispatch }) {
     let collection = []
     _.each(USBDevices, (d) => {
       collection.push(buildVuexDevice(d))
     })
 
+    // Updates the collection
     commit('collection', collection)
+
+    // Updates device.selectedDevice
+    dispatch('updateSelectedDevice')
+  },
+
+  updateSelectedDevice ({ state, commit, rootGetters }) {
+    let selectedDevice = rootGetters['device/selectedDevice']
+    if (!selectedDevice.id) return
+
+    console.log('UPDATE SELECTED DEVICE')
+    console.log(selectedDevice.id)
+    console.log(selectedDevice.opened)
+
+    let updatedDevice = _.find(state.collection, { id: selectedDevice.id })
+    if (!updatedDevice) return
+    console.log('LATEST DEVICE?')
+    console.log(updatedDevice.id)
+    console.log(updatedDevice.opened)
+    commit('device/selectedDevice', updatedDevice, { root: true })
   },
 
   // Invoked with:
@@ -96,7 +116,7 @@ export default {
           trackUsbDevice(d)
         })
 
-        dispatch('resetCollcetion')
+        dispatch('resetCollection')
         return resolve()
       })
       .catch((err) => {
@@ -117,7 +137,7 @@ export default {
       return usbDevice.open().then(() => {
         // QUESTION - do we want to manage configuration selection in a separate method?
         return usbDevice.selectConfiguration(1).then(() => {
-          dispatch('resetCollcetion')
+          dispatch('resetCollection')
         })
       })
       .catch((err) => {
@@ -136,7 +156,7 @@ export default {
 
     return new Promise((resolve, reject) => {
       return usbDevice.close().then(() => {
-        dispatch('resetCollcetion')
+        dispatch('resetCollection')
       })
       .catch((err) => {
         console.log('ERR - USBDevice.close() failure')

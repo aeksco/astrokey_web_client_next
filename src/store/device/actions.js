@@ -1,11 +1,10 @@
 // import ProjectFactory from './factory'
 import store from '@/store'
+import router from '@/routers'
 
 // // // //
 
-// actions
-// functions that causes side effects and can involve asynchronous operations.
-const actions = {
+export default {
   // fetchCollection: ({ commit }) => ProjectFactory.fetchCollection({ commit }),
 
   // fetchModel: ({ commit }, id) => ProjectFactory.fetchModel({ commit }, id),
@@ -26,7 +25,7 @@ const actions = {
     // Handles WebUSB & WebBluetooth devices
     // TODO - constantize 'web_usb'
     if (device.type === 'web_usb') {
-      return store.dispatch('web_usb/openDevice', { device: device })
+      return store.dispatch('web_usb/openDevice', { device })
     }
 
     if (device.type === 'chrome_usb') {
@@ -54,9 +53,26 @@ const actions = {
     if (device.type === 'web_bluetooth') {
       return store.dispatch('web_bluetooth/closeDevice', { device: device })
     }
+  },
+
+  // showDeveloperInterface
+  // Sets state.selectedDevice & navigates to /devices/developer
+  showDeveloperInterface ({ commit }, device) {
+    commit('selectedDevice', device)
+    router.push('/devices/developer')
+  },
+
+  // ensureSelectedDevice
+  // Redirects unless state.selectedDevice is defined
+  ensureSelectedDevice ({ state }) {
+    if (!state.selectedDevice.id) {
+      router.push('/devices')
+    }
+  },
+
+  // clearSelectedDevice
+  // Clears state.selectedDevice
+  clearSelectedDevice ({ commit }) {
+    commit('selectedDevice', {})
   }
 }
-
-// // // //
-
-export default actions
