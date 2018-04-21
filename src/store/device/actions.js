@@ -5,16 +5,6 @@ import router from '@/routers'
 // // // //
 
 export default {
-  // fetchCollection: ({ commit }) => ProjectFactory.fetchCollection({ commit }),
-
-  // fetchModel: ({ commit }, id) => ProjectFactory.fetchModel({ commit }, id),
-
-  // create: ({ commit }, attributes) => ProjectFactory.create({ commit }, attributes),
-
-  // update: ({ commit }, attributes) => ProjectFactory.update({ commit }, attributes),
-
-  // destroy: ({ commit }, id) => ProjectFactory.destroy({ commit }, id)
-
   // connect
   // Invoked with store.commit('device/connect', { device })
   // TODO - change device to device.id, move into state
