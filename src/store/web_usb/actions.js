@@ -215,7 +215,7 @@ export default {
       // Clones the READ_MACRO_CONTROL_TRANSFER request object
       // And adds custom `value` attribute to handle the index of the key we're reading from
       let WRITE_MACRO_OPTIONS = _.clone(WRITE_MACRO_CONTROL_TRANSFER)
-      WRITE_MACRO_OPTIONS.value = key
+      WRITE_MACRO_OPTIONS.value = key.order
 
       // NOTE - `device.controlTransferOut` WRITES DATA TO DEVICE
       return usbDevice.controlTransferOut(WRITE_MACRO_OPTIONS, new Uint8Array(data).buffer)

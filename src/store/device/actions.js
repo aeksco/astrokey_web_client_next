@@ -132,4 +132,17 @@ export default {
     })
     commit('selectedKey', {})
   }
+
+  // readAllMacros
+  // readAllMacros ({ state, commit, dispatch }) {
+  //   let device = state.selectedDevice
+  //   _.each(device.keys, (key) => {
+  //     // TODO - use Promise.each / Promise.all here
+  //     dispatch('web_usb/readMacro', { device, key }, { root: true })
+  //     .then((data) => {
+  //       console.log('READ KEY: ', key.id)
+  //       key.workflow = data
+  //     })
+  //   })
+  // }
 }
