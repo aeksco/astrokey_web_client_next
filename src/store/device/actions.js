@@ -62,6 +62,13 @@ export default {
     router.push('/devices/developer')
   },
 
+  // showWorkflowInterface
+  // Sets state.selectedDevice & navigates to /devices/interface
+  showWorkflowInterface ({ commit }, device) {
+    commit('selectedDevice', device)
+    router.push('/devices/interface')
+  },
+
   // ensureSelectedDevice
   // Redirects unless state.selectedDevice is defined
   ensureSelectedDevice ({ state }) {

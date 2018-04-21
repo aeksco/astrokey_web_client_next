@@ -35,7 +35,11 @@ import PageHeader from '@/components/PageHeader'
 import OpenDeviceButton from '@/components/OpenDeviceButton'
 import CloseDeviceButton from '@/components/CloseDeviceButton'
 
+// TODO - much of this is repeated from `device_show`
 export default {
+  metaInfo: {
+    title: 'Device - Developer Interface'
+  },
   components: {
     PageHeader,
     OpenDeviceButton,
@@ -46,9 +50,6 @@ export default {
   },
   beforeDestroy () {
     this.clearDevice()
-  },
-  metaInfo: {
-    title: 'Device - Developer Interface'
   },
   computed: mapGetters({
     device: 'device/selectedDevice'

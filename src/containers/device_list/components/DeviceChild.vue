@@ -7,12 +7,10 @@
         <div class="col-lg-8">
 
           <!-- Device URL -->
-          <a v-bind:href="'#/devices/' + device.id + '/interface'">
-            {{ device.productName }}
-          </a>
+          <a href @click.prevent="showWorkflowInterface(device)">{{ device.productName }}</a>
 
           <!-- Device ID -->
-          <!-- DEBUG ONLY -->
+          <!-- NOTE - DEBUG ONLY -->
           <small class='text-muted'>({{device.id}})</small>
         </div>
 
@@ -20,25 +18,20 @@
 
           <!-- Developer Interface -->
           <button class="btn btn-sm btn-outline-light" @click="showDeveloperInterface(device)">
-            <i class="fa fa-fw fa-code mr-2"></i>
+            <i class="fa fa-fw fa-code mr-1"></i>
             Developer
           </button>
 
           <!-- Workflow Interface -->
-          <!-- TODO - change this <a> to a <button> like above -->
-          <a class="btn btn-sm btn-outline-info" :href="'#/devices/' + device.id + '/interface'">
-            <i class="fa fa-fw fa-cog mr-2"></i>
+          <button class="btn btn-sm btn-outline-info" @click="showWorkflowInterface(device)">
+            <i class="fa fa-fw fa-cog mr-1"></i>
             Interface
-          </a>
-
-          <!-- Open Device -->
-          <OpenDeviceButton :device="device" />
-          <CloseDeviceButton :device="device" />
+          </button>
 
           <!-- Loading -->
-          <span class='badge badge-dark' v-if="device.fetching">
-            <i class="p-1 fa fa-spinner fa-spin"></i>
-          </span>
+          <!-- <span class='badge badge-dark' v-if="device.fetching"> -->
+            <!-- <i class="p-1 fa fa-spinner fa-spin"></i> -->
+          <!-- </span> -->
 
         </div>
 
@@ -51,17 +44,12 @@
 
 <script>
 import { mapActions } from 'vuex'
-import OpenDeviceButton from '@/components/OpenDeviceButton'
-import CloseDeviceButton from '@/components/CloseDeviceButton'
 
 export default {
   props: ['device'],
-  components: {
-    OpenDeviceButton,
-    CloseDeviceButton
-  },
   methods: mapActions({
-    showDeveloperInterface: 'device/showDeveloperInterface'
+    showDeveloperInterface: 'device/showDeveloperInterface',
+    showWorkflowInterface: 'device/showWorkflowInterface'
   })
 }
 </script>
