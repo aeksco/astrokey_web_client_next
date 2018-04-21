@@ -118,5 +118,18 @@ export default {
       // Updates state.selectedKey
       commit('selectedKey', key)
     })
+  },
+
+  // writeSelectedKey
+  // Writes a workflow to state.selectedKey
+  writeSelectedKey ({ state, commit, dispatch }) {
+    let device = state.selectedDevice
+    let key = state.selectedKey
+    let workflow = state.selectedKeyWorkflow
+
+    dispatch('workflow/serialize', { workflow }, { root: true }).then((workflowPacket) => {
+      return dispatch('web_usb/writeMacro', { device, key, data: workflowPacket }, { root: true })
+    })
+    commit('selectedKey', {})
   }
 }

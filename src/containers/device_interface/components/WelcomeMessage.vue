@@ -30,8 +30,6 @@ export default {}
 </script>
 
 <style lang="sass" scoped>
-
-// TODO - move <MOST> if not all of this into the DeviceMockup component
 @import '../../../sass/vendor.sass'
 
 img.welcome-logo
