@@ -10,9 +10,8 @@ export const DeviceListRoute = {
 }
 
 export const DeviceShowRoute = {
-  path: '/devices/:id',
-  component: DeviceShow,
-  props: true
+  path: '/devices/developer',
+  component: DeviceShow
 }
 
 export const DeviceInterfaceRoute = {
