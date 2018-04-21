@@ -1,13 +1,30 @@
 
 <template>
-  <LayoutView :device="device" v-if="device" />
+  <div class="container-fluid">
+    <div class="row h-100">
+
+      <!-- Device Mockup -->
+      <div class="col-lg-4 d-flex justify-content-center flex-column align-items-center">
+        <DeviceControls :device="device" />
+      </div>
+
+      <!-- WelcomeMessage and Workflow -->
+      <div class="col-lg-8 selected-key-detail">
+        <WelcomeMessage v-if="!selectedKey"/>
+        <WorkflowControls v-else :device="device" />
+      </div>
+
+    </div>
+  </div>
 </template>
 
 <!-- // // // //  -->
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import LayoutView from './components/layout.vue'
+import DeviceControls from './components/DeviceControls'
+import WelcomeMessage from './components/WelcomeMessage'
+import WorkflowControls from './components/WorkflowControls'
 
 // TODO - much of this is repeated from `device_show`
 export default {
@@ -15,7 +32,9 @@ export default {
     title: 'Device - Interface'
   },
   components: {
-    LayoutView
+    DeviceControls,
+    WelcomeMessage,
+    WorkflowControls
   },
   created () {
     this.ensureDevice()
@@ -24,7 +43,9 @@ export default {
     this.clearDevice()
   },
   computed: mapGetters({
-    device: 'device/selectedDevice'
+    device: 'device/selectedDevice',
+    selectedKey: 'device/selectedKey'
+
   }),
   methods: mapActions({
     ensureDevice: 'device/ensureSelectedDevice',
@@ -32,5 +53,16 @@ export default {
   })
 }
 </script>
+
+
+<style lang="sass" scoped>
+
+// TODO - move <MOST> if not all of this into the DeviceMockup component
+@import '../../sass/vendor.sass'
+
+.selected-key-detail
+  border-left: 1px solid theme-color('light')
+
+</style>
 
 
