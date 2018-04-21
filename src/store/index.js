@@ -2,7 +2,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import device from './device'
-import user from './user'
 import chrome_usb from './chrome_usb'
 import web_usb from './web_usb'
 import web_bluetooth from './web_bluetooth'
@@ -18,7 +17,6 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
     device,
-    user,
     chrome_usb,
     web_usb,
     web_bluetooth,
