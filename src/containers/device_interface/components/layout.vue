@@ -122,6 +122,7 @@ export default {
     WorkflowEditor
   },
   created () {
+    // TODO - move these into Vuex store
     this.keys = [
       { id: 'device_1_key_1', order: 0x0000, selected: false, config: { type: 'macro', macros: [] } },
       { id: 'device_1_key_2', order: 0x0001, selected: false, config: { type: 'macro', macros: [] } },

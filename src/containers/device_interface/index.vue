@@ -11,18 +11,17 @@ import LayoutView from './components/layout.vue'
 
 export default {
   props: ['id'],
+  metaInfo: {
+    title: 'Device - Interface'
+  },
   components: {
     LayoutView
-  },
-  metaInfo: {
-    title: 'Device - Interface' // title is now "AstroKey - Device - Interface"
   },
   mounted () {
     // NOTE: eases delays that occur while developing this page as a standalone
     // TODO - clean up this mess
     setTimeout(() => {
-      // let device = _.find(this.$store.getters['device/collection'], { serialNumber: this.id })
-      let device = _.find(this.$store.getters['device/collection'], { id: this.id })
+      let device = _.find(this.$store.getters['web_usb/collection'], { id: this.id })
       this.$store.commit('device/selectedDevice', { device })
     }, 200)
   },
