@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import store from '@/store'
 import router from '@/routers'
-import { REQUEST_DEVICE_FILTERS, READ_MACRO_CONTROL_TRANSFER, WRITE_MACRO_CONTROL_TRANSFER } from './constants'
+import { REQUEST_DEVICE_FILTERS, READ_MACRO_CONTROL_TRANSFER, WRITE_MACRO_CONTROL_TRANSFER, DEFAULT_CONTROL_TRANSFER } from './constants'
 const USBDevices = []
 
 // // // //
@@ -237,6 +237,20 @@ export default {
         return reject(err)
       })
     })
+  },
+
+  // controlTransferOut
+  // Send arbitrary control transfers
+  controlTransferOut ({ commit, dispatch }, { device }) {
+    let usbDevice = getUsbDevice(device.id)
+    if (!usbDevice) return
+    console.log('CONTORL TRANSFER OUT')
+  },
+
+  // resetTransferPayload
+  // Resets state.transferPayload
+  resetTransferPayload ({ commit }) {
+    commit('transferPayload', DEFAULT_CONTROL_TRANSFER)
   },
 
   handleError ({ commit }) {

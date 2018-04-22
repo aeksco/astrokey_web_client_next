@@ -6,6 +6,9 @@ const mutations = {
   },
   collection (state, collection) {
     state.collection = collection
+  },
+  transferPayload (state, transferPayload) {
+    state.transferPayload = transferPayload
   }
 }
 

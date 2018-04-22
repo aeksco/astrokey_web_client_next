@@ -19,6 +19,9 @@
               </p>
             </div>
           </div>
+
+          <ControlTransferForm :device="device" />
+
         </div>
       </div>
     </div>
@@ -34,6 +37,7 @@ import { mapGetters, mapActions } from 'vuex'
 import PageHeader from '@/components/PageHeader'
 import OpenDeviceButton from '@/components/OpenDeviceButton'
 import CloseDeviceButton from '@/components/CloseDeviceButton'
+import ControlTransferForm from './components/ControlTransferForm'
 
 // TODO - much of this is repeated from `device_show`
 export default {
@@ -43,7 +47,8 @@ export default {
   components: {
     PageHeader,
     OpenDeviceButton,
-    CloseDeviceButton
+    CloseDeviceButton,
+    ControlTransferForm
   },
   created () {
     this.ensureDevice()
