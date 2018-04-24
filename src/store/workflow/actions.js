@@ -7,12 +7,12 @@ import WorkflowParser from './parser'
 const actions = {
   // serialize
   serialize ({ commit }, { workflow }) {
-    WorkflowParser.serialize(workflow)
+    return WorkflowParser.serialize(workflow)
   },
 
   // parse
   parse ({ commit }, { data }) {
-    WorkflowParser.parse(data)
+    return WorkflowParser.parse(data)
   }
 }
 
