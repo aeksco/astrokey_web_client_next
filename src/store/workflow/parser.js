@@ -6,12 +6,13 @@ import { KEY_UP_POSITION, KEY_PR_POSITION, KEY_DN_POSITION, WORKFLOW_STEP_DELAY,
 // 1,2,3 - KEY ACTIONS
 // 224-254 - Encapsulation delimiters
 // 255 - RESERVED - INDICATES END OF MACRO
-const INDICATOR_START = 1 // INDICATOR START
-// const INDICATOR_END = 1 // INDICATOR END
-const KEYUP_INDICATOR = 128 // TEST KEYUP
-const DELAY_INDICATOR = 16 // WORKING
-const MACRO_INDICATOR = 253 // WORKING
-const TEXT_INDICATOR = 254 // WORKING
+// const STEP_INITIATOR = 1 // STEP_INITIATOR
+const STEP_TERMINATOR = 224 // STEP_TERMINATOR
+
+const DELAY_INITIATOR = 16 // WORKING
+const KEYUP_INITIATOR = 128 // TEST KEYUP
+const MACRO_INITIATOR = 253 // WORKING
+const TEXT_INITIATOR = 254 // WORKING
 
 // WORKFLOW SIZE LIMIT = 4096
 
@@ -27,22 +28,25 @@ class WorkflowParser {
 
   // parse
   // Parses a workflow data buffer read from the device into the database-level abstraction
-  parse (data) {
+  parseOld (data) {
     // Stores the keys used to populate the macro collection
     let macro
     let macros = []
-    // let parsedMacros = []
 
     // Compacts the data array
     // QUESTION - will we ever have zeros between each key stroke?
+    // Doesn't look like it - but keep it in mind here.
     data = _.compact(data)
 
     // Splits the array into pairs of [position, character_id]
     let pairs = pairArray(data)
 
+    // Defines variable to store the current step in the workflow
     let currentWorkflowStep = null
 
-    function addWorkflowStep () {
+    // persistWorkflowStep helper function
+    // Adds an ID to the currentWorkflow step
+    const persistWorkflowStep = () => {
       currentWorkflowStep.id = randomId()
       currentWorkflowStep.order = macros.length
       // Parses TEXT
@@ -61,14 +65,14 @@ class WorkflowParser {
 
     // Iterates over each pair in the macroArray
     for (let index = 0; index < pairs.length; index++) {
-      // Captures and formats the position
+      // Captures values at the index position
       const pair = pairs[index]
       const position = pair[0]
 
       // KEYUP_WORKFLOW_STEP
-      if (pair[0] === KEYUP_INDICATOR) {
+      if (pair[0] === KEYUP_INITIATOR) {
         if (currentWorkflowStep) {
-          addWorkflowStep()
+          persistWorkflowStep()
         }
         // Clones the macro object
         macro = _.clone(KEYUP_WORKFLOW_STEP)
@@ -77,9 +81,9 @@ class WorkflowParser {
         macros.push(macro)
 
       // DELAY_WORKFLOW_STEP
-      } else if (pair[0] === DELAY_INDICATOR) {
+      } else if (pair[0] === DELAY_INITIATOR) {
         if (currentWorkflowStep) {
-          addWorkflowStep()
+          persistWorkflowStep()
         }
         // Clones the macro object
         macro = _.clone(DELAY_WORKFLOW_STEP)
@@ -91,9 +95,9 @@ class WorkflowParser {
         macros.push(macro)
 
       // TEXT_WORKFLOW_STEP
-      } else if (pair[0] === TEXT_INDICATOR) {
+      } else if (pair[0] === TEXT_INITIATOR) {
         if (currentWorkflowStep) {
-          addWorkflowStep()
+          persistWorkflowStep()
         }
         // Clones the macro object
         macro = _.clone(TEXT_WORKFLOW_STEP)
@@ -110,9 +114,9 @@ class WorkflowParser {
         // macro.value = 'TEXT TEXT'
 
       // MACRO_WORKFLOW_STEP
-      } else if (pair[0] === MACRO_INDICATOR) {
+      } else if (pair[0] === MACRO_INITIATOR) {
         if (currentWorkflowStep) {
-          addWorkflowStep()
+          persistWorkflowStep()
         }
 
         // Clones the macro object
@@ -195,6 +199,95 @@ class WorkflowParser {
     // TODO - rename to `workflow`
     console.log({ steps: macros })
     return { steps: macros }
+  }
+
+  parse (data) {
+    // Stores the parsed workflow
+    let workflowSteps = []
+
+    // Compacts the data array
+    // QUESTION - will we ever have zeros between each key stroke?
+    // Doesn't look like it - but keep it in mind here.
+    data = _.compact(data)
+
+    // Splits the array into pairs of [position, character_id]
+    // let pairs = pairArray(data)
+
+    // Adds an individual step to the workflow
+    const addToWorkflow = (step) => {
+      step.id = randomId()
+      step.order = workflowSteps.length
+      workflowSteps.push(step)
+    }
+
+    // persistWorkflowStep helper function
+    // Adds an ID to the currentWorkflow step
+    const persistWorkflowStep = (step) => {
+      // currentWorkflowStep.id = randomId()
+      // currentWorkflowStep.order = macros.length
+      // // Parses TEXT
+      // if (currentWorkflowStep.type === 'TEXT') {
+      //   currentWorkflowStep.value = this.parseText(currentWorkflowStep.value)
+      // }
+      // // Parses MACRO
+      // if (currentWorkflowStep.type === 'MACRO') {
+      //   currentWorkflowStep.value = this.sanitizeMacro(currentWorkflowStep.value)
+      // }
+
+      // // Appends currentWorkflowstep to macros array
+      // macros.push(currentWorkflowStep)
+      // currentWorkflowStep = null
+
+      // Isolates the STEP_INITIATOR variable
+      let STEP_INITIATOR = step.shift()
+
+      let workflowStep
+
+      switch (STEP_INITIATOR) {
+        case (DELAY_INITIATOR):
+          console.log('DELAY')
+          console.log(step)
+          workflowStep = _.clone(DELAY_WORKFLOW_STEP)
+          workflowStep.value = step[1]
+          addToWorkflow(workflowStep)
+          break
+
+        case (MACRO_INITIATOR):
+          console.log('MACRO')
+          console.log(step)
+          workflowStep = _.clone(MACRO_WORKFLOW_STEP)
+          workflowStep.value = step
+          addToWorkflow(workflowStep)
+          break
+        case (TEXT_INITIATOR):
+          console.log('TEXT')
+          console.log(step)
+          break
+        case (KEYUP_INITIATOR):
+          console.log('KEYUP')
+          console.log(step)
+          workflowStep = _.clone(KEYUP_WORKFLOW_STEP)
+          addToWorkflow(workflowStep)
+          break
+      }
+    }
+
+    // // // //
+
+    // Splits into individual workflow steps
+    let steps = data.join(',').split(`,${STEP_TERMINATOR},`)
+
+    // Splits each step BACK into an array
+    steps = _.map(steps, (s) => {
+      let step = s.split(',')
+      return step.map(i => Number(i))
+    })
+
+    // Parses each workflow step
+    _.each(steps, (step) => { persistWorkflowStep(step) })
+
+    // Returns the array of Workflow steps
+    return workflowSteps
   }
 
   // sanitizeMacro
@@ -336,31 +429,33 @@ class WorkflowParser {
 
       // TODO - change to switch statement
       if (step.type === WORKFLOW_STEP_DELAY) {
-        data.push(DELAY_INDICATOR) // TODO - CONSTANTIZE AS DELAY INDICATOR
+        data.push(DELAY_INITIATOR) // TODO - CONSTANTIZE AS DELAY INDICATOR
         data.push(step.value) // 1 - 255 (i.e. 5 = 5 x 100ms = 500ms)
+        data.push(STEP_TERMINATOR) // ARBITRARY
         return
       }
 
       if (step.type === WORKFLOW_STEP_KEYUP) {
-        data.push(KEYUP_INDICATOR) // TODO - CONSTANTIZE as KEY_UP indicator
-        data.push(INDICATOR_START) // ARBITRARY
+        data.push(KEYUP_INITIATOR) // TODO - CONSTANTIZE as KEY_UP indicator
+        data.push(STEP_TERMINATOR) // ARBITRARY
+        // data.push(STEP_INITIATOR) // ARBITRARY
         return
       }
 
       if (step.type === WORKFLOW_STEP_TEXT) {
-        data.push(TEXT_INDICATOR) // TODO - Constantize as TEXT_START indicator
-        data.push(INDICATOR_START) // ARBITRARY
+        data.push(TEXT_INITIATOR) // TODO - Constantize as TEXT_START indicator
+        // data.push(STEP_INITIATOR) // ARBITRARY
         data = _.concat(data, this.serializeText(step.value))
-        // data.push(TEXT_INDICATOR) // TODO - Constantize as TEXT_START indicator
-        // data.push(INDICATOR_END) // ARBITRARY
+        // data.push(TEXT_INITIATOR) // TODO - Constantize as TEXT_START indicator
+        data.push(STEP_TERMINATOR) // ARBITRARY
       }
 
       if (step.type === WORKFLOW_STEP_MACRO) {
-        data.push(MACRO_INDICATOR) // TODO - Constantize as MACRO_START indicator
-        data.push(INDICATOR_START) // ARBITRARY
+        data.push(MACRO_INITIATOR) // TODO - Constantize as MACRO_START indicator
+        // data.push(STEP_INITIATOR) // ARBITRARY
         data = _.concat(data, this.serializeKeys(step.value))
-        // data.push(MACRO_INDICATOR) // TODO - Constantize as MACRO_START indicator
-        // data.push(INDICATOR_END) // ARBITRARY
+        // data.push(MACRO_INITIATOR) // TODO - Constantize as MACRO_START indicator
+        data.push(STEP_TERMINATOR) // ARBITRARY
       }
     })
 
@@ -372,4 +467,7 @@ class WorkflowParser {
 
 // // // //
 
-export default new WorkflowParser()
+// export default new WorkflowParser()
+const parser = new WorkflowParser()
+window.parser = parser
+export default parser
