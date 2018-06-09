@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { KEYS } from './keys'
+import { randomId, pairArray } from './helpers'
 import { KEY_UP_POSITION, KEY_PR_POSITION, KEY_DN_POSITION, WORKFLOW_STEP_DELAY, WORKFLOW_STEP_MACRO, WORKFLOW_STEP_KEYUP, WORKFLOW_STEP_TEXT, TEXT_WORKFLOW_STEP, MACRO_WORKFLOW_STEP, DELAY_WORKFLOW_STEP, KEYUP_WORKFLOW_STEP } from './constants'
 
 // 1,2,3 - KEY ACTIONS
@@ -15,19 +16,6 @@ const TEXT_INDICATOR = 254 // WORKING
 // WORKFLOW SIZE LIMIT = 4096
 
 // // // //
-
-// Accepts an array and splits it
-// into pairs of [position, character_id]
-function pairArray (a) {
-  let temp = a.slice()
-  let arr = []
-
-  while (temp.length) {
-    arr.push(temp.splice(0, 2))
-  }
-
-  return arr
-}
 
 // TODO - Abstract into WorkflowParser & WorkflowSerializer classes
 class WorkflowParser {
@@ -54,16 +42,19 @@ class WorkflowParser {
 
     let currentWorkflowStep = null
 
-    const addWorkflowStep = () => {
-      currentWorkflowStep.id = 'wfst_' + Math.floor((Math.random() * 100000000000000) + 1)
+    function addWorkflowStep () {
+      currentWorkflowStep.id = randomId()
       currentWorkflowStep.order = macros.length
       // Parses TEXT
       if (currentWorkflowStep.type === 'TEXT') {
         currentWorkflowStep.value = this.parseText(currentWorkflowStep.value)
       }
+      // Parses MACRO
       if (currentWorkflowStep.type === 'MACRO') {
         currentWorkflowStep.value = this.sanitizeMacro(currentWorkflowStep.value)
       }
+
+      // Appends currentWorkflowstep to macros array
       macros.push(currentWorkflowStep)
       currentWorkflowStep = null
     }
@@ -81,7 +72,7 @@ class WorkflowParser {
         }
         // Clones the macro object
         macro = _.clone(KEYUP_WORKFLOW_STEP)
-        macro.id = 'wfst_' + Math.floor((Math.random() * 100000000000000) + 1)
+        macro.id = randomId()
         macro.order = macros.length
         macros.push(macro)
 
@@ -95,7 +86,7 @@ class WorkflowParser {
 
         // Assignss the proper delay value
         macro.value = pair[1]
-        macro.id = 'wfst_' + Math.floor((Math.random() * 100000000000000) + 1)
+        macro.id = randomId()
         macro.order = macros.length
         macros.push(macro)
 
@@ -106,7 +97,7 @@ class WorkflowParser {
         }
         // Clones the macro object
         macro = _.clone(TEXT_WORKFLOW_STEP)
-        macro.id = 'wfst_' + Math.floor((Math.random() * 100000000000000) + 1)
+        macro.id = randomId()
 
         // Temporarily hold the keys used to construct the text
         macro.value = []
@@ -126,7 +117,7 @@ class WorkflowParser {
 
         // Clones the macro object
         macro = _.clone(MACRO_WORKFLOW_STEP)
-        macro.id = 'wfst_' + Math.floor((Math.random() * 100000000000000) + 1)
+        macro.id = randomId()
 
         // Assignss the proper order/index and position attributes
         macro.value = []
@@ -137,7 +128,7 @@ class WorkflowParser {
         // HACK until workflow actions are fully integrated
         if (!currentWorkflowStep) {
           macro = _.clone(MACRO_WORKFLOW_STEP)
-          macro.id = 'wfst_' + Math.floor((Math.random() * 100000000000000) + 1)
+          macro.id = randomId()
 
           // Assignss the proper order/index and position attributes
           macro.value = []
@@ -186,7 +177,7 @@ class WorkflowParser {
 
     // Appends the last macro the the `macros` array
     if (currentWorkflowStep) {
-      currentWorkflowStep.id = 'wfst_' + Math.floor((Math.random() * 100000000000000) + 1)
+      currentWorkflowStep.id = randomId()
       currentWorkflowStep.order = macros.length
       // Parses TEXT
       if (currentWorkflowStep.type === 'TEXT') {
