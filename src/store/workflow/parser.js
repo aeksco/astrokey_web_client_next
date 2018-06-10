@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { KEYS } from './keys'
-import { randomId } from './helpers'
+import { randomId, cloneKey } from './helpers'
 import {
   KEY_UP_POSITION,
   KEY_PR_POSITION,
@@ -72,14 +72,16 @@ class WorkflowParser {
           // console.log('MACRO')
           // console.log(step)
           workflowStep = _.clone(MACRO_WORKFLOW_STEP)
-          workflowStep.value = step // TODO - add call to this.parseMacro
+          workflowStep.value = this.parseMacro(step)
           break
+
         case (TEXT_INITIATOR):
           // console.log('TEXT')
           // console.log(step)
           workflowStep = _.clone(TEXT_WORKFLOW_STEP)
           workflowStep.value = this.parseText(step)
           break
+
         case (KEYUP_INITIATOR):
           // console.log('KEYUP')
           // console.log(step)
@@ -114,6 +116,30 @@ class WorkflowParser {
     console.log('workflowSteps')
     console.log(workflowSteps)
     return { steps: workflowSteps }
+  }
+
+  // parseMacro
+  // Parses a macro from an array of integers
+  parseMacro (value) {
+    console.log('PARSE MACRO')
+    console.log(value)
+    const macroKeys = []
+    let keys = _.chunk(value, 2)
+
+    // Iterates over each [position, decimal] pair in the macro
+    _.each(keys, (key) => {
+      let macro = _.find(KEYS, { dec: key[1] })
+      console.log(macro)
+
+      // TODO - only if macro exists
+      macroKeys.push({
+        key: macro.key,
+        position: key[0],
+        order: macroKeys.length
+      })
+    })
+
+    return macroKeys
   }
 
   // parseText
@@ -169,16 +195,9 @@ class WorkflowParser {
   }
 
   // serializeText
-  // serialzes a text workflow step
+  // serialzes a text workflow step into a data buffer
   serializeText (text) {
     const macroKeys = []
-
-    // cloneKey
-    // clones an object from KEYS
-    function cloneKey (macro, attrs = { position: 3 }) {
-      // Clones and returns the macro object
-      return _.merge(_.clone(macro), attrs)
-    }
 
     // TODO - ABSTRACT TO CONSTANTS?
     const SHIFT_KEY = _.find(KEYS, { key: 'SHIFT' })
@@ -229,7 +248,7 @@ class WorkflowParser {
   }
 
   // serializeKeys
-  // Serializes a single key into its decimal format
+  // Serializes an array of key structures into a data buffer (its decimal values)
   serializeKeys (macroKeys) {
     // console.log('SERIALIZE KEYS')
     // console.log(macroKeys)
