@@ -240,17 +240,63 @@ export default {
   },
 
   // controlTransferOut
-  // Send arbitrary control transfers
-  controlTransferOut ({ commit, dispatch }, { device }) {
+  // Send arbitrary out-bound control transfers
+  controlTransferOut ({ commit, dispatch }, { device, transfer, data }) {
     let usbDevice = getUsbDevice(device.id)
     if (!usbDevice) return
-    console.log('CONTORL TRANSFER OUT')
+
+    // FORMATS PAYLOAD DATA
+    data = data.split(',')
+    data = _.compact(data)
+    data = data.map(d => Number(d))
+
+    return new Promise((resolve, reject) => {
+      // NOTE - `device.controlTransferOut` WRITES DATA TO DEVICE
+      return usbDevice.controlTransferOut(transfer, new Uint8Array(data).buffer)
+      .then((response) => {
+        console.log('controlTransferOut response:')
+        console.log(response)
+        commit('transferResponse', { status: response.status })
+        return resolve(response)
+      })
+      .catch((err) => {
+        console.log('controlTransferOut error:')
+        dispatch('handleError')
+        return reject(err)
+      })
+    })
+  },
+
+  // controlTransferIn
+  // Send arbitrary in-bound control transfers
+  controlTransferIn ({ commit, dispatch }, { device, transfer }) {
+    let usbDevice = getUsbDevice(device.id)
+    if (!usbDevice) return
+
+    // keyIndex in hex: `0x0000`
+    // Returns a Promise to manage asynchonous behavior
+    return new Promise((resolve, reject) => {
+      // NOTE - `device.controlTransferIn` READS DATA FROM DEVICE
+      // TODO - '256' should be '128'
+      // TODO - `256` should be moved into constants.js
+      // QUESTION - what is this `256` again, expected return length?
+      return usbDevice.controlTransferIn(transfer, 256)
+      .then((response) => {
+        commit('transferResponse', new Uint8Array(response.data.buffer))
+        return resolve(new Uint8Array(response.data.buffer))
+      })
+      .catch((err) => {
+        console.log('controlTransferIn error:')
+        dispatch('handleError')
+        return reject(err)
+      })
+    })
   },
 
   // resetTransferPayload
   // Resets state.transferPayload
   resetTransferPayload ({ commit }) {
-    commit('transferPayload', DEFAULT_CONTROL_TRANSFER)
+    commit('transferPayload', _.clone(DEFAULT_CONTROL_TRANSFER))
   },
 
   handleError ({ commit }) {

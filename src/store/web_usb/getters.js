@@ -9,6 +9,9 @@ const getters = {
   },
   transferPayload: state => {
     return state.transferPayload
+  },
+  transferResponse: state => {
+    return state.transferResponse
   }
 }
 

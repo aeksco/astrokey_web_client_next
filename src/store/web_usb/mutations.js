@@ -9,6 +9,9 @@ const mutations = {
   },
   transferPayload (state, transferPayload) {
     state.transferPayload = transferPayload
+  },
+  transferResponse (state, transferResponse) {
+    state.transferResponse = transferResponse
   }
 }
 
