@@ -1,7 +1,19 @@
 import _ from 'lodash'
 import { KEYS } from './keys'
 import { randomId } from './helpers'
-import { KEY_UP_POSITION, KEY_PR_POSITION, KEY_DN_POSITION, WORKFLOW_STEP_DELAY, WORKFLOW_STEP_MACRO, WORKFLOW_STEP_KEYUP, WORKFLOW_STEP_TEXT, TEXT_WORKFLOW_STEP, MACRO_WORKFLOW_STEP, DELAY_WORKFLOW_STEP, KEYUP_WORKFLOW_STEP } from './constants'
+import {
+  KEY_UP_POSITION,
+  KEY_PR_POSITION,
+  KEY_DN_POSITION,
+  WORKFLOW_STEP_DELAY,
+  WORKFLOW_STEP_MACRO,
+  WORKFLOW_STEP_KEYUP,
+  WORKFLOW_STEP_TEXT,
+  TEXT_WORKFLOW_STEP,
+  MACRO_WORKFLOW_STEP,
+  DELAY_WORKFLOW_STEP,
+  KEYUP_WORKFLOW_STEP
+} from './constants'
 
 // 1,2,3 - KEY ACTIONS
 // 224-254 - Encapsulation delimiters
@@ -36,13 +48,7 @@ class WorkflowParser {
     // QUESTION - will we ever have zeros between each key stroke?
     // Doesn't look like it - but keep it in mind here.
     data = _.compact(data)
-
-    // Adds an individual step to the workflow
-    const addToWorkflow = (step) => {
-      step.id = randomId()
-      step.order = workflowSteps.length
-      workflowSteps.push(step)
-    }
+    data = _.pull(data, 255)
 
     // persistWorkflowStep helper function
     // Adds an ID to the currentWorkflow step
@@ -55,34 +61,35 @@ class WorkflowParser {
 
       switch (STEP_INITIATOR) {
         case (DELAY_INITIATOR):
-          console.log('DELAY')
-          console.log(step)
+          // console.log('DELAY')
+          // console.log(step)
           workflowStep = _.clone(DELAY_WORKFLOW_STEP)
-          workflowStep.value = step[1]
-          addToWorkflow(workflowStep)
+          workflowStep.value = step[0]
           break
 
         case (MACRO_INITIATOR):
-          console.log('MACRO')
-          console.log(step)
+          // console.log('MACRO')
+          // console.log(step)
           workflowStep = _.clone(MACRO_WORKFLOW_STEP)
-          workflowStep.value = step
-          addToWorkflow(workflowStep)
+          workflowStep.value = step // TODO - add call to this.parseMacro
           break
         case (TEXT_INITIATOR):
-          console.log('TEXT')
-          console.log(step)
+          // console.log('TEXT')
+          // console.log(step)
           workflowStep = _.clone(TEXT_WORKFLOW_STEP)
           workflowStep.value = this.parseText(step)
-          addToWorkflow(workflowStep)
           break
         case (KEYUP_INITIATOR):
-          console.log('KEYUP')
-          console.log(step)
+          // console.log('KEYUP')
+          // console.log(step)
           workflowStep = _.clone(KEYUP_WORKFLOW_STEP)
-          addToWorkflow(workflowStep)
           break
       }
+
+      // Adds an individual step to the workflow
+      workflowStep.id = randomId()
+      workflowStep.order = workflowSteps.length
+      workflowSteps.push(workflowStep)
     }
 
     // // // //
@@ -103,17 +110,9 @@ class WorkflowParser {
     _.each(steps, (step) => { persistWorkflowStep(step) })
 
     // Returns the array of Workflow steps
-    return workflowSteps
-  }
-
-  // sanitizeMacro
-  sanitizeMacro (value) {
-    console.log('sanitizeMacro')
-    value = _.map(value, (key) => {
-      console.log(key)
-      return key
-    })
-    return value
+    console.log('workflowSteps')
+    console.log(workflowSteps)
+    return { steps: workflowSteps }
   }
 
   // parseText
@@ -235,6 +234,8 @@ class WorkflowParser {
     let serialized_values = []
 
     _.each(macroKeys, (key) => {
+      // TODO - turn into switch statement on key.position
+
       // KEY_DN_POSITION
       if (key.position === KEY_DN_POSITION) {
         serialized_values.push(KEY_DN_POSITION)
@@ -261,34 +262,32 @@ class WorkflowParser {
   // serializes a workflow from the database-level abstraction into a data buffer to be sent to a device
   serialize (workflow) {
     let data = []
+
+    // Iterates over each workflow step and serializes each one
     _.each(workflow.steps, (step) => {
-      // console.log(step)
+      switch (step.type) {
+        case (WORKFLOW_STEP_DELAY):
+          data.push(DELAY_INITIATOR)
+          data.push(step.value) // 1 - 255 (i.e. 5 = 5 x 100ms = 500ms)
+          break
 
-      // TODO - change to switch statement
-      if (step.type === WORKFLOW_STEP_DELAY) {
-        data.push(DELAY_INITIATOR)
-        data.push(step.value) // 1 - 255 (i.e. 5 = 5 x 100ms = 500ms)
-        data.push(STEP_TERMINATOR)
-        return
+        case (WORKFLOW_STEP_KEYUP):
+          data.push(KEYUP_INITIATOR)
+          break
+
+        case (WORKFLOW_STEP_TEXT):
+          data.push(TEXT_INITIATOR)
+          data = _.concat(data, this.serializeText(step.value))
+          break
+
+        case (WORKFLOW_STEP_MACRO):
+          data.push(MACRO_INITIATOR)
+          data = _.concat(data, this.serializeKeys(step.value))
+          break
       }
 
-      if (step.type === WORKFLOW_STEP_KEYUP) {
-        data.push(KEYUP_INITIATOR)
-        data.push(STEP_TERMINATOR)
-        return
-      }
-
-      if (step.type === WORKFLOW_STEP_TEXT) {
-        data.push(TEXT_INITIATOR)
-        data = _.concat(data, this.serializeText(step.value))
-        data.push(STEP_TERMINATOR)
-      }
-
-      if (step.type === WORKFLOW_STEP_MACRO) {
-        data.push(MACRO_INITIATOR)
-        data = _.concat(data, this.serializeKeys(step.value))
-        data.push(STEP_TERMINATOR)
-      }
+      // Adds STEP_TERMINATOR character
+      data.push(STEP_TERMINATOR)
     })
 
     console.log('workflow/serialize: ')
