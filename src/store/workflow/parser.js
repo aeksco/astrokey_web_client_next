@@ -55,6 +55,7 @@ class WorkflowParser {
     const persistWorkflowStep = (step) => {
       // Isolates the STEP_INITIATOR variable
       let STEP_INITIATOR = step.shift()
+      step.shift()
 
       // Defines variable for the current workflow step
       let workflowStep
@@ -137,6 +138,7 @@ class WorkflowParser {
       // Handles invalid key
       if (!key) {
         console.log('ALERT - KEY NOT FOUND!')
+        console.log(pair)
         return
       }
 
@@ -273,15 +275,18 @@ class WorkflowParser {
 
         case (WORKFLOW_STEP_KEYUP):
           data.push(KEYUP_INITIATOR)
+          data.push(1) // TODO - constantize this placeholder, or remove it entirely
           break
 
         case (WORKFLOW_STEP_TEXT):
           data.push(TEXT_INITIATOR)
+          data.push(1) // TODO - constantize this placeholder, or remove it entirely
           data = _.concat(data, this.serializeText(step.value))
           break
 
         case (WORKFLOW_STEP_MACRO):
           data.push(MACRO_INITIATOR)
+          data.push(1) // TODO - constantize this placeholder, or remove it entirely
           data = _.concat(data, this.serializeKeys(step.value))
           break
       }
