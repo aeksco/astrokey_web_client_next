@@ -6,15 +6,7 @@
 
     <div class="row">
       <div class="col-lg-12">
-
-        <div class="card card-body">
-          <div class="row">
-            <div class="col-lg-12">
-              <p class="lead">New Workflow Form Here</p>
-            </div>
-          </div>
-        </div>
-
+        <WorkflowForm :workflow="workflow" />
       </div>
     </div>
 
@@ -22,17 +14,19 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import WorkflowForm from '../../components/WorkflowForm'
+
 export default {
   metaInfo: {
     title: 'Workflow - New'
   },
-  computed: {
-    workflow () {
-      return {
-        label: 'New Workflow'
-      }
-    }
-  }
+  components: {
+    WorkflowForm
+  },
+  computed: mapGetters({
+    workflow: 'workflow/newModel'
+  })
 }
 </script>
 

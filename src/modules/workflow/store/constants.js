@@ -10,6 +10,16 @@ export const WORKFLOW_STEP_KEY = 'KEY'
 export const WORKFLOW_STEP_MACRO = 'MACRO'
 export const WORKFLOW_STEP_KEYUP = 'KEY_UP'
 
+// Workflow New Model
+export const DEFAULT_WORKFLOW = {
+  _id: '',
+  label: 'My New Workflow',
+  author: 'aeksco',
+  created_by: 'created_by_user_id',
+  public: true, // PUBLICLY VISIBLE BOOLEAN
+  steps: []
+}
+
 // WorkflowStep primatives
 export const TEXT_WORKFLOW_STEP = {
   order: null,

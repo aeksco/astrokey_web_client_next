@@ -31,6 +31,7 @@ const TEXT_INITIATOR = 254 // WORKING
 // // // //
 
 // TODO - Abstract into WorkflowParser & WorkflowSerializer classes
+// TODO - this should be moved into a USB module, rather than being maintained in the workflow module
 class WorkflowParser {
   // constructor
   constructor (options) {

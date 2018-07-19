@@ -1,6 +1,5 @@
 
-// Workflow Module State
-const state = {
+export default {
   collection: [
     {
       _id: 'abcdefabcdef123123',
@@ -17,10 +16,9 @@ const state = {
       ]
     }
   ],
+  new_model: {},
   current: {},
   selectedStep: null,
   recording: false,
   fetching: false
 }
-window.workflow = state.collection[0]
-export default state

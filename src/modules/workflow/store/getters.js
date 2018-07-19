@@ -5,6 +5,9 @@ const getters = {
   collection: state => {
     return state.collection
   },
+  newModel: state => {
+    return state.new_model
+  },
   current: state => {
     return state.current
   },
