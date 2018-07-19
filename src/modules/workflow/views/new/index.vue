@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import WorkflowForm from '../../components/WorkflowForm'
 
 export default {
@@ -24,6 +24,12 @@ export default {
   components: {
     WorkflowForm
   },
+  created () {
+    this.resetNew()
+  },
+  methods: mapActions({
+    resetNew: 'workflow/reset_new_workflow'
+  }),
   computed: mapGetters({
     workflow: 'workflow/newModel'
   })

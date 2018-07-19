@@ -47,8 +47,8 @@ export default {
   fetching (state, isFetching) {
     state.fetching = isFetching
   },
-  newModel (state, newModel) {
-    state.new_model = newModel
+  new_model (state, new_model) {
+    state.new_model = new_model
   },
   sync (state, collection) {
     state.collection = _.sortBy(collection, (s) => { return s.order })
