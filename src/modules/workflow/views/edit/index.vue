@@ -1,7 +1,7 @@
 
 <template>
   <div class="container mt-4 pt-4">
-    <LayoutView :workflow="workflow"/>
+    <WorkflowForm :workflow="workflow"/>
   </div>
 </template>
 
@@ -9,12 +9,12 @@
 
 <script>
 import _ from 'lodash'
-import LayoutView from './components/layout.vue'
+import WorkflowForm from '@/modules/workflow/components/WorkflowForm'
 
 export default {
   props: ['id'],
   components: {
-    LayoutView
+    WorkflowForm
   },
   metaInfo: {
     title: 'Workflow - Edit'

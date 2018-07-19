@@ -61,7 +61,7 @@
           <div class="row" v-if="editing.type === 'TEXT'">
             <div class="col-lg-12">
               <p class="lead mb-0">TEXT: {{ editing.value }}</p>
-              <small>TODO - this should be integrated into the WorkflowItem View</small>
+              <small>TODO - this should be integrated into the WorkflowStep View</small>
               <input class="form-control" type='text' :value="editing.value" @input="editing.value = $event.target.value"></input>
             </div>
           </div>
@@ -71,7 +71,7 @@
           <div class="row" v-if="editing.type === 'DELAY'">
             <div class="col-lg-12">
               <p class="lead mb-0">DELAY: {{editing.value * 10}} ms</p>
-              <small>TODO - this should be integrated into the WorkflowItem View</small>
+              <small>TODO - this should be integrated into the WorkflowStep View</small>
               <input class="form-control" type='number' min="0" max="255" step="1" :value="editing.value" @input="editing.value = $event.target.value"></input>
             </div>
           </div>
@@ -81,11 +81,11 @@
         <!-- Workflow Editor -->
         <div class="col-lg-12" v-if="!editing">
           <ul class="list-group">
-            <WorkFlowItem :item="{ type: 'KEY_DOWN', label: 'Start' }" :remove="removeStep" :edit="editStep"/>
+            <WorkFlowStep :item="{ type: 'KEY_DOWN', label: 'Start' }" :remove="removeStep" :edit="editStep"/>
             <draggable v-model='steps' :options="sortableOptions">
-              <WorkFlowItem v-for="each in steps" :item="each" :key="each.id" :remove="removeStep" :edit="editStep" :clone="cloneStep"/>
+              <WorkFlowStep v-for="each in steps" :item="each" :key="each.id" :remove="removeStep" :edit="editStep" :clone="cloneStep"/>
             </draggable>
-            <WorkFlowItem :item="{ type: 'FINISH', label: 'Finish' }" :remove="removeStep" :edit="editStep" />
+            <WorkFlowStep :item="{ type: 'FINISH', label: 'Finish' }" :remove="removeStep" :edit="editStep" />
           </ul>
         </div>
 
@@ -119,14 +119,14 @@
 <script>
 import _ from 'lodash'
 import draggable from 'vuedraggable'
-import WorkFlowItem from './workflow_item'
+import WorkFlowStep from './WorkflowStep'
 import MacroEditor from '@/modules/workflow/components/MacroEditor'
 
 export default {
   props: ['workflow'],
   components: {
     draggable,
-    WorkFlowItem,
+    WorkFlowStep,
     MacroEditor
   },
   methods: {
