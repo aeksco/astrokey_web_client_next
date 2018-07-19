@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import store from '@/store'
-import router from '@/routers'
+import router from '@/router'
 
 // // // //
 

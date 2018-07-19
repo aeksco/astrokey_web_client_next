@@ -4,7 +4,7 @@ import Vue from 'vue'
 import Meta from 'vue-meta'
 import BootstrapVue from 'bootstrap-vue'
 import App from './App'
-import router from './routers'
+import router from '@/router'
 import store from '@/store'
 
 // bootstrap-vue
