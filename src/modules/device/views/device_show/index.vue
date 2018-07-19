@@ -10,7 +10,7 @@
         <OpenDeviceButton :device="device" />
         <CloseDeviceButton :device="device" />
 
-        <div class="card card-body bg-dark border-light text-light">
+        <div class="card card-body">
           <div class="row">
             <div class="col-lg-12">
               <p class="card-text lead">

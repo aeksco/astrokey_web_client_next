@@ -7,7 +7,7 @@
     <div class="row">
       <div class="col-lg-12">
 
-        <div class="card card-body bg-dark text-light border-light">
+        <div class="card card-body">
           <div class="row">
             <div class="col-lg-12">
               <p class="lead">New Workflow Form Here</p>

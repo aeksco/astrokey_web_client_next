@@ -3,7 +3,7 @@
         <div class="row d-flex justify-content-center">
             <div class="col-lg-4">
 
-                <div class="card card-body bg-dark text-light border-light">
+                <div class="card card-body">
                     <h4 class="card-title">Register</h4>
                     <p class="card-text" v-if="$route.query.redirect">You need to login first.</p>
 

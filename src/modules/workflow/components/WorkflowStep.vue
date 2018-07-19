@@ -96,7 +96,6 @@ export default {
       } else if (this.item.type === 'FINISH') {
         css.push('list-group-item-dark')
       } else {
-        css.push('bg-dark text-light')
         css.push('draggable')
       }
 

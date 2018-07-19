@@ -1,7 +1,7 @@
 <!-- CAN'T USE SERIALNUMBER, PRODUCTNAME, MANUFACTURER NAME -->
 <template>
   <div class='col-lg-12 mt-2'>
-    <div class="card card-body bg-dark border-light text-light">
+    <div class="card card-body">
       <div class="row d-flex align-items-center">
 
         <div class="col-lg-8">

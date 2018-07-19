@@ -6,7 +6,7 @@
 
     <div class='row'>
       <div v-for="workflow in collection" v-bind:key="workflow.serialNumber" class='col-lg-12 mt-2'>
-        <div class="card card-body bg-dark border-light">
+        <div class="card card-body">
           <div class="row">
 
             <div class="col-lg-8">
