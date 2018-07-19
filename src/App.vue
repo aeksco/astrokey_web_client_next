@@ -1,15 +1,14 @@
 
 <template>
   <div id="app">
-    <AppNavbar/>
+    <Navbar/>
     <router-view/>
     <!-- <Notification/> -->
   </div>
 </template>
 
 <script>
-import AppNavbar from './containers/app_navbar'
-import AppFooter from './containers/app_footer'
+import Navbar from '@/components/Navbar'
 // import Notification from './containers/app_notification'
 
 export default {
@@ -17,9 +16,8 @@ export default {
 
   // Top-Level Application Components
   components: {
-    AppNavbar,
+    Navbar
     // Notification,
-    AppFooter
   },
 
   // Top-Level page Meta
