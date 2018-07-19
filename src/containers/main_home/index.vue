@@ -1,9 +1,8 @@
 
 <template>
-    <div class="container-fluid">
-      <LayoutView/>
-    </div>
-
+  <div class="container-fluid">
+    <LayoutView/>
+  </div>
 </template>
 
 <!-- // // // //  -->

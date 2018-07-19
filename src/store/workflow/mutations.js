@@ -43,8 +43,7 @@ function onKeyAction (event) {
 
 // // // //
 
-// Project Module mutations
-const mutations = {
+export default {
   fetching (state, isFetching) {
     state.fetching = isFetching
   },
@@ -204,5 +203,3 @@ const mutations = {
 }
 
 // // // //
-
-export default mutations
