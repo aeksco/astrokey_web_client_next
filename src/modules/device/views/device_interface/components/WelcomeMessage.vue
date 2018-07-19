@@ -2,7 +2,7 @@
   <div class="row h-100 align-items-center">
     <div class="col-lg-12">
       <div class="row my-4">
-        <div class="col-lg-12 text-center"><img src="/static/icon_white.svg" class="welcome-logo"/></div>
+        <div class="col-lg-12 text-center"><img src="@/assets/icon_white.svg" class="welcome-logo"/></div>
       </div>
       <div class="row my-4">
         <div class="col-lg-12 text-center">

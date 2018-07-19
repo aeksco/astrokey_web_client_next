@@ -1,7 +1,7 @@
 <template>
   <b-navbar toggleable="md" type="dark" variant="dark" fixed="top">
     <b-navbar-brand href="#/">
-      <img class='logo mr-3' src="/static/icon_white.svg">
+      <img class='logo mr-3' src="@/assets/icon_white.svg">
       <strong>Astro</strong>Key
     </b-navbar-brand>
 

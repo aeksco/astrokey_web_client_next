@@ -4,7 +4,7 @@
 
       .row.my-4
         .col-lg-12.text-center
-          img.welcome-logo(src='/static/icon_white.svg')
+          img.welcome-logo(src='@/assets/icon_white.svg')
 
       .row.my-4
         .col-lg-12.text-center
