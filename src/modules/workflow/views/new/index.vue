@@ -2,7 +2,7 @@
 <template>
   <div class="container-fluid">
     <h2>{{workflow.label}}</h2>
-  	<hr>
+    <hr>
 
     <div class="row">
       <div class="col-lg-12">
@@ -21,11 +21,18 @@
   </div>
 </template>
 
-<!-- // // // //  -->
-
 <script>
 export default {
-  props: ['workflow']
+  metaInfo: {
+    title: 'Workflow - New'
+  },
+  computed: {
+    workflow () {
+      return {
+        label: 'New Workflow'
+      }
+    }
+  }
 }
 </script>
 
