@@ -2,7 +2,7 @@
 import WorkflowList from './views/list'
 import WorkflowNew from './views/new'
 import WorkflowShow from './views/show'
-import WorkflowEdit from './views/workflow_edit'
+import WorkflowEdit from './views/edit'
 
 const WorkflowListRoute = {
   path: '/workflows',
