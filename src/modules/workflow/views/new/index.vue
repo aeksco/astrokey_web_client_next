@@ -1,8 +1,7 @@
 
 <template>
   <div class="container-fluid">
-    <h2>{{workflow.label}}</h2>
-    <hr>
+    <PageHeader title="New Workflow" />
 
     <div class="row">
       <div class="col-lg-12">
@@ -15,13 +14,16 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import PageHeader from '@/components/PageHeader'
 import WorkflowForm from '../../components/WorkflowForm'
 
 export default {
+  name: 'WorkflowNew',
   metaInfo: {
     title: 'Workflow - New'
   },
   components: {
+    PageHeader,
     WorkflowForm
   },
   created () {

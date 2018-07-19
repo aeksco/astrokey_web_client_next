@@ -7,6 +7,7 @@ import AuthRoutes from '@/modules/auth/router'
 import WorkflowRoutes from '@/modules/workflow/router'
 import UserRoutes from '@/modules/user/router'
 import DeviceRoutes from '@/modules/device/router'
+import ShortcutRoutes from '@/modules/shortcut/router'
 
 // Vue Router setup
 Vue.use(Router)
@@ -18,6 +19,7 @@ export default new Router({
     ...AuthRoutes,
     ...UserRoutes,
     ...WorkflowRoutes,
-    ...DeviceRoutes
+    ...DeviceRoutes,
+    ...ShortcutRoutes
   ]
 })
