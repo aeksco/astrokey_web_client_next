@@ -13,6 +13,7 @@
 
         <!-- Public links -->
         <b-nav-item href="#/devices">Devices</b-nav-item>
+        <b-nav-item href="#/workflows">Workflows</b-nav-item>
 
       </b-navbar-nav>
 
