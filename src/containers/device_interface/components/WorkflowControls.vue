@@ -15,7 +15,7 @@
           </button>
         </div>
         <div class="col-lg-12">
-          <WorkflowEditor :workflow="selectedKeyWorkflow" />
+          <!-- <WorkflowEditor :workflow="selectedKeyWorkflow" /> -->
         </div>
       </div>
     </div>
@@ -26,13 +26,13 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import WorkflowEditor from '../../workflow_edit/components/layout.vue'
+// import WorkflowEditor from '../../workflow_edit/components/layout.vue'
 
 export default {
   props: ['device'],
-  components: {
-    WorkflowEditor
-  },
+  // components: {
+  //   WorkflowEditor
+  // },
   computed: mapGetters({
     selectedKeyWorkflow: 'device/selectedKeyWorkflow',
     selectedStep: 'workflow/selectedStep'

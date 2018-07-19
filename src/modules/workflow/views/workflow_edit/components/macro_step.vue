@@ -84,7 +84,7 @@ export default {
 </script>
 
 <style lang='sass' scoped>
-  @import '../../../sass/vendor.sass'
+  @import '../../../../../sass/vendor.sass'
 
   $macro_size: 3rem
 

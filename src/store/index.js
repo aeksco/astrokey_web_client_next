@@ -5,7 +5,7 @@ import device from './device'
 import chrome_usb from './chrome_usb'
 import web_usb from './web_usb'
 import web_bluetooth from './web_bluetooth'
-import workflow from './workflow'
+import workflow from '@/modules/workflow/store'
 import notification from './notification'
 
 // Vuex Initialization
