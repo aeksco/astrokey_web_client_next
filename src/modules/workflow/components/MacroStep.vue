@@ -33,8 +33,6 @@
 <!-- // // // //  -->
 
 <script>
-import store from '@/store'
-
 export default {
   props: ['item', 'macro'],
   data () {
@@ -50,13 +48,13 @@ export default {
       this.$root.$emit('bv::hide::tooltip')
 
       // Changes MacroStep.position
-      store.commit('workflow/cycleMacroStepPosition', { macroStep: macroStep })
+      this.$store.commit('workflow/cycleMacroStepPosition', { macroStep: macroStep })
 
       // Shows the updated tooltip
       this.$root.$emit('bv::show::tooltip', this.item.id)
     },
     removeMacroStep () {
-      store.commit('workflow/removeMacroStep', { macro: this.macro, macroStep: this.item })
+      this.$store.commit('workflow/removeMacroStep', { macro: this.macro, macroStep: this.item })
     },
     className (hover, drag, dragstart) {
       let css = 'macro-step flex-column justify-content-center align-items-center my-2'
@@ -84,7 +82,7 @@ export default {
 </script>
 
 <style lang='sass' scoped>
-  @import '../../../../../sass/vendor.sass'
+  @import '../../../sass/vendor.sass'
 
   $macro_size: 3rem
 

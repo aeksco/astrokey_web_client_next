@@ -36,9 +36,8 @@
 <!-- // // // //  -->
 
 <script>
-import store from '@/store'
-import MacroStep from './macro_step'
-import KeyboardSelector from './keyboard_selector'
+import MacroStep from './MacroStep'
+import KeyboardSelector from './KeyboardSelector'
 import draggable from 'vuedraggable'
 
 export default {
@@ -50,7 +49,7 @@ export default {
   },
   methods: {
     cycleMacroKeyPosition (macroStep) {
-      store.commit('workflow/cycleMacroStepPosition', { macroStep: macroStep })
+      this.store.commit('workflow/cycleMacroStepPosition', { macroStep: macroStep })
     },
     sortableOptions () {
       return {
@@ -69,9 +68,3 @@ export default {
   }
 }
 </script>
-
-
-<style lang='sass'>
-
-
-</style>

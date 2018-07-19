@@ -2,7 +2,7 @@
 <template>
   <div class="container-fluid">
     <h2>Workflows</h2>
-  	<hr>
+    <hr>
 
     <div class='row'>
       <div v-for="workflow in collection" v-bind:key="workflow.serialNumber" class='col-lg-12 mt-2'>
@@ -43,8 +43,14 @@
 <!-- // // // //  -->
 
 <script>
-// import store from '@/store'
+import { mapGetters } from 'vuex'
+
 export default {
-  props: ['collection']
+  metaInfo: {
+    title: 'Workflows'
+  },
+  computed: mapGetters({
+    collection: 'workflow/collection'
+  })
 }
 </script>

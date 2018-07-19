@@ -13,17 +13,13 @@ import Navbar from '@/components/Navbar'
 
 export default {
   name: 'app',
-
-  // Top-Level Application Components
   components: {
     Navbar
     // Notifications,
   },
-
-  // Top-Level page Meta
   metaInfo: {
-    title: 'Loading...', // set a title
-    titleTemplate: 'AstroKey - %s', // title is now "AstroKey - Loading..."
+    title: 'Loading...',
+    titleTemplate: 'AstroKey - %s',
     htmlAttrs: {
       lang: 'en'
     }

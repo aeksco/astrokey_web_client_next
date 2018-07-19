@@ -30,7 +30,6 @@
 
 <script>
 import _ from 'lodash'
-import store from '@/store'
 
 export default {
   props: ['macro'],
@@ -60,7 +59,7 @@ export default {
       })
     },
     onKeyClick (keyItem) {
-      store.commit('workflow/addMacroKey', { macro: this.macro, key: keyItem })
+      this.$store.commit('workflow/addMacroKey', { macro: this.macro, key: keyItem })
     },
     className (item) {
       let css = ['selector-btn', 'btn', 'btn-outline-secondary', 'btn-sm', 'mx-3'] // TODO - build into base styles
@@ -68,7 +67,7 @@ export default {
       return css.join(' ')
     },
     keyboardRows (keyboard_id) {
-      let keys = store.getters['workflow/keys']
+      let keys = this.$store.getters['workflow/keys']
 
       // TODO - change this for each distinct keyboard
       // TODO - pull this from a Vuex getter

@@ -1,5 +1,5 @@
 // Workflow Containers
-import WorkflowList from './views/workflow_list'
+import WorkflowList from './views/list'
 import WorkflowNew from './views/workflow_new'
 import WorkflowShow from './views/workflow_show'
 import WorkflowEdit from './views/workflow_edit'

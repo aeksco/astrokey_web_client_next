@@ -9,20 +9,19 @@
 
 <script>
 import _ from 'lodash'
-import store from '@/store'
 import LayoutView from './components/layout.vue'
 
 export default {
+  props: ['id'],
   components: {
     LayoutView
   },
   metaInfo: {
-    title: 'Workflow - Edit' // title is now "AstroKey - Workflow - Edit"
+    title: 'Workflow - Edit'
   },
-  props: ['id'],
   computed: {
     workflow () {
-      let workflows = store.getters['workflow/collection']
+      let workflows = this.$store.getters['workflow/collection']
       return _.find(workflows, { _id: this.id })
     }
   }

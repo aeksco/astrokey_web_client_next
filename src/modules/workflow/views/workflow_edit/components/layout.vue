@@ -120,7 +120,7 @@
 import _ from 'lodash'
 import draggable from 'vuedraggable'
 import WorkFlowItem from './workflow_item'
-import MacroEditor from './macro_editor'
+import MacroEditor from '@/modules/workflow/components/MacroEditor'
 
 export default {
   props: ['workflow'],
