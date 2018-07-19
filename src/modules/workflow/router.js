@@ -1,7 +1,7 @@
 // Workflow Containers
 import WorkflowList from './views/list'
 import WorkflowNew from './views/new'
-import WorkflowShow from './views/workflow_show'
+import WorkflowShow from './views/show'
 import WorkflowEdit from './views/workflow_edit'
 
 const WorkflowListRoute = {

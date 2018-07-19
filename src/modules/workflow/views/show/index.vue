@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <a href="#/workflows">Back</a>
     <h2>{{workflow.label}}</h2>
-  	<hr>
+    <hr>
 
     <div class="row">
       <div class="col-lg-12">
@@ -31,8 +31,19 @@
 <!-- // // // //  -->
 
 <script>
+import _ from 'lodash'
+
 export default {
-  props: ['workflow']
+  metaInfo: {
+    title: 'Workflow - Show'
+  },
+  props: ['id'],
+  computed: {
+    workflow () {
+      let workflows = this.$store.getters['workflow/collection']
+      return _.find(workflows, { _id: this.id })
+    }
+  }
 }
 </script>
 
