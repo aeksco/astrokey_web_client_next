@@ -9,24 +9,19 @@
 <!-- // // // //  -->
 
 <script>
-import store from '@/store'
+import { mapGetters } from 'vuex'
 import NotificationChild from './notificationChild'
 
 export default {
-  computed: {
-    collection: () => {
-      return store.getters['notification/collection']
-    }
-  },
+  computed: mapGetters({
+    collection: 'notification/collection'
+  }),
   components: {
     NotificationChild
   }
 }
 </script>
 
-<!-- // // // //  -->
-
-<!-- QUESTION - SCOPED? -->
 <style lang='sass'>
    // @import '../../../sass/app.sass'
 
