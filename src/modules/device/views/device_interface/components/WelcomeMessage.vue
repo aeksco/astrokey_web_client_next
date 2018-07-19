@@ -30,7 +30,7 @@ export default {}
 </script>
 
 <style lang="sass" scoped>
-@import '../../../sass/vendor.sass'
+@import '../../../../../sass/vendor.sass'
 
 img.welcome-logo
   height: 4rem

@@ -57,7 +57,7 @@ export default {
 <!-- // // // //  -->
 
 <style lang="sass" scoped>
-@import '../../sass/vendor.sass'
+@import '../../../../sass/vendor.sass'
 
 .selected-key-detail
   border-left: 1px solid theme-color('light')

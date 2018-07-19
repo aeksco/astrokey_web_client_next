@@ -58,7 +58,7 @@ export default {
 
 <style lang="sass" scoped>
 
-@import '../../../sass/vendor.sass'
+@import '../../../../../sass/vendor.sass'
 
 // AstroKey Selector Styles
 $astrokey_child_size: 3rem
