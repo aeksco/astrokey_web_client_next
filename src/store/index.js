@@ -6,7 +6,6 @@ import web_usb from './web_usb'
 import web_bluetooth from './web_bluetooth'
 
 import notification from '@/modules/notification/store'
-import auth from '@/modules/auth/store'
 import workflow from '@/modules/workflow/store'
 import user from '@/modules/user/store'
 import device from '@/modules/device/store'
@@ -22,7 +21,6 @@ export default new Vuex.Store({
     web_bluetooth,
 
     notification,
-    auth,
     workflow,
     user,
     device
