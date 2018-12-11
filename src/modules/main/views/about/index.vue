@@ -1,5 +1,9 @@
 <template>
-    <p class="lead">About</p>
+  <div class="row">
+    <div class="col-lg-12">
+      <p class="lead">About</p>
+    </div>
+  </div>
 </template>
 
 <script>
