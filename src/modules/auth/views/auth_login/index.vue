@@ -1,6 +1,6 @@
 
 <template>
-  	<LayoutView></LayoutView>
+  <LayoutView/>
 </template>
 
 <!-- // // // //  -->

@@ -3,8 +3,7 @@
   <div class="container-fluid">
     <a href="#/users">Back</a>
     <h2>User Show - {{model.name}}</h2>
-  	<hr>
-
+    <hr>
   </div>
 </template>
 

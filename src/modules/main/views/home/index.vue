@@ -1,24 +1,26 @@
-<template lang='pug'>
-  .row.h-100.align-items-center
-    .col-lg-12
-
-      .row.my-4
-        .col-lg-12.text-center
-          img.welcome-logo(src='@/assets/icon_white.svg')
-
-      .row.my-4
-        .col-lg-12.text-center
-          p.welcome-text WELCOME
-
-      .row.my-4
-        .col-lg-12.text-center
-          p.lead
-            a(href='https://github.com/AstroKey', target='_blank')  AstroKey
-            |  is an open-source platform for automating keyboard workflows.
-
-      .row.py-2
-        .col-lg-12.text-center
-          p.lead Drag and drop keyboard keys to construct your desired workflow - AstroKey does the rest.
+<template>
+  <div class="row h-100 align-items-center">
+      <div class="col-lg-12">
+          <div class="row my-4">
+              <div class="col-lg-12 text-center"><img class="welcome-logo" src="@/assets/icon_white.svg" /></div>
+          </div>
+          <div class="row my-4">
+              <div class="col-lg-12 text-center">
+                  <p class="welcome-text">WELCOME</p>
+              </div>
+          </div>
+          <div class="row my-4">
+              <div class="col-lg-12 text-center">
+                  <p class="lead"><a href="https://github.com/AstroKey" target="_blank"> AstroKey</a> is an open-source platform for automating keyboard workflows.</p>
+              </div>
+          </div>
+          <div class="row py-2">
+              <div class="col-lg-12 text-center">
+                  <p class="lead">Drag and drop keyboard keys to construct your desired workflow - AstroKey does the rest.</p>
+              </div>
+          </div>
+      </div>
+  </div>
 </template>
 
 <script>

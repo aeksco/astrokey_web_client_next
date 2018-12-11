@@ -1,12 +1,12 @@
 
 <template>
   <div class="container-fluid">
-  	<div class="row">
-  		<div class="col-lg-12">
+    <div class="row">
+      <div class="col-lg-12">
 
         <!-- Header -->
-  			<h2>User List</h2>
-  			<hr>
+        <h2>User List</h2>
+        <hr>
 
         <!-- Fetching -->
         <p class='lead' v-if="fetching">
@@ -20,10 +20,10 @@
         </p>
 
         <!-- ListView -->
-  			<ListView :collection="collection"></ListView>
+        <ListView :collection="collection"></ListView>
 
-  		</div>
-  	</div>
+      </div>
+    </div>
   </div>
 </template>
 

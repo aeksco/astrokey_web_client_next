@@ -10,7 +10,6 @@ import auth from '@/modules/auth/store'
 import workflow from '@/modules/workflow/store'
 import user from '@/modules/user/store'
 import device from '@/modules/device/store'
-import shortcut from '@/modules/shortcut/store'
 
 // Vuex Initialization
 Vue.use(Vuex)
@@ -26,7 +25,6 @@ export default new Vuex.Store({
     auth,
     workflow,
     user,
-    device,
-    shortcut
+    device
   }
 })
