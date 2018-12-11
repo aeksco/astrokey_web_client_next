@@ -4,7 +4,6 @@ import Router from 'vue-router'
 // Module routes
 import MainRoutes from '@/modules/main/router'
 import WorkflowRoutes from '@/modules/workflow/router'
-import UserRoutes from '@/modules/user/router'
 import DeviceRoutes from '@/modules/device/router'
 
 // Vue Router setup
@@ -14,7 +13,6 @@ Vue.use(Router)
 export default new Router({
   routes: [
     ...MainRoutes,
-    ...UserRoutes,
     ...WorkflowRoutes,
     ...DeviceRoutes
   ]

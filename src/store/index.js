@@ -7,7 +7,6 @@ import web_bluetooth from './web_bluetooth'
 
 import notification from '@/modules/notification/store'
 import workflow from '@/modules/workflow/store'
-import user from '@/modules/user/store'
 import device from '@/modules/device/store'
 
 // Vuex Initialization
@@ -22,7 +21,6 @@ export default new Vuex.Store({
 
     notification,
     workflow,
-    user,
     device
   }
 })
