@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 import chrome_usb from './chrome_usb'
 import web_usb from './web_usb'
-import web_bluetooth from './web_bluetooth'
+// import web_bluetooth from './web_bluetooth'
 
 import notification from '@/modules/notification/store'
 import workflow from '@/modules/workflow/store'
@@ -17,7 +17,7 @@ export default new Vuex.Store({
   modules: {
     chrome_usb,
     web_usb,
-    web_bluetooth,
+    // web_bluetooth,
 
     notification,
     workflow,
