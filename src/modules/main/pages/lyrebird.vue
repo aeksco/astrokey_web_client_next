@@ -2,11 +2,9 @@
   <div class="row hr-100 justify-content-center mt-4">
       <div class="col-lg-6">
 
-        <button class='btn btn-block btn-outline-primary' @click="connect">Connect</button>
+        <button class='btn btn-block btn-outline-primary' v-if="!connected" @click="connect">Connect</button>
 
-        <hr>
-
-        <div class="row">
+        <div class="row" v-if="connected">
           <div class="col-lg-6">
             <input class='form-control' v-model="textPayload" type="text" placeholder="Text to send">
           </div>
@@ -126,7 +124,10 @@ const charMap = {
 export default {
   name: 'Lyrebird',
   data () {
-    return { textPayload: 'Hello, Lyrebird' }
+    return {
+      textPayload: 'Hello, Lyrebird',
+      connected: false
+    }
   },
   methods: {
     async connect () {
@@ -170,6 +171,10 @@ export default {
         console.log('Getting Descriptor...');
         const myDescriptor = await window.characteristic.getDescriptor('gatt.characteristic_user_description');
         console.log(myDescriptor)
+
+        // Sets this.connected = true
+        this.connected = true
+
         // document.querySelector('#writeButton').disabled = !characteristic.properties.write;
 
         // console.log('Reading Descriptor...');
@@ -179,7 +184,6 @@ export default {
         // console.log('> Characteristic User Description: ' + decoder.decode(value));
 
       } catch(error) {
-        document.querySelector('#writeButton').disabled = true
         console.log('Argh! ' + error)
       }
     },
@@ -233,14 +237,14 @@ export default {
     // writeChar
     // Sends a single character to the device
     async writeChar(myChar) {
-      await writeKeydown(myChar)
-      await writeKeyup()
+      await this.writeKeydown(myChar)
+      await this.writeKeyup()
     },
     // sendText
     // Sends a single character to the device
     async sendText(text) {
       for (index in text){
-        await writeChar(text[index])
+        await this.writeChar(text[index])
       }
     },
     async onSendText() {
@@ -250,7 +254,7 @@ export default {
       }
 
       // Dispatches sendText
-      await sendText(this.textPayload)
+      await this.sendText(this.textPayload)
       console.log('Done sending text')
     }
   }
