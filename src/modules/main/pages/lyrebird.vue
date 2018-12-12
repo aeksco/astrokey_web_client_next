@@ -20,6 +20,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 
 const charMap = {
 
@@ -256,6 +257,7 @@ export default {
     }
   }
 }
+/* eslint-enable */
 </script>
 
 <style lang="sass">
