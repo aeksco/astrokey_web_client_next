@@ -243,8 +243,8 @@ export default {
     // sendText
     // Sends a single character to the device
     async sendText(text) {
-      for (index in text){
-        await this.writeChar(text[index])
+      for (let i = 0; i < text.length; i++){
+        await this.writeChar(text[i])
       }
     },
     async onSendText() {
