@@ -3,8 +3,7 @@ import _ from 'lodash'
 
 // // // //
 
-// WebUSB Module mutations
-const mutations = {
+export default {
   fetching (state, isFetching) {
     state.fetching = isFetching
   },
@@ -21,7 +20,7 @@ const mutations = {
     // let device = _.find(devices, { serialNumber: options.instance.id })
     let device = _.find(devices, { id: options.instance.id })
 
-    console.log(options)
+    // console.log(options)
     // console.log(options.instance.gatt)
     if (device) {
       device.characteristics = device.characteristics || options.characteristics
@@ -52,7 +51,3 @@ const mutations = {
     store.commit('device/add', deviceAttributes)
   }
 }
-
-// // // //
-
-export default mutations

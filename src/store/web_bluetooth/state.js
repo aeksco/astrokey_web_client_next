@@ -1,8 +1,5 @@
 
-// USB Module State
-const state = {
+export default {
   collection: [],
   fetching: false
 }
-
-export default state
