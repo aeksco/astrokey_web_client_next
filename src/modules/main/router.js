@@ -1,6 +1,7 @@
 // Main Containers
 import MainHome from './pages/home'
 import MainAbout from './pages/about'
+import Lyrebird from './pages/lyrebird'
 
 const HomeRoute = {
   path: '/',
@@ -14,7 +15,14 @@ const AboutRoute = {
   component: MainAbout
 }
 
+const LyrebirdRoute = {
+  path: '/lyrebird',
+  name: 'Lyrebird',
+  component: Lyrebird
+}
+
 export default [
   HomeRoute,
-  AboutRoute
+  AboutRoute,
+  LyrebirdRoute
 ]

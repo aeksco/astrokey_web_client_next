@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="md" type="dark" variant="dark" fixed="top">
+  <b-navbar toggleable="md" type="dark" variant="dark">
     <b-navbar-brand href="#/">
       <img class='logo mr-3' src="@/assets/icon_white.svg">
       <strong>Astro</strong>Key
@@ -12,6 +12,7 @@
         <b-nav-item href="#/workflows">Workflows</b-nav-item>
         <b-nav-item href="#/shortcuts">Shortcuts</b-nav-item>
         <b-nav-item href="#/devices">Devices</b-nav-item>
+        <b-nav-item href="#/lyrebird">Lyrebird</b-nav-item>
       </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">
@@ -31,7 +32,7 @@ export default {
 <style lang="sass">
 
   nav.navbar
-    border-bottom: 1px solid #fff
+    border-bottom: 1px solid #666
 
     .navbar-brand
       letter-spacing: .25rem !important
