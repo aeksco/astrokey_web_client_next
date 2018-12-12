@@ -8,10 +8,10 @@
 
         <div class="row">
           <div class="col-lg-6">
-            <input class='form-control' id="payload" type="text" placeholder="Text to send">
+            <input class='form-control' v-model="textPayload" type="text" placeholder="Text to send">
           </div>
           <div class="col-lg-6">
-            <button class='btn btn-block btn-outline-success' id="writeButton">Send Text</button>
+            <button class='btn btn-block btn-outline-success' @click="onSendText()">Send Text</button>
           </div>
         </div>
 
@@ -121,12 +121,12 @@ const charMap = {
 
 }
 
-let characteristic;
+// let characteristic;
 
 export default {
   name: 'Lyrebird',
   data () {
-    return { foo: 'bar' }
+    return { textPayload: 'Hello, Lyrebird' }
   },
   methods: {
     async connect () {
@@ -147,8 +147,6 @@ export default {
       // let characteristicUuid = "0000ffe0-0000-1000-8000-00805f9b34fb";
       let characteristicUuid = "0000ffe1-0000-1000-8000-00805f9b34fb";
 
-      console.log('AJSDLKlasjJDLAKSJDLKAJDSLKAjd')
-
       try {
         console.log('Requesting any Bluetooth Device...');
         const device = await navigator.bluetooth.requestDevice(REQUEST_DEVICE_OPTIONS)
@@ -166,11 +164,12 @@ export default {
         console.log(service)
 
         console.log('Getting Characteristic...');
-        characteristic = await service.getCharacteristic(characteristicUuid);
+        window.characteristic = await service.getCharacteristic(characteristicUuid);
+        console.log(window.characteristic)
 
         console.log('Getting Descriptor...');
-        const myDescriptor = await characteristic.getDescriptor('gatt.characteristic_user_description');
-        // console.log(myDescriptor)
+        const myDescriptor = await window.characteristic.getDescriptor('gatt.characteristic_user_description');
+        console.log(myDescriptor)
         // document.querySelector('#writeButton').disabled = !characteristic.properties.write;
 
         // console.log('Reading Descriptor...');
@@ -187,7 +186,7 @@ export default {
     // writeKeyup
     // Sends a single character to the device
     async writeKeyup() {
-      if (!characteristic) {
+      if (!window.characteristic) {
         // console.log('NO DESC IN WRITE KEYUP')
         return;
       }
@@ -201,7 +200,7 @@ export default {
       try {
         // Writes second packet
         console.log('Writing "KEY-UP" to primary service')
-        await characteristic.writeValue(keyUpBuffer)
+        await window.characteristic.writeValue(keyUpBuffer)
       } catch (error) {
         console.log('Oh no! in writeKeyup ' + error)
       }
@@ -209,7 +208,7 @@ export default {
     // writeKeydown
     // Sends a single character to the device
     async writeKeydown(myChar) {
-      if (!characteristic) {
+      if (!window.characteristic) {
         // console.log('NO DESC IN writeKeydown')
         return
       }
@@ -225,7 +224,7 @@ export default {
       try {
         // Writes first packet
         console.log('Writing "KEY-DOWN: "' + myChar + ' to primary service')
-        await characteristic.writeValue(keyDownBuffer)
+        await window.characteristic.writeValue(keyDownBuffer)
       } catch (error) {
         console.log('Oh noOooOO! ' + error)
       }
@@ -244,15 +243,14 @@ export default {
         await writeChar(text[index])
       }
     },
-    async onWriteButtonClick() {
-      if (!characteristic) {
+    async onSendText() {
+      if (!window.characteristic) {
         // console.log('NO DESCRIPT')
         return
       }
 
-      // Isolates user text
-      const payload = document.querySelector('#payload').value
-      await sendText(payload)
+      // Dispatches sendText
+      await sendText(this.textPayload)
       console.log('Done sending text')
     }
   }
